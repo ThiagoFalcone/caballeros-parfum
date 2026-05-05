@@ -1,27 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-noir text-white font-sans antialiased; }
+  h1, h2, h3 { @apply font-serif; }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #C9A84C, #e8d08a, #C9A84C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
