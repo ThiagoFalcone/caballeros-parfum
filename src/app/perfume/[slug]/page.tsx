@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import Link from 'next/link'
 import { perfumesBySlug, perfumes } from '@/data/perfumes'
 import NotesPyramid from '@/components/NotesPyramid'
 import ScrollScene from '@/components/ScrollScene'
