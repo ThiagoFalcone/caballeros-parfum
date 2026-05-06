@@ -165,4 +165,4 @@ export const perfumes: Perfume[] = [
 
 export const perfumesBySlug = Object.fromEntries(perfumes.map(p => [p.slug, p]))
 export const perfumesDestaque = perfumes.filter(p => p.destaque)
-export const familias: string[] = [...new Set(perfumes.map(p => p.familia))]
+export const familias: string[] = Array.from(new Set(perfumes.map(p => p.familia)))
