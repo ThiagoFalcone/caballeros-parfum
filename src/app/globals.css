@@ -16,4 +16,115 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  /* Entrada imediata para grids renderizados dinamicamente (sem scroll trigger) */
+  @keyframes fadeUpIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .animate-card-in { animation: fadeUpIn 0.45s ease-out both; }
+  .animate-card-in:nth-child(1)  { animation-delay: 0ms; }
+  .animate-card-in:nth-child(2)  { animation-delay: 70ms; }
+  .animate-card-in:nth-child(3)  { animation-delay: 140ms; }
+  .animate-card-in:nth-child(4)  { animation-delay: 210ms; }
+  .animate-card-in:nth-child(5)  { animation-delay: 280ms; }
+  .animate-card-in:nth-child(6)  { animation-delay: 350ms; }
+  .animate-card-in:nth-child(7)  { animation-delay: 420ms; }
+  .animate-card-in:nth-child(8)  { animation-delay: 490ms; }
+  .animate-card-in:nth-child(9)  { animation-delay: 560ms; }
+  .animate-card-in:nth-child(10) { animation-delay: 630ms; }
+  .animate-card-in:nth-child(11) { animation-delay: 700ms; }
+  .animate-card-in:nth-child(12) { animation-delay: 770ms; }
+
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Brand card gradients — one per marca */
+  .brand-lattafa          { background: linear-gradient(135deg, #1a1200 0%, #2a1e00 50%, #0a0a0a 100%); }
+  .brand-al-haramain      { background: linear-gradient(135deg, #0f0800 0%, #1e1400 50%, #0a0a0a 100%); }
+  .brand-ajmal            { background: linear-gradient(135deg, #080f0a 0%, #0d1a10 50%, #0a0a0a 100%); }
+  .brand-swiss-arabian    { background: linear-gradient(135deg, #100a00 0%, #1e1300 50%, #0a0a0a 100%); }
+  .brand-rasasi           { background: linear-gradient(135deg, #0d0010 0%, #1a0020 50%, #0a0a0a 100%); }
+  .brand-armaf            { background: linear-gradient(135deg, #00080f 0%, #001020 50%, #0a0a0a 100%); }
+  .brand-maison-alhambra  { background: linear-gradient(135deg, #0e0014 0%, #1a0028 50%, #0a0a0a 100%); }
+  .brand-afnan            { background: linear-gradient(135deg, #001018 0%, #001e2c 50%, #0a0a0a 100%); }
+  .brand-ard-al-zaafaran  { background: linear-gradient(135deg, #120800 0%, #1e1000 50%, #0a0a0a 100%); }
+
+  /* ── Note ingredient thumbnail backgrounds (NotesPyramid) ── */
+  .note-floral-rose      { background: radial-gradient(circle, #5a1828, #2a0810); }
+  .note-floral-jasmine   { background: radial-gradient(circle, #4a1535, #200a20); }
+  .note-floral-iris      { background: radial-gradient(circle, #3d1a5c, #1a0830); }
+  .note-floral-lavender  { background: radial-gradient(circle, #3d1a5c, #1a0830); }
+  .note-floral-green     { background: radial-gradient(circle, #1a3d1a, #0a200a); }
+  .note-citrus-bergamot  { background: radial-gradient(circle, #5c4a00, #2a2000); }
+  .note-citrus-lemon     { background: radial-gradient(circle, #4a4a00, #202000); }
+  .note-citrus-mandarin  { background: radial-gradient(circle, #6b2800, #301000); }
+  .note-citrus-apple     { background: radial-gradient(circle, #5a0a0a, #2a0000); }
+  .note-citrus-peach     { background: radial-gradient(circle, #6b3000, #301500); }
+  .note-citrus-berry     { background: radial-gradient(circle, #5a0a1a, #280008); }
+  .note-citrus-pineapple { background: radial-gradient(circle, #5a4400, #281e00); }
+  .note-wood-oud         { background: radial-gradient(circle, #3d2000, #1a0a00); }
+  .note-wood-sandal      { background: radial-gradient(circle, #2d3500, #121500); }
+  .note-wood-cedar       { background: radial-gradient(circle, #1a3020, #081510); }
+  .note-wood-patch       { background: radial-gradient(circle, #1a2d1a, #080f08); }
+  .note-wood-generic     { background: radial-gradient(circle, #3a2500, #181000); }
+  .note-spice-cinnamon   { background: radial-gradient(circle, #5a2800, #281000); }
+  .note-spice-cardamom   { background: radial-gradient(circle, #1a3d15, #0a1a08); }
+  .note-spice-pepper     { background: radial-gradient(circle, #6b0a00, #300000); }
+  .note-spice-saffron    { background: radial-gradient(circle, #6b4a00, #302000); }
+  .note-spice-generic    { background: radial-gradient(circle, #5a3500, #281800); }
+  .note-oriental-amber   { background: radial-gradient(circle, #5a3d00, #281800); }
+  .note-oriental-incense { background: radial-gradient(circle, #3d3000, #1a1500); }
+  .note-oriental-vanilla { background: radial-gradient(circle, #4a3500, #201800); }
+  .note-oriental-resin   { background: radial-gradient(circle, #4a2800, #201000); }
+  .note-oriental-tobacco { background: radial-gradient(circle, #3a2000, #180e00); }
+  .note-oriental-rum     { background: radial-gradient(circle, #4a2500, #201200); }
+  .note-musk-white       { background: radial-gradient(circle, #2a2a3a, #10101f); }
+  .note-musk-generic     { background: radial-gradient(circle, #2a2a3d, #10101a); }
+  .note-musk-leather     { background: radial-gradient(circle, #3d2a00, #1a1200); }
+  .note-musk-civet       { background: radial-gradient(circle, #2a2a2a, #0f0f0f); }
+  .note-aromatic         { background: radial-gradient(circle, #003d1a, #001a0a); }
+  .note-default          { background: radial-gradient(circle, #3d3322, #1a1800); }
 }
+
+/* ── Light mode overrides ──────────────────────────────────────────────── */
+html.light body {
+  background-color: #F5F0E6;
+  color: #0a0a0a;
+}
+
+/* Page-level backgrounds → cream */
+html.light .bg-noir  { background-color: #F5F0E6 !important; }
+html.light .bg-smoke { background-color: #FAFAF8 !important; }
+
+/* Text on cream/light backgrounds */
+html.light .text-white      { color: #0a0a0a !important; }
+html.light .text-white\/80  { color: rgba(10,10,10,0.82) !important; }
+html.light .text-white\/70  { color: rgba(10,10,10,0.72) !important; }
+html.light .text-white\/60  { color: rgba(10,10,10,0.62) !important; }
+html.light .text-white\/5   { color: rgba(10,10,10,0.06) !important; }
+html.light .text-ash        { color: #555 !important; }
+
+/* Dark-surface exceptions — preserve white text on dark gradient backgrounds */
+html.light [class*="brand-"] .text-white      { color: #fff !important; }
+html.light [class*="brand-"] .text-white\/80  { color: rgba(255,255,255,0.8) !important; }
+html.light [class*="brand-"] .text-ash        { color: #aaa !important; }
+
+html.light [data-surface="dark"] .text-white      { color: #fff !important; }
+html.light [data-surface="dark"] .text-white\/80  { color: rgba(255,255,255,0.8) !important; }
+html.light [data-surface="dark"] .text-white\/70  { color: rgba(255,255,255,0.7) !important; }
+html.light [data-surface="dark"] .text-ash        { color: #888 !important; }
+html.light [data-surface="dark"] .text-ash\/50    { color: rgba(136,136,136,0.5) !important; }
+html.light [data-surface="dark"] .bg-noir         { background-color: #0a0a0a !important; }
+
+/* Borders */
+html.light .border-white\/5  { border-color: rgba(0,0,0,0.05) !important; }
+html.light .border-white\/10 { border-color: rgba(0,0,0,0.08) !important; }
+html.light .border-white\/20 { border-color: rgba(0,0,0,0.12) !important; }
+
+/* Mobile menu panel + sticky bottom bars */
+html.light .bg-noir\/97 { background-color: rgba(245,240,230,0.97) !important; }
+html.light .bg-noir\/95 { background-color: rgba(245,240,230,0.95) !important; }
+html.light .bg-noir\/90 { background-color: rgba(245,240,230,0.90) !important; }

@@ -1,20 +1,26 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
+import Link from 'next/link'
 import { perfumes } from '@/data/perfumes'
 import PerfumeCard from '@/components/PerfumeCard'
 import ScrollScene from '@/components/ScrollScene'
 
+const brandSlug = (marca: string) => marca.toLowerCase().replace(/\s+/g, '-')
+
 const marcas = Array.from(new Set(perfumes.map(p => p.marca)))
 
-const marcaImages: Record<string, string> = {
-  'Lattafa': 'https://images.unsplash.com/photo-1541643600914-78b084683702?w=800&q=80',
-  'Al Haramain': 'https://images.unsplash.com/photo-1588514912908-e8bc2cf6c6c7?w=800&q=80',
-  'Ajmal': 'https://images.unsplash.com/photo-1594913656049-5b6d779b9b4e?w=800&q=80',
-  'Swiss Arabian': 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800&q=80',
-  'Rasasi': 'https://images.unsplash.com/photo-1548695607-9c73430547ac?w=800&q=80',
-  'Armaf': 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&q=80',
+// Maps brand name → CSS class (defined in globals.css) + monogram letter
+const marcaAccent: Record<string, { cssClass: string; label: string }> = {
+  'Lattafa':          { cssClass: 'brand-lattafa',          label: 'L'  },
+  'Al Haramain':      { cssClass: 'brand-al-haramain',      label: 'AH' },
+  'Ajmal':            { cssClass: 'brand-ajmal',            label: 'A'  },
+  'Swiss Arabian':    { cssClass: 'brand-swiss-arabian',    label: 'SA' },
+  'Rasasi':           { cssClass: 'brand-rasasi',           label: 'R'  },
+  'Armaf':            { cssClass: 'brand-armaf',            label: 'AR' },
+  'Maison Alhambra':  { cssClass: 'brand-maison-alhambra',  label: 'MA' },
+  'Afnan':            { cssClass: 'brand-afnan',            label: 'AF' },
+  'Ard Al Zaafaran':  { cssClass: 'brand-ard-al-zaafaran',  label: 'AZ' },
 }
 
 export default function ColecoesPage() {
@@ -25,7 +31,7 @@ export default function ColecoesPage() {
     : []
 
   return (
-    <div className="min-h-screen pt-24 pb-16">
+    <div className="min-h-screen pt-28 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="mb-12">
           <p className="text-gold text-xs tracking-[0.3em] uppercase mb-2">Por Marca</p>
@@ -33,44 +39,68 @@ export default function ColecoesPage() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-16">
-          {marcas.map((marca, i) => (
-            <ScrollScene key={marca} animation="fadeUp" delay={i * 0.08}>
-              <button
-                type="button"
-                onClick={() => setMarcaAtiva(marcaAtiva === marca ? null : marca)}
-                className={`relative overflow-hidden rounded-2xl aspect-video w-full border transition-all ${
-                  marcaAtiva === marca ? 'border-gold' : 'border-gold/10 hover:border-gold/30'
-                }`}
-              >
-                <Image
-                  src={marcaImages[marca] ?? perfumes.find(p => p.marca === marca)?.imagemUrl ?? ''}
-                  alt={marca} fill className="object-cover"
-                  sizes="(max-width: 768px) 50vw, 33vw"
-                />
-                <div className={`absolute inset-0 bg-gradient-to-t from-noir/90 to-noir/30 transition-opacity ${
-                  marcaAtiva === marca ? 'opacity-90' : 'opacity-70'
-                }`} />
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <h2 className="font-serif text-xl md:text-2xl text-white">{marca}</h2>
-                  <p className="text-gold text-xs tracking-widest mt-1">
-                    {perfumes.filter(p => p.marca === marca).length} perfumes
-                  </p>
-                </div>
-              </button>
-            </ScrollScene>
-          ))}
+          {marcas.map((marca, i) => {
+            const accent = marcaAccent[marca] ?? { cssClass: 'bg-smoke', label: marca[0] }
+            const isActive = marcaAtiva === marca
+            return (
+              <ScrollScene key={marca} animation="fadeUp" delay={i * 0.08}>
+                <button
+                  type="button"
+                  data-surface="dark"
+                  onClick={() => setMarcaAtiva(isActive ? null : marca)}
+                  className={`${accent.cssClass} relative overflow-hidden rounded-2xl aspect-video w-full border transition-all duration-300 ${
+                    isActive
+                      ? 'border-gold shadow-[0_0_30px_rgba(201,168,76,0.2)]'
+                      : 'border-gold/10 hover:border-gold/40'
+                  }`}
+                >
+                  {/* Arabesque circle ornament */}
+                  <span
+                    aria-hidden
+                    className="absolute -bottom-8 -right-8 w-40 h-40 rounded-full border border-gold/10 opacity-60"
+                  />
+                  <span
+                    aria-hidden
+                    className="absolute -bottom-4 -right-4 w-24 h-24 rounded-full border border-gold/15 opacity-60"
+                  />
+
+                  {/* Monogram */}
+                  <span className="absolute top-4 left-4 font-serif text-gold/20 text-5xl leading-none select-none">
+                    {accent.label}
+                  </span>
+
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
+                    <h2 className="font-serif text-xl md:text-2xl text-white drop-shadow">{marca}</h2>
+                    <p className="text-gold text-xs tracking-widest">
+                      {perfumes.filter(p => p.marca === marca).length} perfumes
+                    </p>
+                  </div>
+
+                  {isActive && (
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gold" />
+                  )}
+                </button>
+              </ScrollScene>
+            )
+          })}
         </div>
 
         {marcaAtiva && (
-          <div>
-            <ScrollScene className="mb-8">
+          <div key={marcaAtiva}>
+            <div className="flex items-baseline justify-between mb-8 animate-card-in">
               <h2 className="font-serif text-3xl text-white">{marcaAtiva}</h2>
-            </ScrollScene>
+              <Link
+                href={`/colecoes/${brandSlug(marcaAtiva)}`}
+                className="text-gold/60 text-[10px] tracking-[0.2em] uppercase font-sans hover:text-gold transition-colors duration-200"
+              >
+                Ver coleção completa →
+              </Link>
+            </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {produtosMarca.map(p => (
-                <ScrollScene key={p.id} animation="fadeUp">
+              {produtosMarca.map((p) => (
+                <div key={p.id} className="animate-card-in">
                   <PerfumeCard perfume={p} />
-                </ScrollScene>
+                </div>
               ))}
             </div>
           </div>

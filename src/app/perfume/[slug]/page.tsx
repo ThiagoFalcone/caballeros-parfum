@@ -6,7 +6,10 @@ import ScrollScene from '@/components/ScrollScene'
 import AddToCartButton from '@/components/AddToCartButton'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import PerfumeCard from '@/components/PerfumeCard'
+import Breadcrumb from '@/components/Breadcrumb'
 import type { Metadata } from 'next'
+
+const brandSlug = (marca: string) => marca.toLowerCase().replace(/\s+/g, '-')
 
 interface Props { params: { slug: string } }
 
@@ -27,27 +30,63 @@ export default function PerfumePage({ params }: Props) {
   const perfume = perfumesBySlug[params.slug]
   if (!perfume) notFound()
 
-  const relacionados = perfumes
-    .filter(p => p.familia === perfume.familia && p.id !== perfume.id && p.ativo)
-    .slice(0, 4)
+  const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://caballerosparfum.com.br'
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: perfume.nome,
+    brand: { '@type': 'Brand', name: perfume.marca },
+    description: perfume.descricao,
+    image: perfume.imagemUrl,
+    url: `${BASE}/perfume/${perfume.slug}`,
+    category: perfume.familia,
+    offers: {
+      '@type': 'Offer',
+      price: perfume.preco,
+      priceCurrency: 'BRL',
+      availability: 'https://schema.org/InStock',
+      seller: { '@type': 'Organization', name: 'Caballeros Parfum' },
+    },
+  }
+
+  const porFamilia = perfumes.filter(p => p.familia === perfume.familia && p.id !== perfume.id && p.ativo)
+  const porMarca   = perfumes.filter(p => p.marca === perfume.marca && p.id !== perfume.id && p.ativo && !porFamilia.some(r => r.id === p.id))
+  const relacionados = [...porFamilia, ...porMarca].slice(0, 4)
 
   const whatsappMsg = encodeURIComponent(
     `Olá! Tenho interesse no ${perfume.marca} ${perfume.nome} — R$${perfume.preco.toFixed(2).replace('.', ',')}.`
   )
 
   return (
-    <div className="min-h-screen pt-16">
+    <div className="min-h-screen pt-24">
+      {/* Breadcrumb */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-4 pb-2">
+        <Breadcrumb crumbs={[
+          { label: 'Coleções', href: '/colecoes' },
+          { label: perfume.marca, href: `/colecoes/${brandSlug(perfume.marca)}` },
+          { label: perfume.nome },
+        ]} />
+      </div>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <section className="grid md:grid-cols-2 min-h-[80vh]">
-        <div className="relative min-h-[50vh] md:min-h-full">
-          <Image
-            src={perfume.imagemUrl}
-            alt={perfume.nome}
-            fill
-            className="object-cover"
-            priority
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-noir/50 hidden md:block" />
+        <div className="relative min-h-[60vh] md:min-h-full bg-[#0d0d0d] flex items-center justify-center overflow-hidden py-12">
+          {/* Radial glow behind the bottle */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_65%_at_50%_55%,rgba(201,168,76,0.07),transparent)]" />
+          {/* Constrain to near-native resolution to avoid upscaling artifacts */}
+          <div className="relative w-[320px] md:w-[375px] flex-shrink-0 aspect-[3/4]">
+            <Image
+              src={perfume.imagemUrl}
+              alt={perfume.nome}
+              fill
+              className="object-contain drop-shadow-[0_20px_60px_rgba(0,0,0,0.85)]"
+              priority
+              sizes="375px"
+            />
+          </div>
         </div>
 
         <div className="bg-noir px-6 md:px-12 py-12 flex flex-col justify-center">

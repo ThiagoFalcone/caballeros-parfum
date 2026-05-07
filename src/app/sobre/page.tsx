@@ -1,19 +1,29 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import ScrollScene from '@/components/ScrollScene'
 
 export default function SobrePage() {
   return (
-    <div className="min-h-screen pt-24 pb-16">
-      <section className="relative h-[60vh] flex items-end overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1541643600914-78b084683702?w=1600&q=80"
-          alt="Caballeros Parfum" fill className="object-cover opacity-40"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-noir via-noir/50 to-transparent" />
+    <div className="min-h-screen pt-28 pb-16">
+
+      {/* Hero — CSS puro, sem imagem externa */}
+      <section data-surface="dark" className="relative h-[60vh] flex items-end overflow-hidden bg-gradient-to-br from-[#110a00] via-noir to-smoke">
+        {/* Ornamento circular dourado */}
+        <span aria-hidden className="absolute -right-24 top-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-gold/10" />
+        <span aria-hidden className="absolute -right-12 top-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full border border-gold/8" />
+        <span aria-hidden className="absolute right-24  top-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full border border-gold/10" />
+        {/* Letra decorativa */}
+        <span aria-hidden className="absolute right-20 top-1/2 -translate-y-1/2 font-serif text-[22rem] leading-none text-gold/[0.04] select-none pointer-events-none">
+          C
+        </span>
+        {/* Linha dourada no topo */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-noir via-noir/40 to-transparent" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 pb-16">
           <p className="text-gold text-xs tracking-[0.3em] uppercase mb-3">Nossa História</p>
-          <h1 className="font-serif text-5xl md:text-6xl text-white">Caballeros Parfum</h1>
+          <h1 className="font-serif text-5xl md:text-7xl text-white leading-tight">
+            Caballeros<br />
+            <em className="text-gradient-gold">Parfum</em>
+          </h1>
         </div>
       </section>
 
@@ -35,6 +45,21 @@ export default function SobrePage() {
         </ScrollScene>
 
         <ScrollScene>
+          <div className="grid grid-cols-3 gap-8 py-8 border-y border-gold/10">
+            {[
+              { numero: '6', label: 'Casas Árabes' },
+              { numero: '20+', label: 'Fragrâncias' },
+              { numero: '100%', label: 'Autênticos' },
+            ].map(({ numero, label }) => (
+              <div key={label} className="text-center">
+                <p className="font-serif text-4xl text-gold mb-1">{numero}</p>
+                <p className="text-ash text-xs tracking-widest uppercase">{label}</p>
+              </div>
+            ))}
+          </div>
+        </ScrollScene>
+
+        <ScrollScene>
           <h2 className="font-serif text-3xl text-white mb-6">Compromisso</h2>
           <p className="text-ash leading-relaxed text-lg">
             Acreditamos que um bom perfume é mais do que uma fragrância — é uma experiência sensorial completa. Por isso, levamos a sério cada detalhe, desde a autenticidade dos produtos até o atendimento pelo WhatsApp.
@@ -42,8 +67,10 @@ export default function SobrePage() {
         </ScrollScene>
 
         <ScrollScene className="text-center">
-          <Link href="/explorar"
-            className="inline-flex items-center gap-2 bg-gold text-noir font-sans font-semibold px-8 py-4 rounded-full hover:bg-yellow-400 transition-colors">
+          <Link
+            href="/explorar"
+            className="inline-flex items-center gap-2 bg-gold text-noir font-sans font-semibold px-8 py-4 rounded-full hover:bg-yellow-400 transition-colors"
+          >
             Explorar a Coleção →
           </Link>
         </ScrollScene>

@@ -29,7 +29,7 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
+      <section data-surface="dark" className="relative min-h-screen flex items-center overflow-hidden">
         <div className="hidden md:block absolute inset-0 z-0 opacity-60">
           <SplineHero />
         </div>

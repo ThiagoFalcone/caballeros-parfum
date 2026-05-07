@@ -6,7 +6,13 @@ export default function Footer() {
     <footer className="bg-smoke border-t border-gold/10 mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-10">
         <div className="flex flex-col gap-4">
-          <Image src="/logo.png" alt="Caballeros Parfum" width={120} height={36} className="object-contain" />
+          <Image
+            src="/logo.png"
+            alt="Caballeros Parfum"
+            width={240}
+            height={160}
+            className="h-[72px] w-auto object-contain drop-shadow-[0_4px_20px_rgba(0,0,0,0.7)]"
+          />
           <p className="text-ash text-sm leading-relaxed">
             Curadoria exclusiva de perfumes árabes. Autenticidade, raridade e o luxo do Oriente Médio.
           </p>

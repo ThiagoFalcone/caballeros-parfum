@@ -34,8 +34,14 @@ export default function CartDrawer({ open, onClose }: Props) {
             ) : (
               items.map(({ perfume, quantidade }) => (
                 <div key={perfume.id} className="flex gap-3 items-start">
-                  <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-noir">
-                    <Image src={perfume.imagemUrl} alt={perfume.nome} fill className="object-cover" />
+                  <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-[#111]">
+                    <Image
+                      src={perfume.imagemUrl}
+                      alt={perfume.nome}
+                      fill
+                      sizes="64px"
+                      className="object-contain scale-90"
+                    />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-gold text-xs tracking-wider uppercase">{perfume.marca}</p>
