@@ -35,7 +35,9 @@ export default function EntrarPage() {
       return
     }
 
-    router.push(next)
+    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL
+    const destination = adminEmail && email === adminEmail ? '/cp-painel' : next
+    router.push(destination)
     router.refresh()
   }
 

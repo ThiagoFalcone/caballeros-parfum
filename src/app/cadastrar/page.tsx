@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { supabase, supabaseConfigured } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase'
 
 const inputClass = `bg-noir border border-white/[0.08] rounded-lg px-4 py-3 text-white text-sm
   placeholder:text-ash/25 focus:outline-none focus:border-gold/40 transition-colors duration-200`
@@ -29,23 +29,39 @@ export default function CadastrarPage() {
       return
     }
 
-    if (!supabaseConfigured) {
-      setErro('Backend não configurado. Adicione NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY no .env.local.')
+    if (senha.length < 6) {
+      setErro('A senha deve ter pelo menos 6 caracteres.')
       return
     }
 
     setLoading(true)
-    const { error } = await supabase.auth.signUp({
+
+    // Cria usuário já confirmado via API route (server-side com service role)
+    const res = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome, email, password: senha }),
+    })
+
+    const json = await res.json()
+
+    if (!res.ok) {
+      setErro(json.error ?? 'Erro ao criar conta.')
+      setLoading(false)
+      return
+    }
+
+    // Login automático após cadastro
+    const { error: loginError } = await supabase.auth.signInWithPassword({
       email,
       password: senha,
-      options: { data: { nome } },
     })
+
     setLoading(false)
 
-    if (error) {
-      setErro(error.message === 'User already registered'
-        ? 'Este e-mail já está cadastrado.'
-        : error.message)
+    if (loginError) {
+      setErro('Conta criada! Faça login para continuar.')
+      router.push('/entrar')
       return
     }
 

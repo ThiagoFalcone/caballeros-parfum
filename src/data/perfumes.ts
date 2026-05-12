@@ -380,6 +380,138 @@ export const perfumes: Perfume[] = [
     imagemUrl: F(42090),
     ativo: true,
   },
+  {
+    id: '44', slug: 'ard-al-zaafaran-dirham', nome: 'Dirham', marca: 'Ard Al Zaafaran',
+    familia: 'Oriental', preco: 139.90,
+    descricao: 'O clássico que nunca falha. Dirham é a fragrância mais querida da Ard Al Zaafaran — doce, almiscarado e envolvente, com uma longevidade que surpreende pelo preço.',
+    notasTopo: ['Bergamota', 'Lavanda', 'Frutas'], notasCorpo: ['Rosa', 'Íris', 'Baunilha'], notasFundo: ['Almíscar', 'Âmbar', 'Sândalo'],
+    imagemUrl: F(28304),
+    ativo: true,
+  },
+  {
+    id: '45', slug: 'ard-al-zaafaran-dirham-wardi', nome: 'Dirham Wardi', marca: 'Ard Al Zaafaran',
+    familia: 'Floral', preco: 144.90,
+    descricao: 'A versão rosada do icônico Dirham. Wardi traduz a beleza das rosas do Oriente — floral cremoso, aveludado e feminino, com um sillage que deixa rastros de elegância.',
+    notasTopo: ['Rosa', 'Frutas Vermelhas', 'Bergamota'], notasCorpo: ['Rosa Absoluta', 'Peônia', 'Almíscar'], notasFundo: ['Baunilha', 'Sândalo', 'Âmbar'],
+    imagemUrl: F(33142),
+    ativo: true,
+  },
+
+  // ── AL HARAMAIN ───────────────────────────────────────────────────────────
+  {
+    id: '46', slug: 'al-haramain-amber-oud-gold-edition', nome: 'Amber Oud Gold Edition', marca: 'Al Haramain',
+    familia: 'Oriental', preco: 229.90,
+    descricao: 'O ouro líquido da Al Haramain. Uma composição magnífica que funde âmbar dourado, oud cristalino e especiarias quentes — presença imponente, sillage de luxo e longevidade extraordinária.',
+    notasTopo: ['Açafrão', 'Cardamomo', 'Bergamota'], notasCorpo: ['Oud', 'Rosa', 'Âmbar'], notasFundo: ['Sândalo', 'Almíscar', 'Baunilha'],
+    imagemUrl: F(58421),
+    destaque: true, ativo: true,
+  },
+  {
+    id: '47', slug: 'al-haramain-laventure', nome: "L'Aventure", marca: 'Al Haramain',
+    familia: 'Amadeirado', preco: 199.90,
+    descricao: "A aventura começa aqui. L'Aventure é o clássico masculino da Al Haramain — especiarias frescas, couro sofisticado e madeiras profundas criam uma fragrância de confiança e presença marcante.",
+    notasTopo: ['Bergamota', 'Limão', 'Pimenta Preta'], notasCorpo: ['Couro', 'Vetiver', 'Cedro'], notasFundo: ['Âmbar', 'Almíscar', 'Madeira'],
+    imagemUrl: F(47233),
+    ativo: true,
+  },
+  {
+    id: '48', slug: 'al-haramain-hajar', nome: 'Hajar', marca: 'Al Haramain',
+    familia: 'Oriental', preco: 189.90,
+    descricao: 'Nomeado após a pedra sagrada. Hajar é uma ode à espiritualidade do Oriente — incenso purificador, oud celestial e almíscar branco criam uma fragrância meditativa e duradoura.',
+    notasTopo: ['Bergamota', 'Neroli', 'Incenso'], notasCorpo: ['Oud', 'Rosa', 'Baunilha'], notasFundo: ['Âmbar', 'Almíscar', 'Sândalo'],
+    imagemUrl: F(24590),
+    ativo: true,
+  },
+
+  // ── RASASI ────────────────────────────────────────────────────────────────
+  {
+    id: '49', slug: 'rasasi-blue-caress', nome: 'Blue Caress', marca: 'Rasasi',
+    familia: 'Floral', preco: 169.90,
+    descricao: 'Uma carícia azul sobre a pele. Blue Caress combina florais frescos e aquáticos com um coração de almíscar suave — feminino, delicado e perfeito para o dia a dia.',
+    notasTopo: ['Bergamota', 'Mandarina', 'Aldeidos'], notasCorpo: ['Íris', 'Rosa', 'Almíscar Branco'], notasFundo: ['Âmbar', 'Sândalo', 'Almíscar'],
+    imagemUrl: F(35678),
+    ativo: true,
+  },
+  {
+    id: '50', slug: 'rasasi-la-yuqawam-homme', nome: 'La Yuqawam Homme', marca: 'Rasasi',
+    familia: 'Especiado', preco: 179.90,
+    descricao: 'Inigualável. La Yuqawam é a joia coroa da Rasasi — uma composição especiada, aromática e amadeirada que compete com os grandes da perfumaria ocidental a um preço imbatível.',
+    notasTopo: ['Bergamota', 'Cardamomo', 'Pimenta Rosa'], notasCorpo: ['Oud', 'Couro', 'Âmbar'], notasFundo: ['Vetiver', 'Almíscar', 'Sândalo'],
+    imagemUrl: F(30912),
+    destaque: true, ativo: true,
+  },
+
+  // ── AJMAL ─────────────────────────────────────────────────────────────────
+  {
+    id: '51', slug: 'ajmal-wisal', nome: 'Wisal', marca: 'Ajmal',
+    familia: 'Floral', preco: 189.90,
+    descricao: 'Conexão e ternura. Wisal, que significa "união" em árabe, é um floral oriental aveludado — rosas turcas, jasmin noturno e almíscar cremoso que evoca os momentos mais íntimos.',
+    notasTopo: ['Bergamota', 'Frutas', 'Aldeidos'], notasCorpo: ['Rosa Turca', 'Jasmim', 'Íris'], notasFundo: ['Âmbar', 'Almíscar', 'Sândalo'],
+    imagemUrl: F(46890),
+    ativo: true,
+  },
+  {
+    id: '52', slug: 'ajmal-evoke-silver-her', nome: 'Evoke Silver Edition For Her', marca: 'Ajmal',
+    familia: 'Floral', preco: 159.90,
+    descricao: 'Prata viva. Evoke Silver For Her é o floral moderno da Ajmal — frutas cítricas vibrantes, magnólia luminosa e almíscar acetinado criam uma fragrância para mulheres que definem seu próprio caminho.',
+    notasTopo: ['Bergamota', 'Limão', 'Pêra'], notasCorpo: ['Magnólia', 'Rosa', 'Almíscar'], notasFundo: ['Âmbar Branco', 'Cedro', 'Almíscar'],
+    imagemUrl: F(52341),
+    ativo: true,
+  },
+
+  // ── SWISS ARABIAN ─────────────────────────────────────────────────────────
+  {
+    id: '53', slug: 'swiss-arabian-shaghaf-oud', nome: 'Shaghaf Oud', marca: 'Swiss Arabian',
+    familia: 'Oriental', preco: 249.90,
+    descricao: 'Paixão pelo oud. Shaghaf Oud é a composição mais icônica da Swiss Arabian — oud premium, especiarias nobres e madeiras raras se fundem numa fragrância de luxo genuíno que dura horas.',
+    notasTopo: ['Açafrão', 'Bergamota', 'Cardamomo'], notasCorpo: ['Oud', 'Rosa', 'Incenso'], notasFundo: ['Âmbar', 'Sândalo', 'Almíscar'],
+    imagemUrl: F(43510),
+    destaque: true, ativo: true,
+  },
+  {
+    id: '54', slug: 'swiss-arabian-hayaa', nome: 'Hayaa', marca: 'Swiss Arabian',
+    familia: 'Floral', preco: 219.90,
+    descricao: 'Pudor e elegância. Hayaa, que significa "modéstia" em árabe, é um floral suave e refinado — pétalas de rosa, íris empoada e almíscar puro criam uma aura de sofisticação discreta e irresistível.',
+    notasTopo: ['Bergamota', 'Limão', 'Heliotropo'], notasCorpo: ['Rosa', 'Íris', 'Jasmim'], notasFundo: ['Almíscar', 'Âmbar Branco', 'Sândalo'],
+    imagemUrl: F(36780),
+    ativo: true,
+  },
+
+  // ── ZIMAYA ────────────────────────────────────────────────────────────────
+  {
+    id: '55', slug: 'zimaya-hawwa-intense', nome: 'Hawwa Intense', marca: 'Zimaya',
+    familia: 'Especiado', preco: 199.90,
+    descricao: 'A intensidade de Eva. Hawwa Intense é a fragrância mais poderosa da Zimaya — especiarias orientais, oud defumado e baunilha cremosa criam um oriental profundo e viciante que domina a noite.',
+    notasTopo: ['Açafrão', 'Cardamomo', 'Canela'], notasCorpo: ['Oud', 'Rosa', 'Incenso'], notasFundo: ['Baunilha', 'Âmbar', 'Almíscar'],
+    imagemUrl: F(87623),
+    ativo: true,
+  },
+  {
+    id: '56', slug: 'zimaya-noble', nome: 'Noble', marca: 'Zimaya',
+    familia: 'Amadeirado', preco: 184.90,
+    descricao: 'Nobreza destilada. Noble é a fragrância amadeirada e especiada da Zimaya que traduz elegância árabe contemporânea — cedro vivo, patchouli terroso e âmbar quente num composição que irradia carisma.',
+    notasTopo: ['Bergamota', 'Cardamomo', 'Pimenta Preta'], notasCorpo: ['Cedro', 'Patchouli', 'Couro'], notasFundo: ['Âmbar', 'Sândalo', 'Almíscar'],
+    imagemUrl: F(89432),
+    ativo: true,
+  },
+
+  // ── LATTAFA (adicionais 3) ────────────────────────────────────────────────
+  {
+    id: '57', slug: 'lattafa-nasaem', nome: 'Nasaem', marca: 'Lattafa',
+    familia: 'Floral', preco: 164.90,
+    descricao: 'Brisa suave do deserto. Nasaem é o floral mais delicado da Lattafa — flores brancas, almíscar puro e notas de pó criam uma fragrância etérea que parece uma segunda pele.',
+    notasTopo: ['Bergamota', 'Heliotropo', 'Peônia'], notasCorpo: ['Rosa Branca', 'Jasmim', 'Magnólia'], notasFundo: ['Almíscar', 'Âmbar Branco', 'Cedro'],
+    imagemUrl: F(88123),
+    ativo: true,
+  },
+  {
+    id: '58', slug: 'lattafa-moana', nome: 'Moana', marca: 'Lattafa',
+    familia: 'Floral', preco: 174.90,
+    descricao: 'Frescor tropical com alma oriental. Moana une a leveza das frutas tropicais com a profundidade do âmbar árabe — um floral fresco e duradouro perfeito para o verão.',
+    notasTopo: ['Manga', 'Maracujá', 'Bergamota'], notasCorpo: ['Jasmim', 'Frésia', 'Rosa'], notasFundo: ['Âmbar', 'Almíscar', 'Sândalo'],
+    imagemUrl: F(97435),
+    ativo: true,
+  },
 ]
 
 export const perfumesBySlug = Object.fromEntries(perfumes.map(p => [p.slug, p]))

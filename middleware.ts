@@ -30,23 +30,23 @@ export async function middleware(req: NextRequest) {
   const { data: { session } } = await supabase.auth.getSession()
 
   const path = req.nextUrl.pathname
-  const isProtected = path.startsWith('/conta') || path.startsWith('/admin')
-  const isAuthPage  = path === '/entrar' || path === '/cadastrar'
 
-  if (isProtected && !session) {
-    const url = req.nextUrl.clone()
-    url.pathname = '/entrar'
-    url.searchParams.set('next', path)
-    return NextResponse.redirect(url)
-  }
-
-  if (isAuthPage && session) {
-    return NextResponse.redirect(new URL('/conta', req.url))
+  if (path.startsWith('/cp-painel')) {
+    if (!session) {
+      const url = req.nextUrl.clone()
+      url.pathname = '/entrar'
+      url.searchParams.set('next', path)
+      return NextResponse.redirect(url)
+    }
+    // Bloqueia qualquer usuário que não seja o admin
+    if (session.user.email !== process.env.ADMIN_EMAIL) {
+      return NextResponse.redirect(new URL('/', req.url))
+    }
   }
 
   return res
 }
 
 export const config = {
-  matcher: ['/conta/:path*', '/admin/:path*', '/entrar', '/cadastrar'],
+  matcher: ['/cp-painel/:path*', '/cp-painel'],
 }

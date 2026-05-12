@@ -1,81 +1,213 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import { useCart } from '@/context/CartContext'
+import { useToast } from '@/context/ToastContext'
+import { supabase } from '@/lib/supabase'
+import { buildWhatsAppUrl, formatWhatsAppMessage } from '@/lib/whatsapp'
 
 interface Props { open: boolean; onClose: () => void }
 
+const STATUS_COLORS: Record<string, string> = {
+  pendente:   'bg-yellow-500/10 text-yellow-400',
+  confirmado: 'bg-blue-500/10 text-blue-400',
+  enviado:    'bg-purple-500/10 text-purple-400',
+  entregue:   'bg-emerald-500/10 text-emerald-400',
+  cancelado:  'bg-red-500/10 text-red-400',
+}
+
 export default function CartDrawer({ open, onClose }: Props) {
-  const { items, updateQuantity, removeFromCart, totalPrice, checkout } = useCart()
+  const { items, updateQuantity, removeFromCart, totalPrice, clearCart } = useCart()
+  const { showToast } = useToast()
+
+  const [step,    setStep]    = useState<'cart' | 'form'>('cart')
+  const [nome,    setNome]    = useState('')
+  const [email,   setEmail]   = useState('')
+  const [saving,  setSaving]  = useState(false)
+
+  async function handleCheckoutClick() {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (session?.user) {
+      setNome(session.user.user_metadata?.nome ?? session.user.email ?? '')
+      setEmail(session.user.email ?? '')
+    }
+    setStep('form')
+  }
+
+  async function handleConfirm(e: React.FormEvent) {
+    e.preventDefault()
+    setSaving(true)
+
+    const { data: { session } } = await supabase.auth.getSession()
+
+    const itens = items.map(({ perfume, quantidade }) => ({
+      id: perfume.id,
+      nome: perfume.nome,
+      marca: perfume.marca,
+      preco: perfume.preco,
+      quantidade,
+    }))
+
+    await fetch('/api/pedidos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nome_cliente: nome,
+        email_cliente: email,
+        itens,
+        total: totalPrice,
+        user_id: session?.user?.id ?? null,
+      }),
+    })
+
+    setSaving(false)
+
+    const url = buildWhatsAppUrl(formatWhatsAppMessage(items))
+    window.open(url, '_blank')
+
+    showToast('Pedido registrado!', 'Abrindo WhatsApp…')
+    clearCart()
+    setStep('cart')
+    setNome('')
+    setEmail('')
+    onClose()
+  }
+
+  function handleClose() {
+    setStep('cart')
+    onClose()
+  }
 
   return (
     <>
-      {open && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm" onClick={onClose} />
-      )}
+      {open && <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm" onClick={handleClose} />}
+
       <div className={`fixed z-50 bg-smoke transition-transform duration-300
         bottom-0 left-0 right-0 rounded-t-2xl border-t border-gold/20
         md:top-0 md:right-0 md:left-auto md:bottom-0 md:w-96 md:rounded-none md:border-l md:border-t-0
         ${open ? 'translate-y-0 md:translate-x-0' : 'translate-y-full md:translate-x-full'}`}
       >
         <div className="flex flex-col h-full max-h-[90vh] md:max-h-screen">
+
+          {/* Header */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-gold/10">
-            <h2 className="font-serif text-lg text-white">Meu Carrinho</h2>
-            <button onClick={onClose} className="text-ash hover:text-white transition-colors p-1">
+            {step === 'form' && (
+              <button type="button" aria-label="Voltar ao carrinho" onClick={() => setStep('cart')} className="text-ash hover:text-white transition-colors mr-2">
+                <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path d="M19 12H5M12 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+            )}
+            <h2 className="font-serif text-lg text-white flex-1">
+              {step === 'cart' ? 'Meu Carrinho' : 'Finalizar Pedido'}
+            </h2>
+            <button type="button" aria-label="Fechar carrinho" onClick={handleClose} className="text-ash hover:text-white transition-colors p-1">
               <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round"/>
               </svg>
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-4">
-            {items.length === 0 ? (
-              <p className="text-ash text-sm text-center mt-8">Seu carrinho está vazio.</p>
-            ) : (
-              items.map(({ perfume, quantidade }) => (
-                <div key={perfume.id} className="flex gap-3 items-start">
-                  <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-[#111]">
-                    <Image
-                      src={perfume.imagemUrl}
-                      alt={perfume.nome}
-                      fill
-                      sizes="64px"
-                      className="object-contain scale-90"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-gold text-xs tracking-wider uppercase">{perfume.marca}</p>
-                    <p className="text-sm text-white font-medium truncate">{perfume.nome}</p>
-                    <p className="text-xs text-ash">R${perfume.preco.toFixed(2).replace('.', ',')}</p>
-                    <div className="flex items-center gap-2 mt-2">
-                      <button onClick={() => updateQuantity(perfume.id, quantidade - 1)} className="w-6 h-6 rounded border border-gold/30 text-gold text-sm hover:bg-gold/10 transition-colors">−</button>
-                      <span className="text-sm text-white w-4 text-center">{quantidade}</span>
-                      <button onClick={() => updateQuantity(perfume.id, quantidade + 1)} className="w-6 h-6 rounded border border-gold/30 text-gold text-sm hover:bg-gold/10 transition-colors">+</button>
-                      <button onClick={() => removeFromCart(perfume.id)} className="ml-auto text-ash hover:text-red-400 transition-colors text-xs">remover</button>
+          {/* ── STEP: CART ── */}
+          {step === 'cart' && (
+            <>
+              <div className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-4">
+                {items.length === 0 ? (
+                  <p className="text-ash text-sm text-center mt-8">Seu carrinho está vazio.</p>
+                ) : (
+                  items.map(({ perfume, quantidade }) => (
+                    <div key={perfume.id} className="flex gap-3 items-start">
+                      <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-[#111]">
+                        <Image src={perfume.imagemUrl} alt={perfume.nome} fill sizes="64px" className="object-contain scale-90" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-gold text-xs tracking-wider uppercase">{perfume.marca}</p>
+                        <p className="text-sm text-white font-medium truncate">{perfume.nome}</p>
+                        <p className="text-xs text-ash">R${perfume.preco.toFixed(2).replace('.', ',')}</p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <button type="button" aria-label="Diminuir quantidade" onClick={() => updateQuantity(perfume.id, quantidade - 1)} className="w-6 h-6 rounded border border-gold/30 text-gold text-sm hover:bg-gold/10 transition-colors">−</button>
+                          <span className="text-sm text-white w-4 text-center">{quantidade}</span>
+                          <button type="button" aria-label="Aumentar quantidade" onClick={() => updateQuantity(perfume.id, quantidade + 1)} className="w-6 h-6 rounded border border-gold/30 text-gold text-sm hover:bg-gold/10 transition-colors">+</button>
+                          <button type="button" onClick={() => removeFromCart(perfume.id)} className="ml-auto text-ash hover:text-red-400 transition-colors text-xs">remover</button>
+                        </div>
+                      </div>
                     </div>
+                  ))
+                )}
+              </div>
+
+              {items.length > 0 && (
+                <div className="px-5 py-4 border-t border-gold/10 flex flex-col gap-3">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-ash">Total</span>
+                    <span className="text-white font-medium">R${totalPrice.toFixed(2).replace('.', ',')}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleCheckoutClick}
+                    className="w-full bg-gold text-noir font-sans font-semibold py-3 rounded-lg hover:bg-yellow-400 transition-colors flex items-center justify-center gap-2"
+                  >
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.553 4.116 1.523 5.845L.057 23.882l6.197-1.438A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.66-.499-5.193-1.371l-.371-.218-3.878.9.947-3.766-.24-.387A10 10 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+                    </svg>
+                    Pedir via WhatsApp
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* ── STEP: FORM ── */}
+          {step === 'form' && (
+            <form onSubmit={handleConfirm} className="flex-1 flex flex-col justify-between px-5 py-6 gap-4">
+              <div className="flex flex-col gap-4">
+                <p className="text-ash/60 text-xs leading-relaxed">
+                  Informe seus dados para registrar o pedido. Em seguida abriremos o WhatsApp.
+                </p>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-ash/60 text-[10px] tracking-[0.2em] uppercase font-sans">Nome</label>
+                  <input
+                    type="text" required value={nome} onChange={e => setNome(e.target.value)}
+                    placeholder="Seu nome"
+                    className="bg-noir border border-white/[0.08] rounded-lg px-4 py-3 text-white text-sm placeholder:text-ash/25 focus:outline-none focus:border-gold/40 transition-colors"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-ash/60 text-[10px] tracking-[0.2em] uppercase font-sans">E-mail</label>
+                  <input
+                    type="email" required value={email} onChange={e => setEmail(e.target.value)}
+                    placeholder="seu@email.com"
+                    className="bg-noir border border-white/[0.08] rounded-lg px-4 py-3 text-white text-sm placeholder:text-ash/25 focus:outline-none focus:border-gold/40 transition-colors"
+                  />
+                </div>
+
+                {/* Resumo */}
+                <div className="bg-noir/60 rounded-xl p-4 border border-white/[0.05]">
+                  <p className="text-ash/50 text-[10px] tracking-widest uppercase mb-3">Resumo</p>
+                  {items.map(({ perfume, quantidade }) => (
+                    <div key={perfume.id} className="flex justify-between text-xs text-ash/70 mb-1.5">
+                      <span className="truncate mr-2">{perfume.nome} × {quantidade}</span>
+                      <span className="shrink-0">R${(perfume.preco * quantidade).toFixed(2).replace('.', ',')}</span>
+                    </div>
+                  ))}
+                  <div className="flex justify-between text-sm text-white font-medium mt-3 pt-3 border-t border-white/[0.05]">
+                    <span>Total</span>
+                    <span>R${totalPrice.toFixed(2).replace('.', ',')}</span>
                   </div>
                 </div>
-              ))
-            )}
-          </div>
-
-          {items.length > 0 && (
-            <div className="px-5 py-4 border-t border-gold/10 flex flex-col gap-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-ash">Total</span>
-                <span className="text-white font-medium">R${totalPrice.toFixed(2).replace('.', ',')}</span>
               </div>
+
               <button
-                onClick={() => { checkout(); onClose() }}
-                className="w-full bg-gold text-noir font-sans font-semibold py-3 rounded-lg hover:bg-yellow-400 transition-colors flex items-center justify-center gap-2"
+                type="submit" disabled={saving}
+                className="w-full bg-gold text-noir font-sans font-semibold py-3 rounded-lg hover:bg-yellow-400 disabled:opacity-60 transition-colors flex items-center justify-center gap-2"
               >
-                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                  <path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.553 4.116 1.523 5.845L.057 23.882l6.197-1.438A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.66-.499-5.193-1.371l-.371-.218-3.878.9.947-3.766-.24-.387A10 10 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
-                </svg>
-                Pedir via WhatsApp
+                {saving ? 'Salvando…' : 'Confirmar e abrir WhatsApp'}
               </button>
-            </div>
+            </form>
           )}
         </div>
       </div>
