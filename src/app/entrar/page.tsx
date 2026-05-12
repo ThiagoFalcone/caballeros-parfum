@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { supabase, supabaseConfigured } from '@/lib/supabase'
 
-export default function EntrarPage() {
+function EntrarForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const next = searchParams.get('next') ?? '/conta'
@@ -106,5 +106,13 @@ export default function EntrarPage() {
         </p>
       </div>
     </div>
+  )
+}
+
+export default function EntrarPage() {
+  return (
+    <Suspense>
+      <EntrarForm />
+    </Suspense>
   )
 }

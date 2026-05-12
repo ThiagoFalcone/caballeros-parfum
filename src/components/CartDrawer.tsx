@@ -9,13 +9,6 @@ import { buildWhatsAppUrl, formatWhatsAppMessage } from '@/lib/whatsapp'
 
 interface Props { open: boolean; onClose: () => void }
 
-const STATUS_COLORS: Record<string, string> = {
-  pendente:   'bg-yellow-500/10 text-yellow-400',
-  confirmado: 'bg-blue-500/10 text-blue-400',
-  enviado:    'bg-purple-500/10 text-purple-400',
-  entregue:   'bg-emerald-500/10 text-emerald-400',
-  cancelado:  'bg-red-500/10 text-red-400',
-}
 
 export default function CartDrawer({ open, onClose }: Props) {
   const { items, updateQuantity, removeFromCart, totalPrice, clearCart } = useCart()
