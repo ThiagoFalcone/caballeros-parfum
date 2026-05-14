@@ -1,4 +1,4 @@
-export type FamiliaOlfativa = 'Oriental' | 'Floral' | 'Amadeirado' | 'Cítrico' | 'Especiado'
+export type FamiliaOlfativa = 'Oriental' | 'Floral' | 'Amadeirado' | 'Cítrico' | 'Especiado' | 'Frutal'
 
 export interface Perfume {
   id: string
