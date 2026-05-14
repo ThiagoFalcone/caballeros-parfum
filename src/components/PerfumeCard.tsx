@@ -88,7 +88,9 @@ export default function PerfumeCard({ perfume }: Props) {
               border backdrop-blur-sm transition-all duration-300
               ${wishlisted
                 ? 'bg-gold/20 border-gold/50 text-gold scale-110'
-                : `border-white/10 text-white/40 hover:text-gold/70 hover:border-gold/30 hover:scale-105 ${light ? 'bg-white/70' : 'bg-noir/70'}`
+                : light
+                  ? 'bg-white/80 border-noir/15 text-noir/35 hover:text-gold hover:border-gold/40 hover:scale-105'
+                  : 'bg-noir/70 border-white/10 text-white/40 hover:text-gold/70 hover:border-gold/30 hover:scale-105'
               }`}
           >
             <svg width="13" height="13" viewBox="0 0 24 24" fill={wishlisted ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
