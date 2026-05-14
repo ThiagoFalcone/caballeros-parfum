@@ -61,7 +61,7 @@ export const perfumes: Perfume[] = [
     familia: 'Oriental', preco: 349.90,
     descricao: 'O encontro perfeito entre o oud árabe e o âmbar dourado. Quente, sensual e envolvente — a edição Gold é a versão mais opulenta do ícone da casa.',
     notasTopo: ['Alecrim', 'Cedro', 'Bergamota'], notasCorpo: ['Especiarias', 'Cedro', 'Guaiacol'], notasFundo: ['Âmbar', 'Resinas', 'Almíscar'],
-    imagemUrl: F(51817),
+    imagemUrl: F(51816),
     destaque: true, ativo: true,
   },
   {

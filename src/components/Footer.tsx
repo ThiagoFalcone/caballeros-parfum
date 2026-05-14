@@ -22,6 +22,7 @@ export default function Footer() {
           {[
             { href: '/explorar', label: 'Explorar Perfumes' },
             { href: '/colecoes', label: 'Coleções' },
+            { href: '/nicho', label: 'Parfumerie de Nicho' },
             { href: '/sobre', label: 'Nossa História' },
             { href: '/contato', label: 'Contato' },
           ].map(link => (
