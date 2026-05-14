@@ -12,15 +12,26 @@ const marcas = Array.from(new Set(perfumes.map(p => p.marca)))
 
 // Maps brand name → CSS class (defined in globals.css) + monogram letter
 const marcaAccent: Record<string, { cssClass: string; label: string }> = {
-  'Lattafa':          { cssClass: 'brand-lattafa',          label: 'L'  },
-  'Al Haramain':      { cssClass: 'brand-al-haramain',      label: 'AH' },
-  'Ajmal':            { cssClass: 'brand-ajmal',            label: 'A'  },
-  'Swiss Arabian':    { cssClass: 'brand-swiss-arabian',    label: 'SA' },
-  'Rasasi':           { cssClass: 'brand-rasasi',           label: 'R'  },
-  'Armaf':            { cssClass: 'brand-armaf',            label: 'AR' },
-  'Maison Alhambra':  { cssClass: 'brand-maison-alhambra',  label: 'MA' },
-  'Afnan':            { cssClass: 'brand-afnan',            label: 'AF' },
-  'Ard Al Zaafaran':  { cssClass: 'brand-ard-al-zaafaran',  label: 'AZ' },
+  // Arabic brands
+  'Lattafa':                    { cssClass: 'brand-lattafa',          label: 'L'  },
+  'Al Haramain':                { cssClass: 'brand-al-haramain',      label: 'AH' },
+  'Ajmal':                      { cssClass: 'brand-ajmal',            label: 'A'  },
+  'Swiss Arabian':              { cssClass: 'brand-swiss-arabian',    label: 'SA' },
+  'Rasasi':                     { cssClass: 'brand-rasasi',           label: 'R'  },
+  'Armaf':                      { cssClass: 'brand-armaf',            label: 'AR' },
+  'Maison Alhambra':            { cssClass: 'brand-maison-alhambra',  label: 'MA' },
+  'Afnan':                      { cssClass: 'brand-afnan',            label: 'AF' },
+  'Ard Al Zaafaran':            { cssClass: 'brand-ard-al-zaafaran',  label: 'AZ' },
+  'Zimaya':                     { cssClass: 'brand-zimaya',           label: 'Z'  },
+  // Niche brands
+  'Xerjoff':                    { cssClass: 'brand-xerjoff',          label: 'XJ' },
+  'Nishane':                    { cssClass: 'brand-nishane',          label: 'N'  },
+  'Parfums de Marly':           { cssClass: 'brand-parfums-de-marly', label: 'PM' },
+  'Maison Francis Kurkdjian':   { cssClass: 'brand-mfk',              label: 'MFK'},
+  'Creed':                      { cssClass: 'brand-creed',            label: 'C'  },
+  'Initio':                     { cssClass: 'brand-initio',           label: 'I'  },
+  'Kilian':                     { cssClass: 'brand-kilian',           label: 'K'  },
+  'Amouage':                    { cssClass: 'brand-amouage',          label: 'AM' },
 }
 
 export default function ColecoesPage() {

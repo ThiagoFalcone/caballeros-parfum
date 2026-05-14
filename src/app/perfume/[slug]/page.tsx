@@ -82,9 +82,10 @@ export default function PerfumePage({ params }: Props) {
               src={perfume.imagemUrl}
               alt={perfume.nome}
               fill
+              quality={90}
               className="object-contain drop-shadow-[0_20px_60px_rgba(0,0,0,0.85)]"
               priority
-              sizes="375px"
+              sizes="(max-width: 768px) 320px, 375px"
             />
           </div>
         </div>
