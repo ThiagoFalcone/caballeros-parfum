@@ -75,98 +75,99 @@ function deriveAccords(perfume: Perfume): Accord[] {
   return result.sort((a, b) => b.percent - a.percent).slice(0, 8)
 }
 
-type PerfSpec = { genero: 'Masculino' | 'Feminino' | 'Unissex'; longevidade: number; sillage: number; ocasiao: 'Diurno' | 'Noturno' | 'Versátil' }
+type Estacao = 'Inverno' | 'Primavera' | 'Verão' | 'Outono'
+type PerfSpec = { genero: 'Masculino' | 'Feminino' | 'Unissex'; longevidade: number; sillage: number; ocasiao: 'Diurno' | 'Noturno' | 'Versátil'; estacoes: Estacao[] }
 
 const PERFUME_SPECS: Record<string, PerfSpec> = {
   // ── LATTAFA ──────────────────────────────────────────────────────────────
-  '1':  { genero: 'Unissex',   longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // Khamrah
-  '2':  { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // Asad
-  '3':  { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Bade'e Al Oud For Glory
-  '4':  { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno'   }, // Yara
-  '5':  { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil' }, // Raghba
-  '6':  { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Ameer Al Oudh Intense
-  '23': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Noturno'  }, // Oud Mood
-  '24': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Ana Abiyedh Rouge
-  '25': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Ejaazi
-  '26': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Hayaati Gold Elixir
-  '34': { genero: 'Unissex',   longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // Ramz Gold
-  '35': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil' }, // Najdia
-  '36': { genero: 'Feminino',  longevidade: 3, sillage: 2, ocasiao: 'Diurno'   }, // Ana Abiyedh Pudra
-  '37': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Oud Mood Elixir
-  '38': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Yara Moi
+  '1':  { genero: 'Unissex',   longevidade: 5, sillage: 5, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '2':  { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '3':  { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '4':  { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
+  '5':  { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil', estacoes: ['Outono', 'Inverno'] },
+  '6':  { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '23': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '24': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
+  '25': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '26': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
+  '34': { genero: 'Unissex',   longevidade: 5, sillage: 5, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '35': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil', estacoes: ['Outono', 'Inverno', 'Primavera'] },
+  '36': { genero: 'Feminino',  longevidade: 3, sillage: 2, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
+  '37': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '38': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
   // ── AL HARAMAIN ──────────────────────────────────────────────────────────
-  '7':  { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Versátil' }, // Amber Oud Gold Edition
-  '8':  { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Versátil' }, // L'Aventure
-  '9':  { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno'   }, // L'Aventure Femme
-  '10': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Noturno'  }, // Amber Oud Rouge
-  '27': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // Amber Oud Tobacco Edition
-  '32': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil' }, // Amber Oud Bleu
-  '48': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil' }, // Hajar
+  '7':  { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Versátil', estacoes: ['Outono', 'Inverno', 'Primavera'] },
+  '8':  { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Versátil', estacoes: ['Outono', 'Inverno', 'Primavera'] },
+  '9':  { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
+  '10': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '27': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '32': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil', estacoes: ['Primavera', 'Verão', 'Outono'] },
+  '48': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil', estacoes: ['Outono', 'Inverno', 'Primavera'] },
   // ── RASASI ───────────────────────────────────────────────────────────────
-  '11': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Versátil' }, // Hawas
-  '12': { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno'   }, // La Yuqawam (feminino)
-  '13': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Dhanal Oudh Nashwah
-  '31': { genero: 'Masculino', longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Brilliant Silver
-  '33': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Junoon Satin
-  '50': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // La Yuqawam Homme
+  '11': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Versátil', estacoes: ['Primavera', 'Verão', 'Outono'] },
+  '12': { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
+  '13': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '31': { genero: 'Masculino', longevidade: 3, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
+  '33': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
+  '50': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
   // ── ARMAF ────────────────────────────────────────────────────────────────
-  '14': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // Club de Nuit Intense Man
-  '15': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Noturno'  }, // Club de Nuit Milestone
-  '16': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Noturno'  }, // Club de Nuit Urban Elixir
-  '28': { genero: 'Feminino',  longevidade: 4, sillage: 4, ocasiao: 'Noturno'  }, // Club de Nuit Intense Woman
-  '29': { genero: 'Masculino', longevidade: 4, sillage: 4, ocasiao: 'Versátil' }, // Club de Nuit Blue Iconic
+  '14': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '15': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '16': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '28': { genero: 'Feminino',  longevidade: 4, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Primavera', 'Verão', 'Outono'] },
+  '29': { genero: 'Masculino', longevidade: 4, sillage: 4, ocasiao: 'Versátil', estacoes: ['Primavera', 'Verão', 'Outono'] },
   // ── SWISS ARABIAN ────────────────────────────────────────────────────────
-  '17': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Shaghaf Oud
-  '18': { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno'   }, // Shaghaf Oud Abyad
-  '19': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // Shaghaf Oud Aswad
-  '30': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Warda
-  '54': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Hayaa
+  '17': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '18': { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
+  '19': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '30': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
+  '54': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
   // ── AJMAL ────────────────────────────────────────────────────────────────
-  '20': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil' }, // Amber Wood
-  '21': { genero: 'Masculino', longevidade: 4, sillage: 3, ocasiao: 'Diurno'   }, // Evoke Silver
-  '22': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Aurum
-  '51': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Wisal
-  '52': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Evoke Silver For Her
+  '20': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil', estacoes: ['Outono', 'Inverno', 'Primavera'] },
+  '21': { genero: 'Masculino', longevidade: 4, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão', 'Outono'] },
+  '22': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
+  '51': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
+  '52': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
   // ── MAISON ALHAMBRA ──────────────────────────────────────────────────────
-  '39': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Noturno'  }, // Exclusif Oud
-  '40': { genero: 'Unissex',   longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Minerale
+  '39': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '40': { genero: 'Unissex',   longevidade: 3, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
   // ── AFNAN ────────────────────────────────────────────────────────────────
-  '41': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // 9PM
-  '42': { genero: 'Masculino', longevidade: 4, sillage: 4, ocasiao: 'Noturno'  }, // Supremacy Noir
+  '41': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '42': { genero: 'Masculino', longevidade: 4, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
   // ── ARD AL ZAAFARAN ──────────────────────────────────────────────────────
-  '43': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Oud 24 Hours
-  '44': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil' }, // Dirham
-  '45': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Dirham Wardi
+  '43': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '44': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil', estacoes: ['Outono', 'Inverno', 'Primavera'] },
+  '45': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
   // ── ZIMAYA ───────────────────────────────────────────────────────────────
-  '55': { genero: 'Feminino',  longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Hawwa Intense
+  '55': { genero: 'Feminino',  longevidade: 5, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
   // ── XERJOFF ──────────────────────────────────────────────────────────────
-  '59': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Versátil' }, // Erba Pura
-  '60': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Naxos
-  '61': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Versátil' }, // Alexandria II
+  '59': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Versátil', estacoes: ['Primavera', 'Verão'] },
+  '60': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '61': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Versátil', estacoes: ['Outono', 'Inverno', 'Primavera'] },
   // ── NISHANE ──────────────────────────────────────────────────────────────
-  '62': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Versátil' }, // Hacivat
-  '63': { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno'   }, // Ani
-  '64': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil' }, // Wulong Cha
+  '62': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Versátil', estacoes: ['Primavera', 'Verão', 'Outono'] },
+  '63': { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
+  '64': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil', estacoes: ['Outono', 'Inverno', 'Primavera'] },
   // ── PARFUMS DE MARLY ─────────────────────────────────────────────────────
-  '65': { genero: 'Feminino',  longevidade: 5, sillage: 4, ocasiao: 'Diurno'   }, // Delina
-  '66': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Versátil' }, // Pegasus
-  '67': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Versátil' }, // Layton
-  '68': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Herod
+  '65': { genero: 'Feminino',  longevidade: 5, sillage: 4, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
+  '66': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Versátil', estacoes: ['Outono', 'Inverno', 'Primavera'] },
+  '67': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Versátil', estacoes: ['Outono', 'Inverno', 'Primavera'] },
+  '68': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
   // ── MFK ──────────────────────────────────────────────────────────────────
-  '69': { genero: 'Unissex',   longevidade: 5, sillage: 5, ocasiao: 'Versátil' }, // Baccarat Rouge 540
-  '70': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Oud Satin Mood
+  '69': { genero: 'Unissex',   longevidade: 5, sillage: 5, ocasiao: 'Versátil', estacoes: ['Outono', 'Inverno', 'Primavera'] },
+  '70': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
   // ── CREED ────────────────────────────────────────────────────────────────
-  '71': { genero: 'Masculino', longevidade: 4, sillage: 4, ocasiao: 'Versátil' }, // Aventus
-  '72': { genero: 'Masculino', longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Silver Mountain Water
+  '71': { genero: 'Masculino', longevidade: 4, sillage: 4, ocasiao: 'Versátil', estacoes: ['Primavera', 'Verão', 'Outono'] },
+  '72': { genero: 'Masculino', longevidade: 3, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
   // ── INITIO ───────────────────────────────────────────────────────────────
-  '73': { genero: 'Unissex',   longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // Oud for Greatness
-  '74': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Versátil' }, // Rehab
+  '73': { genero: 'Unissex',   longevidade: 5, sillage: 5, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '74': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Versátil', estacoes: ['Outono', 'Inverno', 'Primavera'] },
   // ── KILIAN ───────────────────────────────────────────────────────────────
-  '75': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Angel's Share
-  '76': { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Noturno'  }, // Love, Don't Be Shy
+  '75': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '76': { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno', 'Primavera'] },
   // ── AMOUAGE ──────────────────────────────────────────────────────────────
-  '77': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // Interlude Man
-  '78': { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno'   }, // Reflection Woman
+  '77': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno',  estacoes: ['Outono', 'Inverno'] },
+  '78': { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno',   estacoes: ['Primavera', 'Verão'] },
 }
 
 function derivePerformance(perfume: Perfume) {
@@ -198,11 +199,12 @@ function derivePerformance(perfume: Perfume) {
       : 'Versátil'
   )
 
+  const estacoes = spec?.estacoes ?? []
   const longevidadeLabel = ['', 'Fraca', 'Moderada', 'Boa', 'Excelente', 'Extrema'][longevidade]
   const sillageLabel     = ['', 'Íntima', 'Moderada', 'Boa', 'Forte', 'Explosiva'][sillage]
   const barW = (v: number) => (['w-1/5', 'w-2/5', 'w-3/5', 'w-4/5', 'w-full'] as const)[Math.min(v, 5) - 1]
 
-  return { longevidade, sillage, ocasiao, genero, longevidadeLabel, sillageLabel, barW }
+  return { longevidade, sillage, ocasiao, genero, estacoes, longevidadeLabel, sillageLabel, barW }
 }
 
 interface Props { params: { slug: string } }
@@ -443,7 +445,7 @@ export default function PerfumePage({ params }: Props) {
             </div>
 
             {/* Occasion + Gender pills */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 mb-4">
               <div className="border border-white/[0.07] rounded-2xl p-5 text-center">
                 <p className="text-ash/35 text-[8px] tracking-[0.35em] uppercase mb-2">Ocasião</p>
                 <p className="font-serif text-white text-xl leading-none">{perf.ocasiao}</p>
@@ -453,6 +455,34 @@ export default function PerfumePage({ params }: Props) {
                 <p className="font-serif text-white text-xl leading-none">{perf.genero}</p>
               </div>
             </div>
+
+            {/* Estações recomendadas */}
+            {perf.estacoes.length > 0 && (
+              <div className="border border-white/[0.07] rounded-2xl px-5 py-4">
+                <p className="text-ash/35 text-[8px] tracking-[0.35em] uppercase mb-3">Estações Recomendadas</p>
+                <div className="flex gap-3">
+                  {([ 'Inverno', 'Primavera', 'Verão', 'Outono' ] as const).map(s => {
+                    const active = perf.estacoes.includes(s)
+                    const icons: Record<string, string> = {
+                      Inverno:   '❄️',
+                      Primavera: '🌸',
+                      Verão:     '☀️',
+                      Outono:    '🍂',
+                    }
+                    return (
+                      <div key={s} className="flex-1 flex flex-col items-center gap-1.5">
+                        <span className={`text-xl leading-none ${active ? 'opacity-100' : 'opacity-20'}`}>
+                          {icons[s]}
+                        </span>
+                        <span className={`text-[8px] tracking-wide font-sans ${active ? 'text-white/70' : 'text-white/20'}`}>
+                          {s}
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
