@@ -154,10 +154,22 @@ html.light [class*="brand-"] .text-white\/80  { color: rgba(255,255,255,0.8) !im
 html.light [class*="brand-"] .text-ash        { color: #aaa !important; }
 
 html.light [data-surface="dark"] .text-white      { color: #fff !important; }
-html.light [data-surface="dark"] .text-white\/80  { color: rgba(255,255,255,0.8) !important; }
-html.light [data-surface="dark"] .text-white\/70  { color: rgba(255,255,255,0.7) !important; }
+html.light [data-surface="dark"] .text-white\/80  { color: rgba(255,255,255,0.80) !important; }
+html.light [data-surface="dark"] .text-white\/70  { color: rgba(255,255,255,0.70) !important; }
+html.light [data-surface="dark"] .text-white\/65  { color: rgba(255,255,255,0.65) !important; }
+html.light [data-surface="dark"] .text-white\/60  { color: rgba(255,255,255,0.60) !important; }
+html.light [data-surface="dark"] .text-white\/50  { color: rgba(255,255,255,0.50) !important; }
+html.light [data-surface="dark"] .text-white\/45  { color: rgba(255,255,255,0.45) !important; }
+html.light [data-surface="dark"] .text-white\/40  { color: rgba(255,255,255,0.40) !important; }
+html.light [data-surface="dark"] .text-white\/35  { color: rgba(255,255,255,0.35) !important; }
+html.light [data-surface="dark"] .text-white\/30  { color: rgba(255,255,255,0.30) !important; }
+html.light [data-surface="dark"] .text-white\/25  { color: rgba(255,255,255,0.25) !important; }
+html.light [data-surface="dark"] .text-white\/20  { color: rgba(255,255,255,0.20) !important; }
 html.light [data-surface="dark"] .text-ash        { color: #888 !important; }
-html.light [data-surface="dark"] .text-ash\/50    { color: rgba(136,136,136,0.5) !important; }
+html.light [data-surface="dark"] .text-ash\/50    { color: rgba(136,136,136,0.50) !important; }
+html.light [data-surface="dark"] .text-ash\/45    { color: rgba(136,136,136,0.45) !important; }
+html.light [data-surface="dark"] .text-ash\/40    { color: rgba(136,136,136,0.40) !important; }
+html.light [data-surface="dark"] .text-ash\/35    { color: rgba(136,136,136,0.35) !important; }
 html.light [data-surface="dark"] .bg-noir         { background-color: #0a0a0a !important; }
 
 /* Borders */

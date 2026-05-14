@@ -197,6 +197,7 @@ export default function HomePage() {
               <Link
                 key={f.nome}
                 href={`/explorar?familia=${f.nome}`}
+                data-surface="dark"
                 className="relative flex-shrink-0 w-[150px] h-[210px] rounded-2xl overflow-hidden
                   border border-white/[0.06] flex flex-col justify-between p-5 group"
                 style={{ background: f.bg }}
@@ -221,6 +222,7 @@ export default function HomePage() {
             <ScrollScene key={f.nome} animation="fadeUp" delay={i * 0.08}>
               <Link
                 href={`/explorar?familia=${f.nome}`}
+                data-surface="dark"
                 className="relative h-[290px] rounded-2xl overflow-hidden
                   border border-white/[0.06] flex flex-col justify-between p-5 group
                   hover:border-white/20 transition-colors duration-300"
@@ -275,7 +277,7 @@ export default function HomePage() {
       </section>
 
       {/* ── EDITORIAL STRIP ──────────────────────────────────────────────── */}
-      <div ref={editorialRef} className="relative overflow-hidden bg-[#050505] py-24 md:py-40 border-y border-gold/[0.06]">
+      <div ref={editorialRef} data-surface="dark" className="relative overflow-hidden bg-[#050505] py-24 md:py-40 border-y border-gold/[0.06]">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_70%_at_85%_50%,rgba(201,168,76,0.04),transparent)]" />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
         <div className="max-w-7xl mx-auto px-6 md:px-14">
