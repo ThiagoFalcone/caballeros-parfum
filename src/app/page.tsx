@@ -318,41 +318,43 @@ export default function HomePage() {
             {/* Vignette */}
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_90%_at_20%_50%,transparent,rgba(0,0,0,0.55))]" />
 
-            {/* Ghost monogram */}
-            <span className="absolute right-0 top-1/2 -translate-y-1/2 pr-4 md:pr-12
-              font-serif italic leading-none text-white/[0.05] select-none pointer-events-none"
-              style={{ fontSize: 'clamp(8rem, 22vw, 22rem)' }}>
+            {/* Ghost monogram — menor e mais opaco no mobile */}
+            <span className="absolute right-0 bottom-12 md:top-1/2 md:-translate-y-1/2
+              pr-4 md:pr-12 font-serif italic leading-none
+              text-white/[0.04] select-none pointer-events-none"
+              style={{ fontSize: 'clamp(5rem, 18vw, 22rem)' }}>
               {brand.letra}
             </span>
 
-            {/* Content */}
+            {/* Content — pb-14 garante espaço para os controls no fundo */}
             <div className="relative z-10 h-full flex flex-col justify-center
-              max-w-7xl mx-auto px-6 md:px-14">
-              <p className="text-gold/40 text-[9px] tracking-[0.55em] uppercase mb-5 font-mono">
+              max-w-7xl mx-auto px-6 md:px-14 pb-14">
+              <p className="text-gold/40 text-[9px] tracking-[0.55em] uppercase mb-3 md:mb-5 font-mono">
                 {String(i + 1).padStart(2, '0')} · {brand.origem}
               </p>
               <h2
-                className="font-serif text-white leading-[0.88] mb-5"
-                style={{ fontSize: 'clamp(3rem, 9vw, 9rem)' }}
+                className="font-serif text-white leading-[0.88] mb-3 md:mb-5"
+                style={{ fontSize: 'clamp(2.4rem, 9vw, 9rem)' }}
               >
                 {brand.nome}
               </h2>
-              <p className="text-ash/45 text-sm md:text-base max-w-xs mb-8 font-sans">
+              <p className="text-ash/45 text-xs md:text-sm max-w-[220px] md:max-w-xs mb-5 md:mb-8 font-sans">
                 {brand.tagline}
               </p>
               <Link
                 href={`/colecoes/${brand.nome.toLowerCase().replace(/\s+/g, '-')}`}
                 className="inline-flex items-center gap-2 border border-gold/30 text-gold
-                  text-xs px-6 py-2.5 rounded-full hover:bg-gold/10 transition-colors w-fit"
+                  text-xs px-5 py-2 md:px-6 md:py-2.5 rounded-full hover:bg-gold/10
+                  transition-colors w-fit"
               >
-                Explorar coleção →
+                Explorar →
               </Link>
             </div>
           </div>
         ))}
 
         {/* Controls — dots + counter */}
-        <div className="absolute bottom-7 left-0 right-0 z-20 max-w-7xl mx-auto px-6 md:px-14
+        <div className="absolute bottom-5 left-0 right-0 z-20 px-6 md:px-14
           flex items-center justify-between">
           <div className="flex gap-2">
             {ARABIC_BRANDS.map((b, i) => (
