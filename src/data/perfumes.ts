@@ -519,7 +519,7 @@ export const perfumes: Perfume[] = [
     familia: 'Cítrico', preco: 2490.00,
     descricao: 'O fenômeno cítrico-almiscarado que conquistou o mundo. Erba Pura da Xerjoff é uma explosão de frutas mediterrâneas, baunilha quente e almíscar branco — fresco, viciante e de longevidade excepcional.',
     notasTopo: ['Laranja Siciliana', 'Toranja', 'Frutas Tropicais'], notasCorpo: ['Baunilha', 'Almíscar Branco', 'Âmbar'], notasFundo: ['Sândalo', 'Almíscar', 'Cedro'],
-    imagemUrl: F(65210),
+    imagemUrl: F(55157),
     destaque: true, ativo: true,
   },
   {
@@ -527,7 +527,7 @@ export const perfumes: Perfume[] = [
     familia: 'Oriental', preco: 2890.00,
     descricao: 'Uma ode à ilha grega banhada de sol e mel. Naxos é o oriental mais admirado da Xerjoff — tabaco mel, lavanda aromática e baunilha cremosa criam uma composição hipnótica e irresistível.',
     notasTopo: ['Lavanda', 'Bergamota', 'Limão'], notasCorpo: ['Mel', 'Tabaco', 'Jasmim'], notasFundo: ['Baunilha', 'Âmbar', 'Almíscar'],
-    imagemUrl: F(50290),
+    imagemUrl: F(30529),
     destaque: true, ativo: true,
   },
   {
@@ -535,7 +535,7 @@ export const perfumes: Perfume[] = [
     familia: 'Floral', preco: 3490.00,
     descricao: 'A grandeza de Alexandria em frasco. Uma composição floral-frutal de rara complexidade — rosa turca, oud puro e âmbar cremoso se unem neste ícone absoluto da perfumaria de nicho.',
     notasTopo: ['Açafrão', 'Rosa', 'Frutas'], notasCorpo: ['Oud', 'Rosa Turca', 'Jasmim'], notasFundo: ['Âmbar', 'Sândalo', 'Almíscar'],
-    imagemUrl: F(53180),
+    imagemUrl: F(17786),
     ativo: true,
   },
 
@@ -545,7 +545,7 @@ export const perfumes: Perfume[] = [
     familia: 'Amadeirado', preco: 1990.00,
     descricao: 'O extravagante amadeirado-verde que redefiniu a perfumaria turca. Hacivat combina patchouli profundo, madeiras nobres e um coração verde-especiado numa fragrância de presença inconfundível.',
     notasTopo: ['Abacaxi', 'Bergamota', 'Hortelã'], notasCorpo: ['Patchouli', 'Cedro', 'Rosa'], notasFundo: ['Almíscar', 'Âmbar', 'Vetiver'],
-    imagemUrl: F(67890),
+    imagemUrl: F(44174),
     destaque: true, ativo: true,
   },
   {
@@ -553,7 +553,7 @@ export const perfumes: Perfume[] = [
     familia: 'Floral', preco: 1890.00,
     descricao: 'Delicadeza turca em estado puro. Ani é um floral-cítrico luminoso e sofisticado — neroli fresco, flores brancas e um fundo de almíscar acetinado que perdura suavemente sobre a pele.',
     notasTopo: ['Neroli', 'Bergamota', 'Aldeidos'], notasCorpo: ['Jasmim', 'Rosa', 'Íris'], notasFundo: ['Almíscar', 'Âmbar Branco', 'Sândalo'],
-    imagemUrl: F(73219),
+    imagemUrl: F(54785),
     ativo: true,
   },
   {
@@ -561,7 +561,7 @@ export const perfumes: Perfume[] = [
     familia: 'Amadeirado', preco: 1990.00,
     descricao: 'Cerimônia do chá em perfume. Wulong Cha captura a essência do chá oolong fumegante — notas verdes e lenhosas, almíscar suave e incenso leve criam uma meditação olfativa única.',
     notasTopo: ['Chá Oolong', 'Bergamota', 'Cardamomo'], notasCorpo: ['Cedro', 'Patchouli', 'Almíscar'], notasFundo: ['Incenso', 'Âmbar', 'Vetiver'],
-    imagemUrl: F(75634),
+    imagemUrl: F(30567),
     ativo: true,
   },
 
@@ -571,7 +571,7 @@ export const perfumes: Perfume[] = [
     familia: 'Floral', preco: 2790.00,
     descricao: 'A rainha dos florais modernos. Delina é o perfume mais icônico da Parfums de Marly — pétalas de rosa damasco, litchi suculento e almíscar aveludado criam uma feminilidade refinada e inesquecível.',
     notasTopo: ['Litchi', 'Groselha', 'Bergamota'], notasCorpo: ['Rosa de Damasco', 'Peônia', 'Rosa'], notasFundo: ['Almíscar', 'Baunilha', 'Cedro'],
-    imagemUrl: F(45230),
+    imagemUrl: F(43871),
     destaque: true, ativo: true,
   },
   {
@@ -579,7 +579,7 @@ export const perfumes: Perfume[] = [
     familia: 'Especiado', preco: 2990.00,
     descricao: 'A elegância masculina em sua forma mais pura. Pegasus voa entre lavanda aromática e baunilha cremosa — uma composição clássica e contemporânea que se tornou o padrão do luxo masculino.',
     notasTopo: ['Bergamota', 'Lavanda', 'Heliotropo'], notasCorpo: ['Jasmim', 'Baunilha', 'Almíscar'], notasFundo: ['Sândalo', 'Âmbar', 'Vetiver'],
-    imagemUrl: F(38920),
+    imagemUrl: F(16938),
     destaque: true, ativo: true,
   },
   {
@@ -587,7 +587,7 @@ export const perfumes: Perfume[] = [
     familia: 'Especiado', preco: 2990.00,
     descricao: 'O equilíbrio perfeito entre frescor e profundidade. Layton combina maçã fresca, lavanda provençal e especiarias nobres num oriental-fougère que domina os tops mundiais há anos.',
     notasTopo: ['Maçã', 'Lavanda', 'Bergamota'], notasCorpo: ['Jasmim', 'Gerânio', 'Pimenta'], notasFundo: ['Baunilha', 'Patchouli', 'Sândalo'],
-    imagemUrl: F(53480),
+    imagemUrl: F(39314),
     ativo: true,
   },
   {
@@ -595,7 +595,7 @@ export const perfumes: Perfume[] = [
     familia: 'Oriental', preco: 2790.00,
     descricao: 'Ousadia e sedução. Herod é o oriental tabaco-baunilha mais sofisticado da Parfums de Marly — pimenta ardente, tabaco curado e baunilha turca criam uma composição de longa projeção e caráter único.',
     notasTopo: ['Pimenta', 'Bergamota', 'Canela'], notasCorpo: ['Tabaco', 'Baunilha', 'Cedro'], notasFundo: ['Patchouli', 'Almíscar', 'Âmbar'],
-    imagemUrl: F(41230),
+    imagemUrl: F(16939),
     ativo: true,
   },
 
@@ -605,7 +605,7 @@ export const perfumes: Perfume[] = [
     familia: 'Floral', preco: 4290.00,
     descricao: 'O perfume mais comentado da última década. Baccarat Rouge 540 é uma obra-prima de jasmin aquático, cedro e safraleine — uma assinatura olfativa que transcende tendências e redefiniu o luxo contemporâneo.',
     notasTopo: ['Jasmin', 'Açafrão'], notasCorpo: ['Cedro', 'Âmbar'], notasFundo: ['Eritroxileno', 'Almíscar'],
-    imagemUrl: F(57890),
+    imagemUrl: F(33519),
     destaque: true, ativo: true,
   },
   {
@@ -613,7 +613,7 @@ export const perfumes: Perfume[] = [
     familia: 'Oriental', preco: 3890.00,
     descricao: 'Oud transformado em seda. Francis Kurkdjian reinterpreta o oud árabe com refinamento parisiense — oud defumado, rosa absoluta e baunilha bourbon criam um luxo íntimo de silagem envolvente.',
     notasTopo: ['Rosa', 'Baunilha'], notasCorpo: ['Oud', 'Rosa Absoluta', 'Resinas'], notasFundo: ['Baunilha Bourbon', 'Âmbar', 'Almíscar'],
-    imagemUrl: F(59234),
+    imagemUrl: F(30352),
     ativo: true,
   },
 
@@ -623,7 +623,7 @@ export const perfumes: Perfume[] = [
     familia: 'Frutal', preco: 4990.00,
     descricao: 'A lenda viva da perfumaria masculina. Aventus é o símbolo de conquista e poder — abacaxi defumado, cassis e bétula fumê criam a fragrância mais desejada e reconhecida do mundo do nicho.',
     notasTopo: ['Abacaxi', 'Cassis', 'Maçã'], notasCorpo: ['Bétula', 'Patchouli', 'Rosa'], notasFundo: ['Almíscar', 'Âmbar', 'Vetiver'],
-    imagemUrl: F(20780),
+    imagemUrl: F(9828),
     destaque: true, ativo: true,
   },
   {
@@ -631,7 +631,7 @@ export const perfumes: Perfume[] = [
     familia: 'Cítrico', preco: 4290.00,
     descricao: 'Pureza das altitudes. Silver Mountain Water captura o ar cristalino dos Alpes suíços — bergamota gelada, chá verde e almíscar limpo criam o aquático de luxo mais refinado já criado.',
     notasTopo: ['Bergamota', 'Mandarina', 'Neroli'], notasCorpo: ['Chá Verde', 'Cassis', 'Pêssego'], notasFundo: ['Almíscar', 'Sândalo', 'Âmbar'],
-    imagemUrl: F(12340),
+    imagemUrl: F(472),
     ativo: true,
   },
 
@@ -641,7 +641,7 @@ export const perfumes: Perfume[] = [
     familia: 'Oriental', preco: 3190.00,
     descricao: 'Oud para os grandes. A Initio criou uma fragrância de autoridade absoluta — oud aglomerado, açafrão e almíscar animal formam um oriental denso e hipnótico que exige respeito.',
     notasTopo: ['Açafrão', 'Cardamomo'], notasCorpo: ['Oud', 'Patchouli', 'Incenso'], notasFundo: ['Almíscar', 'Âmbar', 'Civet'],
-    imagemUrl: F(72340),
+    imagemUrl: F(53641),
     destaque: true, ativo: true,
   },
   {
@@ -649,7 +649,7 @@ export const perfumes: Perfume[] = [
     familia: 'Especiado', preco: 2890.00,
     descricao: 'Viciante por natureza. Rehab explora o poder das moléculas sintéticas na perfumaria — almíscar amplificado, especiarias quentes e notas de couro criam uma fragrância com efeito de "pele aprimorada".',
     notasTopo: ['Cardamomo', 'Bergamota', 'Hortelã'], notasCorpo: ['Almíscar', 'Couro', 'Cedro'], notasFundo: ['Âmbar', 'Baunilha', 'Vetiver'],
-    imagemUrl: F(68920),
+    imagemUrl: F(50351),
     ativo: true,
   },
 
@@ -659,7 +659,7 @@ export const perfumes: Perfume[] = [
     familia: 'Oriental', preco: 3490.00,
     descricao: 'A parte dos anjos. Inspirado nas adegas de cognac da Borgonha, Angel\'s Share combina conhaque envelhecido, canela ardente e baunilha pura — um gourmand-oriental de luxo que aquece a alma.',
     notasTopo: ['Conhaque', 'Canela', 'Cardamomo'], notasCorpo: ['Âmbar', 'Baunilha', 'Noz-Moscada'], notasFundo: ['Sândalo', 'Patchouli', 'Almíscar'],
-    imagemUrl: F(77843),
+    imagemUrl: F(62615),
     destaque: true, ativo: true,
   },
   {
@@ -667,7 +667,7 @@ export const perfumes: Perfume[] = [
     familia: 'Floral', preco: 3290.00,
     descricao: 'Amor sem timidez. Este gourmand-floral da Kilian é puro romantismo — neroli fresco, mel dourado e almíscar marshmallow criam uma fragrância doce, sensual e absolutamente irresistível.',
     notasTopo: ['Neroli', 'Bergamota'], notasCorpo: ['Íris', 'Rosa', 'Mel'], notasFundo: ['Almíscar', 'Baunilha', 'Açúcar'],
-    imagemUrl: F(44210),
+    imagemUrl: F(4322),
     ativo: true,
   },
 
@@ -677,7 +677,7 @@ export const perfumes: Perfume[] = [
     familia: 'Especiado', preco: 3490.00,
     descricao: 'A obra-prima de Omã. Interlude Man é considerado um dos maiores perfumes masculinos já criados — incenso sagrado, pimenta ardente e oud fumê se unem numa composição de profundidade e complexidade sem igual.',
     notasTopo: ['Bergamota', 'Orégano', 'Pimenta Rosa'], notasCorpo: ['Incenso', 'Resinas', 'Couro'], notasFundo: ['Oud', 'Âmbar', 'Vetiver'],
-    imagemUrl: F(31240),
+    imagemUrl: F(15294),
     destaque: true, ativo: true,
   },
   {
@@ -685,7 +685,7 @@ export const perfumes: Perfume[] = [
     familia: 'Floral', preco: 3190.00,
     descricao: 'Reflexo de feminilidade pura. Reflection Woman é a joia floral da Amouage — neroli cintilante, rosas absolutas e almíscar fino criam uma fragrância etérea, luminosa e de refinamento supremo.',
     notasTopo: ['Neroli', 'Bergamota', 'Ylang-Ylang'], notasCorpo: ['Rosa', 'Jasmim', 'Narciso'], notasFundo: ['Almíscar', 'Âmbar', 'Sândalo'],
-    imagemUrl: F(29870),
+    imagemUrl: F(919),
     ativo: true,
   },
 ]
