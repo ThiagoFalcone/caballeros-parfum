@@ -71,27 +71,27 @@ export default function NichoPage() {
     <div className={`min-h-screen ${light ? 'bg-[#F5F0E6]' : 'bg-[#070707]'}`}>
 
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <div className="relative min-h-[75vh] flex flex-col justify-end pb-20 overflow-hidden">
+      <div className="relative min-h-[70vh] flex flex-col justify-end pb-14 md:pb-20 overflow-hidden">
 
         {/* Atmospheric background */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_75%_20%,rgba(201,168,76,0.05),transparent)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_70%_at_5%_90%,rgba(201,168,76,0.03),transparent)]" />
 
-        {/* Decorative vertical rules */}
-        <div className="absolute top-0 left-[12%] bottom-0 w-px bg-gradient-to-b from-transparent via-gold/[0.08] to-transparent" />
-        <div className="absolute top-0 right-[18%] bottom-0 w-px bg-gradient-to-b from-transparent via-gold/[0.05] to-transparent" />
+        {/* Decorative vertical rules — hidden on mobile to avoid clutter */}
+        <div className="hidden md:block absolute top-0 left-[12%] bottom-0 w-px bg-gradient-to-b from-transparent via-gold/[0.08] to-transparent" />
+        <div className="hidden md:block absolute top-0 right-[18%] bottom-0 w-px bg-gradient-to-b from-transparent via-gold/[0.05] to-transparent" />
 
-        {/* Ghost counter */}
-        <div className="absolute top-28 right-6 md:right-14 text-right select-none pointer-events-none">
-          <span className="font-serif text-[7rem] md:text-[11rem] leading-none text-gold/[0.05] block">08</span>
-          <span className="text-gold/20 text-[9px] tracking-[0.45em] uppercase block -mt-4">Maisons</span>
+        {/* Ghost counter — smaller on mobile */}
+        <div className="absolute top-24 md:top-28 right-4 md:right-14 text-right select-none pointer-events-none">
+          <span className="font-serif text-[4.5rem] md:text-[11rem] leading-none text-gold/[0.04] block">08</span>
+          <span className="text-gold/15 text-[8px] tracking-[0.4em] uppercase block -mt-2 md:-mt-4">Maisons</span>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 pt-36 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-28 md:pt-36 relative z-10">
 
           <p
             ref={eyebrowRef}
-            className="text-gold/55 text-[10px] tracking-[0.55em] uppercase mb-10 opacity-0"
+            className="text-gold/55 text-[10px] tracking-[0.5em] uppercase mb-7 md:mb-10 opacity-0"
           >
             Seleção Exclusiva
           </p>
@@ -99,12 +99,12 @@ export default function NichoPage() {
           {/* Overflow clips the word reveal */}
           <div className="overflow-hidden">
             <div ref={titleRef}>
-              <span className="word inline-block font-serif text-[3.2rem] sm:text-[5rem] md:text-[7rem] leading-[0.88]
+              <span className="word inline-block font-serif text-[2.8rem] sm:text-[4.5rem] md:text-[7rem] leading-[0.88]
                 text-white opacity-0">
                 Parfumerie
               </span>
               <br />
-              <span className="word inline-block font-serif text-[3.2rem] sm:text-[5rem] md:text-[7rem] leading-[0.88]
+              <span className="word inline-block font-serif text-[2.8rem] sm:text-[4.5rem] md:text-[7rem] leading-[0.88]
                 italic text-gradient-gold opacity-0">
                 de Nicho
               </span>
@@ -114,12 +114,12 @@ export default function NichoPage() {
           {/* Animated line */}
           <div
             ref={lineRef}
-            className="nicho-line h-px bg-gradient-to-r from-gold/40 via-gold/20 to-transparent mt-10 mb-8 origin-left opacity-0"
+            className="nicho-line h-px bg-gradient-to-r from-gold/40 via-gold/20 to-transparent mt-7 md:mt-10 mb-6 md:mb-8 origin-left opacity-0"
           />
 
           <p
             ref={subtitleRef}
-            className={`text-sm md:text-base leading-relaxed max-w-xs md:max-w-sm opacity-0
+            className={`text-sm leading-relaxed max-w-xs opacity-0
               ${light ? 'text-noir/55' : 'text-ash/60'}`}
           >
             Ateliês independentes que recusam compromissos.
@@ -141,6 +141,8 @@ export default function NichoPage() {
           className={`marquee-track flex gap-3 py-4 px-2 ${paused ? 'marquee-paused' : ''}`}
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
+          onTouchStart={() => setPaused(true)}
+          onTouchEnd={() => setPaused(false)}
         >
           {MARQUEE_BRANDS.map((brand, i) => {
             const meta = BRAND_META[brand]
@@ -181,9 +183,9 @@ export default function NichoPage() {
       {/* ── PRODUCT GRID ──────────────────────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14">
 
-        <div className="flex items-end justify-between mb-10">
-          <div>
-            <h2 className={`font-serif text-3xl ${light ? 'text-noir' : 'text-white'}`}>
+        <div className="flex items-start justify-between gap-3 mb-10">
+          <div className="min-w-0 flex-1">
+            <h2 className={`font-serif text-2xl md:text-3xl leading-snug truncate ${light ? 'text-noir' : 'text-white'}`}>
               {brandAtiva ?? 'Toda a Seleção'}
             </h2>
             <p className={`text-[10px] tracking-[0.3em] uppercase mt-1.5 ${light ? 'text-noir/35' : 'text-ash/35'}`}>
@@ -195,8 +197,8 @@ export default function NichoPage() {
             <button
               type="button"
               onClick={() => setBrandAtiva(null)}
-              className="flex items-center gap-2 text-gold/50 hover:text-gold
-                text-[10px] tracking-[0.25em] uppercase transition-colors duration-200"
+              className="shrink-0 flex items-center gap-1.5 text-gold/50 hover:text-gold
+                text-[10px] tracking-[0.25em] uppercase transition-colors duration-200 mt-1"
             >
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M1 1l8 8M9 1L1 9" strokeLinecap="round" />
