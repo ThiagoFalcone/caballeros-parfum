@@ -18,6 +18,15 @@ const config: Config = {
         serif: ['DM Serif Display', 'serif'],
         sans: ['Inter', 'sans-serif'],
       },
+      keyframes: {
+        fadeInDown: {
+          '0%': { opacity: '0', transform: 'translateY(-6px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        fadeInDown: 'fadeInDown 0.3s ease-out',
+      },
     },
   },
   plugins: [],

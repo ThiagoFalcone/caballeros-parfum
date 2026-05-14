@@ -78,10 +78,11 @@ export default function CartDrawer({ open, onClose }: Props) {
 
       <div className={`fixed z-50 bg-smoke transition-transform duration-300
         bottom-0 left-0 right-0 rounded-t-2xl border-t border-gold/20
+        h-[88vh] md:h-auto
         md:top-0 md:right-0 md:left-auto md:bottom-0 md:w-96 md:rounded-none md:border-l md:border-t-0
         ${open ? 'translate-y-0 md:translate-x-0' : 'translate-y-full md:translate-x-full'}`}
       >
-        <div className="flex flex-col h-full max-h-[90vh] md:max-h-screen">
+        <div className="flex flex-col h-full md:max-h-screen">
 
           {/* Header */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-gold/10">

@@ -84,14 +84,14 @@ export default function PerfumeCard({ perfume }: Props) {
             type="button"
             onClick={handleWishlist}
             aria-label={wishlisted ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
-            className={`absolute top-3 left-3 z-10 w-7 h-7 rounded-full flex items-center justify-center
+            className={`absolute top-3 left-3 z-10 w-8 h-8 rounded-full flex items-center justify-center
               border backdrop-blur-sm transition-all duration-300
               ${wishlisted
-                ? 'bg-gold/20 border-gold/50 text-gold'
-                : `border-white/10 text-white/30 hover:text-gold/70 hover:border-gold/30 ${light ? 'bg-white/60' : 'bg-noir/60'}`
+                ? 'bg-gold/20 border-gold/50 text-gold scale-110'
+                : `border-white/10 text-white/40 hover:text-gold/70 hover:border-gold/30 hover:scale-105 ${light ? 'bg-white/70' : 'bg-noir/70'}`
               }`}
           >
-            <svg width="11" height="11" viewBox="0 0 24 24" fill={wishlisted ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill={wishlisted ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
