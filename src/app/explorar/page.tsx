@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { perfumes, familias } from '@/data/perfumes'
 import PerfumeCard from '@/components/PerfumeCard'
 import PerfumeCardSkeleton from '@/components/PerfumeCardSkeleton'
@@ -60,6 +60,19 @@ export default function ExplorarPage() {
 
     return sorted
   }, [busca, familiaAtiva, faixa, ordem])
+
+  const [ordemAberta, setOrdemAberta] = useState(false)
+  const ordemRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (ordemRef.current && !ordemRef.current.contains(e.target as Node)) {
+        setOrdemAberta(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
 
   const temFiltros = busca || familiaAtiva || faixa !== 'todos' || ordem !== 'relevancia'
 
@@ -135,19 +148,50 @@ export default function ExplorarPage() {
             ))}
           </div>
 
-          <select
-            aria-label="Ordenar perfumes"
-            value={ordem}
-            onChange={e => setOrdem(e.target.value)}
-            className={`flex-shrink-0 text-xs font-sans tracking-wider uppercase border rounded-full px-4 py-2 outline-none cursor-pointer transition-colors
-              ${light
-                ? 'bg-white border-gold/20 text-noir/70 hover:border-gold/50'
-                : 'bg-smoke border-white/10 text-ash hover:border-gold/30'}`}
-          >
-            {ORDENACOES.map(o => (
-              <option key={o.id} value={o.id}>{o.label}</option>
-            ))}
-          </select>
+          {/* Custom dropdown — evita estilo nativo do browser */}
+          <div ref={ordemRef} className="relative flex-shrink-0">
+            <button
+              type="button"
+              onClick={() => setOrdemAberta(v => !v)}
+              className={`flex items-center gap-2 text-xs font-sans tracking-wider uppercase
+                border rounded-full px-4 py-2 transition-colors duration-200
+                ${light
+                  ? 'bg-transparent border-gold/25 text-noir/60 hover:border-gold/50 hover:text-noir'
+                  : 'bg-transparent border-white/10 text-ash hover:border-gold/30 hover:text-white'}`}
+            >
+              {ORDENACOES.find(o => o.id === ordem)?.label}
+              <svg
+                width="10" height="10" viewBox="0 0 10 10" fill="none"
+                stroke="currentColor" strokeWidth="1.5"
+                className={`transition-transform duration-200 ${ordemAberta ? 'rotate-180' : ''}`}
+              >
+                <path d="M2 3.5l3 3 3-3" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+
+            {ordemAberta && (
+              <div className={`absolute right-0 top-full mt-1 z-30 min-w-[140px]
+                rounded-xl border overflow-hidden shadow-xl
+                ${light ? 'bg-white border-gold/15' : 'bg-smoke border-white/10'}`}>
+                {ORDENACOES.map(o => (
+                  <button
+                    key={o.id}
+                    type="button"
+                    onClick={() => { setOrdem(o.id); setOrdemAberta(false) }}
+                    className={`w-full text-left px-4 py-2.5 text-xs font-sans tracking-wider uppercase
+                      transition-colors duration-150
+                      ${o.id === ordem
+                        ? 'text-gold'
+                        : light
+                          ? 'text-noir/55 hover:text-noir hover:bg-gold/5'
+                          : 'text-ash hover:text-white hover:bg-white/5'}`}
+                  >
+                    {o.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* ── Contagem + limpar ─────────────────────────────────── */}
