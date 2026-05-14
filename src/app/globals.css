@@ -45,6 +45,12 @@
   .scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
   .scrollbar-hide::-webkit-scrollbar { display: none; }
 
+  @keyframes trust-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .animate-trust-scroll { animation: trust-scroll 28s linear infinite; display: flex; width: max-content; }
+
   /* Brand card gradients — Arabic brands */
   .brand-lattafa          { background: linear-gradient(135deg, #1a1200 0%, #2a1e00 50%, #0a0a0a 100%); }
   .brand-al-haramain      { background: linear-gradient(135deg, #0f0800 0%, #1e1400 50%, #0a0a0a 100%); }
