@@ -23,11 +23,9 @@ const BRAND_META: Record<string, { css: string; tagline: string; origin: string;
 }
 
 const nichoPerfumes = perfumes.filter(p => NICHE_BRANDS.includes(p.marca) && p.ativo)
-const MARQUEE_BRANDS = [...NICHE_BRANDS, ...NICHE_BRANDS]
 
 export default function NichoPage() {
   const [brandAtiva, setBrandAtiva] = useState<string | null>(null)
-  const [paused, setPaused] = useState(false)
   const { theme } = useTheme()
   const light = theme === 'light'
 
@@ -128,55 +126,47 @@ export default function NichoPage() {
         </div>
       </div>
 
-      {/* ── MARQUEE BRAND CAROUSEL ────────────────────────────────────── */}
-      <div className={`relative border-y overflow-hidden ${light ? 'border-noir/8' : 'border-gold/[0.07]'}`}>
+      {/* ── BRAND CAROUSEL ───────────────────────────────────────────── */}
+      <div className={`relative border-y ${light ? 'border-noir/8' : 'border-gold/[0.07]'}`}>
 
         {/* Fade masks */}
-        <div className={`absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none
+        <div className={`absolute left-0 top-0 bottom-0 w-10 z-10 pointer-events-none
           bg-gradient-to-r ${light ? 'from-[#F5F0E6]' : 'from-[#070707]'} to-transparent`} />
-        <div className={`absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none
+        <div className={`absolute right-0 top-0 bottom-0 w-10 z-10 pointer-events-none
           bg-gradient-to-l ${light ? 'from-[#F5F0E6]' : 'from-[#070707]'} to-transparent`} />
 
-        <div
-          className={`marquee-track flex gap-3 py-4 px-2 ${paused ? 'marquee-paused' : ''}`}
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          onTouchStart={() => setPaused(true)}
-          onTouchEnd={() => setPaused(false)}
-        >
-          {MARQUEE_BRANDS.map((brand, i) => {
-            const meta = BRAND_META[brand]
-            const isActive = brandAtiva === brand
-            return (
-              <button
-                key={`${brand}-${i}`}
-                type="button"
-                data-surface="dark"
-                onClick={() => setBrandAtiva(isActive ? null : brand)}
-                className={`${meta.css} relative flex-shrink-0 rounded-xl px-5 py-4
-                  w-[180px] md:w-[220px] text-left border
-                  transition-all duration-300 overflow-hidden group
-                  ${isActive
-                    ? 'border-gold shadow-[0_0_24px_rgba(201,168,76,0.18)]'
-                    : 'border-gold/[0.08] hover:border-gold/40'
-                  }`}
-              >
-                {/* Hover shimmer */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500
-                  bg-[radial-gradient(ellipse_80%_80%_at_50%_110%,rgba(201,168,76,0.07),transparent)]" />
-
-                {/* Active underline */}
-                {isActive && (
-                  <div className="absolute bottom-0 left-0 right-0 h-[2px]
-                    bg-gradient-to-r from-transparent via-gold to-transparent" />
-                )}
-
-                <p className="text-gold/35 text-[8px] tracking-[0.35em] uppercase mb-2 font-mono">{meta.num}</p>
-                <p className="font-serif text-white text-sm leading-tight">{brand}</p>
-                <p className="text-ash/40 text-[9px] tracking-wide mt-1.5">{meta.origin} · {meta.tagline}</p>
-              </button>
-            )
-          })}
+        <div className="overflow-x-auto scrollbar-hide">
+          <div className="flex gap-3 py-4 px-4 w-max">
+            {NICHE_BRANDS.map((brand) => {
+              const meta = BRAND_META[brand]
+              const isActive = brandAtiva === brand
+              return (
+                <button
+                  key={brand}
+                  type="button"
+                  data-surface="dark"
+                  onClick={() => setBrandAtiva(isActive ? null : brand)}
+                  className={`${meta.css} relative flex-shrink-0 rounded-xl px-5 py-4
+                    w-[180px] md:w-[220px] text-left border
+                    transition-all duration-300 overflow-hidden group
+                    ${isActive
+                      ? 'border-gold shadow-[0_0_24px_rgba(201,168,76,0.18)]'
+                      : 'border-gold/[0.08] hover:border-gold/40'
+                    }`}
+                >
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500
+                    bg-[radial-gradient(ellipse_80%_80%_at_50%_110%,rgba(201,168,76,0.07),transparent)]" />
+                  {isActive && (
+                    <div className="absolute bottom-0 left-0 right-0 h-[2px]
+                      bg-gradient-to-r from-transparent via-gold to-transparent" />
+                  )}
+                  <p className="text-gold/35 text-[8px] tracking-[0.35em] uppercase mb-2 font-mono">{meta.num}</p>
+                  <p className="font-serif text-white text-sm leading-tight">{brand}</p>
+                  <p className="text-ash/40 text-[9px] tracking-wide mt-1.5">{meta.origin} · {meta.tagline}</p>
+                </button>
+              )
+            })}
+          </div>
         </div>
       </div>
 

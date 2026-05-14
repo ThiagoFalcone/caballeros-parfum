@@ -41,13 +41,9 @@
     to   { opacity: 1; transform: translateX(0); }
   }
 
-  @keyframes marquee-scroll {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-  .marquee-track  { animation: marquee-scroll 35s linear infinite; width: max-content; }
-  .marquee-paused { animation-play-state: paused; }
   .nicho-line     { width: min(480px, 80vw); }
+  .scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
 
   /* Brand card gradients — Arabic brands */
   .brand-lattafa          { background: linear-gradient(135deg, #1a1200 0%, #2a1e00 50%, #0a0a0a 100%); }
