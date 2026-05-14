@@ -453,14 +453,6 @@ export const perfumes: Perfume[] = [
 
   // ── SWISS ARABIAN ─────────────────────────────────────────────────────────
   {
-    id: '53', slug: 'swiss-arabian-shaghaf-oud', nome: 'Shaghaf Oud', marca: 'Swiss Arabian',
-    familia: 'Oriental', preco: 299.90,
-    descricao: 'Paixão pelo oud. Shaghaf Oud é a composição mais icônica da Swiss Arabian — oud premium, especiarias nobres e madeiras raras se fundem numa fragrância de luxo genuíno que dura horas.',
-    notasTopo: ['Açafrão', 'Bergamota', 'Cardamomo'], notasCorpo: ['Oud', 'Rosa', 'Incenso'], notasFundo: ['Âmbar', 'Sândalo', 'Almíscar'],
-    imagemUrl: F(43510),
-    destaque: true, ativo: false,
-  },
-  {
     id: '54', slug: 'swiss-arabian-hayaa', nome: 'Hayaa', marca: 'Swiss Arabian',
     familia: 'Floral', preco: 279.90,
     descricao: 'Pudor e elegância. Hayaa, que significa "modéstia" em árabe, é um floral suave e refinado — pétalas de rosa, íris empoada e almíscar puro criam uma aura de sofisticação discreta e irresistível.',
@@ -683,5 +675,5 @@ export const perfumes: Perfume[] = [
 ]
 
 export const perfumesBySlug = Object.fromEntries(perfumes.map(p => [p.slug, p]))
-export const perfumesDestaque = perfumes.filter(p => p.destaque)
+export const perfumesDestaque = perfumes.filter(p => p.destaque && p.ativo)
 export const familias: string[] = Array.from(new Set(perfumes.map(p => p.familia)))
