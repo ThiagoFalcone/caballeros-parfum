@@ -160,8 +160,8 @@ export default function NichoPage() {
 
         {/* ── Product grid ───────────────────────────────────────────── */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {displayed.map((p, i) => (
-            <div key={p.id} className="animate-card-in" style={{ animationDelay: `${(i % 8) * 70}ms` }}>
+          {displayed.map((p) => (
+            <div key={p.id} className="animate-card-in h-full">
               <PerfumeCard perfume={p} />
             </div>
           ))}

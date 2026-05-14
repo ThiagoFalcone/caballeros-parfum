@@ -109,7 +109,7 @@ export default function ColecoesPage() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {produtosMarca.map((p) => (
-                <div key={p.id} className="animate-card-in">
+                <div key={p.id} className="animate-card-in h-full">
                   <PerfumeCard perfume={p} />
                 </div>
               ))}

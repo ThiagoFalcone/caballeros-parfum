@@ -128,7 +128,7 @@ export default function PerfumePage({ params }: Props) {
           </ScrollScene>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {relacionados.map(p => (
-              <ScrollScene key={p.id} animation="fadeUp">
+              <ScrollScene key={p.id} animation="fadeUp" className="h-full">
                 <PerfumeCard perfume={p} />
               </ScrollScene>
             ))}

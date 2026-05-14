@@ -40,7 +40,7 @@ export default function PerfumeCard({ perfume }: Props) {
 
   return (
     <div
-      className={`group relative flex flex-col rounded-2xl overflow-hidden
+      className={`group relative flex flex-col h-full rounded-2xl overflow-hidden
         border transition-all duration-500 ease-out
         ${light
           ? 'bg-white border-gold/20 hover:border-gold/50 hover:shadow-[0_20px_50px_-8px_rgba(201,168,76,0.18)]'
