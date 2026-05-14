@@ -57,7 +57,7 @@ const layers = [
   {
     label: 'Notas de Topo',
     sub: 'Primeira impressão · evapora em 15–30 min',
-    widthClass: 'w-full sm:w-1/2',
+    widthClass: 'w-3/5 sm:w-1/2',
     borderClass: 'border-gold/50',
     bgClass: 'bg-gold/10',
     accentClass: 'text-gold',
@@ -65,7 +65,7 @@ const layers = [
   {
     label: 'Notas de Corpo',
     sub: 'Coração da fragrância · dura 2–4h',
-    widthClass: 'w-full sm:w-3/4',
+    widthClass: 'w-4/5 sm:w-3/4',
     borderClass: 'border-gold/30',
     bgClass: 'bg-gold/[0.06]',
     accentClass: 'text-gold/80',
