@@ -403,7 +403,7 @@ export const perfumes: Perfume[] = [
     familia: 'Oriental', preco: 229.90,
     descricao: 'O ouro líquido da Al Haramain. Uma composição magnífica que funde âmbar dourado, oud cristalino e especiarias quentes — presença imponente, sillage de luxo e longevidade extraordinária.',
     notasTopo: ['Açafrão', 'Cardamomo', 'Bergamota'], notasCorpo: ['Oud', 'Rosa', 'Âmbar'], notasFundo: ['Sândalo', 'Almíscar', 'Baunilha'],
-    imagemUrl: F(58421),
+    imagemUrl: F(51816),
     destaque: true, ativo: false,
   },
   {
