@@ -283,52 +283,40 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ── MARCAS ÁRABES ─────────────────────────────────────────────────── */}
-      <section className="py-20 md:py-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <ScrollScene className="mb-12">
-            <div className="flex items-end justify-between">
-              <div>
-                <p className="text-gold/50 text-[10px] tracking-[0.45em] uppercase mb-3">Casas árabes</p>
-                <h2 className="font-serif text-4xl md:text-5xl text-white">As Marcas</h2>
-              </div>
-              <Link href="/colecoes"
-                className="text-gold/35 hover:text-gold/70 text-[9px] tracking-[0.35em] uppercase transition-colors hidden md:block mb-1">
-                Ver coleções →
-              </Link>
-            </div>
-          </ScrollScene>
+      {/* ── MARCAS — ticker editorial ─────────────────────────────────────── */}
+      <section className="border-t border-white/[0.04] py-16 md:py-20 overflow-hidden">
+        <ScrollScene className="max-w-7xl mx-auto px-4 sm:px-6 mb-10">
+          <div className="flex items-center justify-between">
+            <p className="text-ash/35 text-[9px] tracking-[0.5em] uppercase">Casas que representamos</p>
+            <Link href="/colecoes"
+              className="text-gold/40 hover:text-gold text-[9px] tracking-[0.3em] uppercase transition-colors">
+              Ver coleções →
+            </Link>
+          </div>
+        </ScrollScene>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-            {ARABIC_BRANDS.map((brand, i) => (
-              <ScrollScene key={brand.nome} animation="fadeUp" delay={i * 0.08}>
-                <Link
-                  href={`/colecoes/${brand.nome.toLowerCase().replace(/\s+/g, '-')}`}
-                  data-surface="dark"
-                  className={`${brand.css} relative group rounded-xl border border-gold/[0.08]
-                    hover:border-gold/25 transition-all duration-300 p-5 h-[120px]
-                    flex flex-col justify-between overflow-hidden`}
-                >
-                  <span className="font-serif text-gold/[0.18] text-[2rem] leading-none select-none italic">
-                    {brand.letra}
-                  </span>
-                  <div>
-                    <p className="font-serif text-white text-sm leading-tight">{brand.nome}</p>
-                    <p className="text-ash/30 text-[8px] tracking-wide mt-0.5">{brand.origem}</p>
-                  </div>
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500
-                    bg-[radial-gradient(ellipse_80%_70%_at_50%_110%,rgba(201,168,76,0.06),transparent)]" />
-                </Link>
-              </ScrollScene>
+        {/* Ticker infinito com brand names */}
+        <div className="relative">
+          <div className="absolute left-0 top-0 bottom-0 w-16 z-10 pointer-events-none
+            bg-gradient-to-r from-noir to-transparent" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 z-10 pointer-events-none
+            bg-gradient-to-l from-noir to-transparent" />
+
+          <div className="animate-trust-scroll">
+            {[...ARABIC_BRANDS, ...ARABIC_BRANDS].map((brand, i) => (
+              <Link
+                key={i}
+                href={`/colecoes/${brand.nome.toLowerCase().replace(/\s+/g, '-')}`}
+                className="inline-flex items-center gap-6 px-8 group shrink-0"
+              >
+                <span className="font-serif text-2xl md:text-3xl text-white/20
+                  group-hover:text-white transition-colors duration-500 whitespace-nowrap">
+                  {brand.nome}
+                </span>
+                <span className="w-1 h-1 rounded-full bg-gold/20 shrink-0 group-hover:bg-gold/50 transition-colors duration-500" />
+              </Link>
             ))}
           </div>
-
-          <ScrollScene className="text-center mt-8 md:hidden">
-            <Link href="/colecoes"
-              className="text-gold/40 text-[9px] tracking-[0.35em] uppercase">
-              Ver todas as marcas →
-            </Link>
-          </ScrollScene>
         </div>
       </section>
     </>
