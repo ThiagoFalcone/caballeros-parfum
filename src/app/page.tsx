@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { gsap } from 'gsap'
@@ -47,12 +47,12 @@ const FAMILIAS = [
 ]
 
 const ARABIC_BRANDS = [
-  { nome: 'Lattafa',       css: 'brand-lattafa',       origem: 'Dubai, EAU',      letra: 'L'  },
-  { nome: 'Al Haramain',   css: 'brand-al-haramain',   origem: 'Arábia Saudita',  letra: 'AH' },
-  { nome: 'Ajmal',         css: 'brand-ajmal',         origem: 'Dubai, EAU',      letra: 'A'  },
-  { nome: 'Swiss Arabian', css: 'brand-swiss-arabian', origem: 'Dubai, EAU',      letra: 'SA' },
-  { nome: 'Rasasi',        css: 'brand-rasasi',        origem: 'Dubai, EAU',      letra: 'R'  },
-  { nome: 'Armaf',         css: 'brand-armaf',         origem: 'Dubai, EAU',      letra: 'AR' },
+  { nome: 'Lattafa',       css: 'brand-lattafa',       origem: 'Dubai, EAU',     letra: 'L',   tagline: 'A essência do Golfo Pérsico' },
+  { nome: 'Al Haramain',   css: 'brand-al-haramain',   origem: 'Arábia Saudita', letra: 'AH',  tagline: 'Tradição de geração em geração' },
+  { nome: 'Ajmal',         css: 'brand-ajmal',         origem: 'Dubai, EAU',     letra: 'A',   tagline: 'Perfumaria artesanal desde 1951' },
+  { nome: 'Swiss Arabian', css: 'brand-swiss-arabian', origem: 'Dubai, EAU',     letra: 'SA',  tagline: 'Onde Oriente encontra Ocidente' },
+  { nome: 'Rasasi',        css: 'brand-rasasi',        origem: 'Dubai, EAU',     letra: 'R',   tagline: 'Ousadia e intensidade árabe' },
+  { nome: 'Armaf',         css: 'brand-armaf',         origem: 'Dubai, EAU',     letra: 'AR',  tagline: 'Luxo acessível com alma árabe' },
 ]
 
 const TRUST = [
@@ -61,8 +61,28 @@ const TRUST = [
 ]
 
 export default function HomePage() {
-  const heroRef     = useRef<HTMLDivElement>(null)
+  const heroRef      = useRef<HTMLDivElement>(null)
   const editorialRef = useRef<HTMLDivElement>(null)
+
+  const [activeBrand, setActiveBrand] = useState(0)
+  const [tickKey, setTickKey]         = useState(0)
+  const brandTimer = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const startBrandTimer = (index?: number) => {
+    if (brandTimer.current) clearInterval(brandTimer.current)
+    if (index !== undefined) setActiveBrand(index)
+    setTickKey(k => k + 1)
+    brandTimer.current = setInterval(() => {
+      setActiveBrand(a => (a + 1) % ARABIC_BRANDS.length)
+      setTickKey(k => k + 1)
+    }, 4500)
+  }
+
+  useEffect(() => {
+    startBrandTimer()
+    return () => { if (brandTimer.current) clearInterval(brandTimer.current) }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     const el = heroRef.current
@@ -283,40 +303,83 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ── MARCAS — ticker editorial ─────────────────────────────────────── */}
-      <section className="border-t border-white/[0.04] py-16 md:py-20 overflow-hidden">
-        <ScrollScene className="max-w-7xl mx-auto px-4 sm:px-6 mb-10">
-          <div className="flex items-center justify-between">
-            <p className="text-ash/35 text-[9px] tracking-[0.5em] uppercase">Casas que representamos</p>
-            <Link href="/colecoes"
-              className="text-gold/40 hover:text-gold text-[9px] tracking-[0.3em] uppercase transition-colors">
-              Ver coleções →
-            </Link>
-          </div>
-        </ScrollScene>
+      {/* ── MARCAS — spotlight rotativo ──────────────────────────────────── */}
+      <section className="relative overflow-hidden border-t border-white/[0.04]"
+        style={{ height: 'clamp(440px, 65vh, 680px)' }}>
 
-        {/* Ticker infinito com brand names */}
-        <div className="relative">
-          <div className="absolute left-0 top-0 bottom-0 w-16 z-10 pointer-events-none
-            bg-gradient-to-r from-noir to-transparent" />
-          <div className="absolute right-0 top-0 bottom-0 w-16 z-10 pointer-events-none
-            bg-gradient-to-l from-noir to-transparent" />
+        {/* Slides */}
+        {ARABIC_BRANDS.map((brand, i) => (
+          <div
+            key={brand.nome}
+            data-surface="dark"
+            className={`absolute inset-0 ${brand.css} transition-opacity duration-700
+              ${activeBrand === i ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+          >
+            {/* Vignette */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_90%_at_20%_50%,transparent,rgba(0,0,0,0.55))]" />
 
-          <div className="animate-trust-scroll">
-            {[...ARABIC_BRANDS, ...ARABIC_BRANDS].map((brand, i) => (
-              <Link
-                key={i}
-                href={`/colecoes/${brand.nome.toLowerCase().replace(/\s+/g, '-')}`}
-                className="inline-flex items-center gap-6 px-8 group shrink-0"
+            {/* Ghost monogram */}
+            <span className="absolute right-0 top-1/2 -translate-y-1/2 pr-4 md:pr-12
+              font-serif italic leading-none text-white/[0.05] select-none pointer-events-none"
+              style={{ fontSize: 'clamp(8rem, 22vw, 22rem)' }}>
+              {brand.letra}
+            </span>
+
+            {/* Content */}
+            <div className="relative z-10 h-full flex flex-col justify-center
+              max-w-7xl mx-auto px-6 md:px-14">
+              <p className="text-gold/40 text-[9px] tracking-[0.55em] uppercase mb-5 font-mono">
+                {String(i + 1).padStart(2, '0')} · {brand.origem}
+              </p>
+              <h2
+                className="font-serif text-white leading-[0.88] mb-5"
+                style={{ fontSize: 'clamp(3rem, 9vw, 9rem)' }}
               >
-                <span className="font-serif text-2xl md:text-3xl text-white/20
-                  group-hover:text-white transition-colors duration-500 whitespace-nowrap">
-                  {brand.nome}
-                </span>
-                <span className="w-1 h-1 rounded-full bg-gold/20 shrink-0 group-hover:bg-gold/50 transition-colors duration-500" />
+                {brand.nome}
+              </h2>
+              <p className="text-ash/45 text-sm md:text-base max-w-xs mb-8 font-sans">
+                {brand.tagline}
+              </p>
+              <Link
+                href={`/colecoes/${brand.nome.toLowerCase().replace(/\s+/g, '-')}`}
+                className="inline-flex items-center gap-2 border border-gold/30 text-gold
+                  text-xs px-6 py-2.5 rounded-full hover:bg-gold/10 transition-colors w-fit"
+              >
+                Explorar coleção →
               </Link>
+            </div>
+          </div>
+        ))}
+
+        {/* Controls — dots + counter */}
+        <div className="absolute bottom-7 left-0 right-0 z-20 max-w-7xl mx-auto px-6 md:px-14
+          flex items-center justify-between">
+          <div className="flex gap-2">
+            {ARABIC_BRANDS.map((b, i) => (
+              <button
+                key={i}
+                type="button"
+                aria-label={`Ver ${b.nome}`}
+                onClick={() => startBrandTimer(i)}
+                className={`rounded-full transition-all duration-300
+                  ${activeBrand === i
+                    ? 'w-6 h-1.5 bg-gold'
+                    : 'w-1.5 h-1.5 bg-white/20 hover:bg-white/50'}`}
+              />
             ))}
           </div>
+          <span className="text-white/20 text-[9px] tracking-[0.3em] font-mono">
+            {String(activeBrand + 1).padStart(2, '0')} / {String(ARABIC_BRANDS.length).padStart(2, '0')}
+          </span>
+        </div>
+
+        {/* Progress bar */}
+        <div className="absolute bottom-0 left-0 right-0 h-px z-20 bg-white/[0.05]">
+          <div
+            key={tickKey}
+            className="h-full bg-gold/40"
+            style={{ animation: 'progress-fill 4.5s linear forwards' }}
+          />
         </div>
       </section>
     </>
