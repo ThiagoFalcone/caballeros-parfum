@@ -75,27 +75,128 @@ function deriveAccords(perfume: Perfume): Accord[] {
   return result.sort((a, b) => b.percent - a.percent).slice(0, 8)
 }
 
+type PerfSpec = { genero: 'Masculino' | 'Feminino' | 'Unissex'; longevidade: number; sillage: number; ocasiao: 'Diurno' | 'Noturno' | 'Versátil' }
+
+const PERFUME_SPECS: Record<string, PerfSpec> = {
+  // ── LATTAFA ──────────────────────────────────────────────────────────────
+  '1':  { genero: 'Unissex',   longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // Khamrah
+  '2':  { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // Asad
+  '3':  { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Bade'e Al Oud For Glory
+  '4':  { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno'   }, // Yara
+  '5':  { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil' }, // Raghba
+  '6':  { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Ameer Al Oudh Intense
+  '23': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Noturno'  }, // Oud Mood
+  '24': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Ana Abiyedh Rouge
+  '25': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Ejaazi
+  '26': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Hayaati Gold Elixir
+  '34': { genero: 'Unissex',   longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // Ramz Gold
+  '35': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil' }, // Najdia
+  '36': { genero: 'Feminino',  longevidade: 3, sillage: 2, ocasiao: 'Diurno'   }, // Ana Abiyedh Pudra
+  '37': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Oud Mood Elixir
+  '38': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Yara Moi
+  // ── AL HARAMAIN ──────────────────────────────────────────────────────────
+  '7':  { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Versátil' }, // Amber Oud Gold Edition
+  '8':  { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Versátil' }, // L'Aventure
+  '9':  { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno'   }, // L'Aventure Femme
+  '10': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Noturno'  }, // Amber Oud Rouge
+  '27': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // Amber Oud Tobacco Edition
+  '32': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil' }, // Amber Oud Bleu
+  '48': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil' }, // Hajar
+  // ── RASASI ───────────────────────────────────────────────────────────────
+  '11': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Versátil' }, // Hawas
+  '12': { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno'   }, // La Yuqawam (feminino)
+  '13': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Dhanal Oudh Nashwah
+  '31': { genero: 'Masculino', longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Brilliant Silver
+  '33': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Junoon Satin
+  '50': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // La Yuqawam Homme
+  // ── ARMAF ────────────────────────────────────────────────────────────────
+  '14': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // Club de Nuit Intense Man
+  '15': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Noturno'  }, // Club de Nuit Milestone
+  '16': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Noturno'  }, // Club de Nuit Urban Elixir
+  '28': { genero: 'Feminino',  longevidade: 4, sillage: 4, ocasiao: 'Noturno'  }, // Club de Nuit Intense Woman
+  '29': { genero: 'Masculino', longevidade: 4, sillage: 4, ocasiao: 'Versátil' }, // Club de Nuit Blue Iconic
+  // ── SWISS ARABIAN ────────────────────────────────────────────────────────
+  '17': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Shaghaf Oud
+  '18': { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno'   }, // Shaghaf Oud Abyad
+  '19': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // Shaghaf Oud Aswad
+  '30': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Warda
+  '54': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Hayaa
+  // ── AJMAL ────────────────────────────────────────────────────────────────
+  '20': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil' }, // Amber Wood
+  '21': { genero: 'Masculino', longevidade: 4, sillage: 3, ocasiao: 'Diurno'   }, // Evoke Silver
+  '22': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Aurum
+  '51': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Wisal
+  '52': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Evoke Silver For Her
+  // ── MAISON ALHAMBRA ──────────────────────────────────────────────────────
+  '39': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Noturno'  }, // Exclusif Oud
+  '40': { genero: 'Unissex',   longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Minerale
+  // ── AFNAN ────────────────────────────────────────────────────────────────
+  '41': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // 9PM
+  '42': { genero: 'Masculino', longevidade: 4, sillage: 4, ocasiao: 'Noturno'  }, // Supremacy Noir
+  // ── ARD AL ZAAFARAN ──────────────────────────────────────────────────────
+  '43': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Oud 24 Hours
+  '44': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil' }, // Dirham
+  '45': { genero: 'Feminino',  longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Dirham Wardi
+  // ── ZIMAYA ───────────────────────────────────────────────────────────────
+  '55': { genero: 'Feminino',  longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Hawwa Intense
+  // ── XERJOFF ──────────────────────────────────────────────────────────────
+  '59': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Versátil' }, // Erba Pura
+  '60': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Naxos
+  '61': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Versátil' }, // Alexandria II
+  // ── NISHANE ──────────────────────────────────────────────────────────────
+  '62': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Versátil' }, // Hacivat
+  '63': { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno'   }, // Ani
+  '64': { genero: 'Unissex',   longevidade: 4, sillage: 3, ocasiao: 'Versátil' }, // Wulong Cha
+  // ── PARFUMS DE MARLY ─────────────────────────────────────────────────────
+  '65': { genero: 'Feminino',  longevidade: 5, sillage: 4, ocasiao: 'Diurno'   }, // Delina
+  '66': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Versátil' }, // Pegasus
+  '67': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Versátil' }, // Layton
+  '68': { genero: 'Masculino', longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Herod
+  // ── MFK ──────────────────────────────────────────────────────────────────
+  '69': { genero: 'Unissex',   longevidade: 5, sillage: 5, ocasiao: 'Versátil' }, // Baccarat Rouge 540
+  '70': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Oud Satin Mood
+  // ── CREED ────────────────────────────────────────────────────────────────
+  '71': { genero: 'Masculino', longevidade: 4, sillage: 4, ocasiao: 'Versátil' }, // Aventus
+  '72': { genero: 'Masculino', longevidade: 3, sillage: 3, ocasiao: 'Diurno'   }, // Silver Mountain Water
+  // ── INITIO ───────────────────────────────────────────────────────────────
+  '73': { genero: 'Unissex',   longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // Oud for Greatness
+  '74': { genero: 'Unissex',   longevidade: 4, sillage: 4, ocasiao: 'Versátil' }, // Rehab
+  // ── KILIAN ───────────────────────────────────────────────────────────────
+  '75': { genero: 'Unissex',   longevidade: 5, sillage: 4, ocasiao: 'Noturno'  }, // Angel's Share
+  '76': { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Noturno'  }, // Love, Don't Be Shy
+  // ── AMOUAGE ──────────────────────────────────────────────────────────────
+  '77': { genero: 'Masculino', longevidade: 5, sillage: 5, ocasiao: 'Noturno'  }, // Interlude Man
+  '78': { genero: 'Feminino',  longevidade: 4, sillage: 3, ocasiao: 'Diurno'   }, // Reflection Woman
+}
+
 function derivePerformance(perfume: Perfume) {
+  const spec = PERFUME_SPECS[perfume.id]
   const notes = [...perfume.notasTopo, ...perfume.notasCorpo, ...perfume.notasFundo].map(n => n.toLowerCase())
 
-  let longevidade = 3
-  if (notes.some(n => /oud|civet/.test(n))) longevidade = 5
-  else if (notes.some(n => /âmbar|almíscar|baunilha|resinas|patchouli/.test(n))) longevidade = 4
-
-  let sillage = 3
-  if (notes.some(n => /oud|incenso/.test(n))) sillage = 5
-  else if (notes.some(n => /âmbar|açafrão|pimenta|cardamomo/.test(n))) sillage = 4
-
-  const isDark = ['Oriental', 'Especiado'].includes(perfume.familia) ||
-    notes.some(n => /oud|incenso|âmbar|couro|tabaco/.test(n))
-  const isLight = ['Cítrico', 'Floral', 'Frutal'].includes(perfume.familia) &&
-    !notes.some(n => /oud|incenso/.test(n))
-  const ocasiao = isLight ? 'Diurno' : isDark ? 'Noturno' : 'Versátil'
-
-  const isMasc = perfume.nome.toLowerCase().includes('homme') ||
+  // Use explicit spec when available, fall back to algorithm
+  const longevidade = spec?.longevidade ?? (
+    notes.some(n => /oud|civet/.test(n)) ? 5 :
+    notes.some(n => /âmbar|almíscar|baunilha|resinas|patchouli/.test(n)) ? 4 : 3
+  )
+  const sillage = spec?.sillage ?? (
+    notes.some(n => /oud|incenso/.test(n)) ? 5 :
+    notes.some(n => /âmbar|açafrão|pimenta|cardamomo/.test(n)) ? 4 : 3
+  )
+  const genero = spec?.genero ?? (
+    perfume.nome.toLowerCase().includes('homme') ||
     (notes.some(n => /couro|tabaco|vetiver/.test(n)) && !notes.some(n => /rosa|jasmim|peônia/.test(n)))
-  const isFem  = notes.some(n => /rosa|jasmim|peônia|íris/.test(n)) && !notes.some(n => /couro|tabaco/.test(n))
-  const genero = isMasc ? 'Masculino' : isFem ? 'Feminino' : 'Unissex'
+      ? 'Masculino'
+    : notes.some(n => /rosa|jasmim|peônia|íris/.test(n)) && !notes.some(n => /couro|tabaco/.test(n))
+      ? 'Feminino'
+      : 'Unissex'
+  )
+  const ocasiao = spec?.ocasiao ?? (
+    ['Cítrico', 'Floral', 'Frutal'].includes(perfume.familia) && !notes.some(n => /oud|incenso/.test(n))
+      ? 'Diurno'
+    : ['Oriental', 'Especiado'].includes(perfume.familia) || notes.some(n => /oud|incenso|couro|tabaco/.test(n))
+      ? 'Noturno'
+      : 'Versátil'
+  )
 
   const longevidadeLabel = ['', 'Fraca', 'Moderada', 'Boa', 'Excelente', 'Extrema'][longevidade]
   const sillageLabel     = ['', 'Íntima', 'Moderada', 'Boa', 'Forte', 'Explosiva'][sillage]
