@@ -430,14 +430,14 @@ export const perfumes: Perfume[] = [
     descricao: 'Uma carícia azul sobre a pele. Blue Caress combina florais frescos e aquáticos com um coração de almíscar suave — feminino, delicado e perfeito para o dia a dia.',
     notasTopo: ['Bergamota', 'Mandarina', 'Aldeidos'], notasCorpo: ['Íris', 'Rosa', 'Almíscar Branco'], notasFundo: ['Âmbar', 'Sândalo', 'Almíscar'],
     imagemUrl: F(35678),
-    ativo: true,
+    ativo: false,
   },
   {
     id: '50', slug: 'rasasi-la-yuqawam-homme', nome: 'La Yuqawam Homme', marca: 'Rasasi',
     familia: 'Especiado', preco: 179.90,
     descricao: 'Inigualável. La Yuqawam é a joia coroa da Rasasi — uma composição especiada, aromática e amadeirada que compete com os grandes da perfumaria ocidental a um preço imbatível.',
     notasTopo: ['Bergamota', 'Cardamomo', 'Pimenta Rosa'], notasCorpo: ['Oud', 'Couro', 'Âmbar'], notasFundo: ['Vetiver', 'Almíscar', 'Sândalo'],
-    imagemUrl: F(30912),
+    imagemUrl: F(19668),
     destaque: true, ativo: true,
   },
 
@@ -447,7 +447,7 @@ export const perfumes: Perfume[] = [
     familia: 'Floral', preco: 189.90,
     descricao: 'Conexão e ternura. Wisal, que significa "união" em árabe, é um floral oriental aveludado — rosas turcas, jasmin noturno e almíscar cremoso que evoca os momentos mais íntimos.',
     notasTopo: ['Bergamota', 'Frutas', 'Aldeidos'], notasCorpo: ['Rosa Turca', 'Jasmim', 'Íris'], notasFundo: ['Âmbar', 'Almíscar', 'Sândalo'],
-    imagemUrl: F(46890),
+    imagemUrl: F(15109),
     ativo: true,
   },
   {
@@ -455,7 +455,7 @@ export const perfumes: Perfume[] = [
     familia: 'Floral', preco: 159.90,
     descricao: 'Prata viva. Evoke Silver For Her é o floral moderno da Ajmal — frutas cítricas vibrantes, magnólia luminosa e almíscar acetinado criam uma fragrância para mulheres que definem seu próprio caminho.',
     notasTopo: ['Bergamota', 'Limão', 'Pêra'], notasCorpo: ['Magnólia', 'Rosa', 'Almíscar'], notasFundo: ['Âmbar Branco', 'Cedro', 'Almíscar'],
-    imagemUrl: F(52341),
+    imagemUrl: F(50791),
     ativo: true,
   },
 
@@ -466,14 +466,14 @@ export const perfumes: Perfume[] = [
     descricao: 'Paixão pelo oud. Shaghaf Oud é a composição mais icônica da Swiss Arabian — oud premium, especiarias nobres e madeiras raras se fundem numa fragrância de luxo genuíno que dura horas.',
     notasTopo: ['Açafrão', 'Bergamota', 'Cardamomo'], notasCorpo: ['Oud', 'Rosa', 'Incenso'], notasFundo: ['Âmbar', 'Sândalo', 'Almíscar'],
     imagemUrl: F(43510),
-    destaque: true, ativo: true,
+    destaque: true, ativo: false,
   },
   {
     id: '54', slug: 'swiss-arabian-hayaa', nome: 'Hayaa', marca: 'Swiss Arabian',
     familia: 'Floral', preco: 219.90,
     descricao: 'Pudor e elegância. Hayaa, que significa "modéstia" em árabe, é um floral suave e refinado — pétalas de rosa, íris empoada e almíscar puro criam uma aura de sofisticação discreta e irresistível.',
     notasTopo: ['Bergamota', 'Limão', 'Heliotropo'], notasCorpo: ['Rosa', 'Íris', 'Jasmim'], notasFundo: ['Almíscar', 'Âmbar Branco', 'Sândalo'],
-    imagemUrl: F(36780),
+    imagemUrl: F(56232),
     ativo: true,
   },
 
@@ -483,7 +483,7 @@ export const perfumes: Perfume[] = [
     familia: 'Especiado', preco: 199.90,
     descricao: 'A intensidade de Eva. Hawwa Intense é a fragrância mais poderosa da Zimaya — especiarias orientais, oud defumado e baunilha cremosa criam um oriental profundo e viciante que domina a noite.',
     notasTopo: ['Açafrão', 'Cardamomo', 'Canela'], notasCorpo: ['Oud', 'Rosa', 'Incenso'], notasFundo: ['Baunilha', 'Âmbar', 'Almíscar'],
-    imagemUrl: F(87623),
+    imagemUrl: F(92588),
     ativo: true,
   },
   {
@@ -492,7 +492,7 @@ export const perfumes: Perfume[] = [
     descricao: 'Nobreza destilada. Noble é a fragrância amadeirada e especiada da Zimaya que traduz elegância árabe contemporânea — cedro vivo, patchouli terroso e âmbar quente num composição que irradia carisma.',
     notasTopo: ['Bergamota', 'Cardamomo', 'Pimenta Preta'], notasCorpo: ['Cedro', 'Patchouli', 'Couro'], notasFundo: ['Âmbar', 'Sândalo', 'Almíscar'],
     imagemUrl: F(89432),
-    ativo: true,
+    ativo: false,
   },
 
   // ── LATTAFA (adicionais 3) ────────────────────────────────────────────────
