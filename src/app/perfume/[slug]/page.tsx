@@ -4,7 +4,7 @@ import { perfumesBySlug, perfumes } from '@/data/perfumes'
 import NotesPyramid from '@/components/NotesPyramid'
 import ScrollScene from '@/components/ScrollScene'
 import AddToCartButton from '@/components/AddToCartButton'
-import WhatsAppButton from '@/components/WhatsAppButton'
+import StickyCartBar from '@/components/StickyCartBar'
 import PerfumeCard from '@/components/PerfumeCard'
 import Breadcrumb from '@/components/Breadcrumb'
 import type { Metadata } from 'next'
@@ -135,11 +135,7 @@ export default function PerfumePage({ params }: Props) {
         </section>
       )}
 
-      <WhatsAppButton />
-
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-noir/95 backdrop-blur border-t border-gold/10 p-4">
-        <AddToCartButton perfume={perfume} fullWidth />
-      </div>
+      <StickyCartBar perfume={perfume} />
     </div>
   )
 }

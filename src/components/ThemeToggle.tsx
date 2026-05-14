@@ -5,31 +5,34 @@ import { useTheme } from './ThemeProvider'
 
 export default function ThemeToggle() {
   const { theme, toggle } = useTheme()
-  const [showTip, setShowTip] = useState(false)
+  const [tip, setTip] = useState<'hint' | 'confirm' | null>(null)
 
+  // Mostrar dica na primeira visita após 2s
   useEffect(() => {
     const seen = localStorage.getItem('cp-theme-tip')
     if (!seen) {
-      const t = setTimeout(() => setShowTip(true), 2000)
+      const t = setTimeout(() => setTip('hint'), 2000)
       return () => clearTimeout(t)
     }
   }, [])
 
+  // Auto-fechar dica após 5s
   useEffect(() => {
-    if (!showTip) return
-    const t = setTimeout(() => dismiss(), 5000)
+    if (!tip) return
+    const t = setTimeout(() => setTip(null), tip === 'hint' ? 5000 : 2000)
     return () => clearTimeout(t)
-  }, [showTip])
-
-  function dismiss() {
-    setShowTip(false)
-    localStorage.setItem('cp-theme-tip', '1')
-  }
+  }, [tip])
 
   function handleClick() {
-    dismiss()
+    localStorage.setItem('cp-theme-tip', '1')
     toggle()
+    // Mostrar confirmação brevemente
+    setTip('confirm')
   }
+
+  const label = tip === 'confirm'
+    ? (theme === 'dark' ? '☀️ Modo claro ativado' : '🌙 Modo escuro ativado')
+    : (theme === 'dark' ? '☀️ Ativar modo claro' : '🌙 Ativar modo escuro')
 
   return (
     <div className="relative">
@@ -53,19 +56,14 @@ export default function ThemeToggle() {
         )}
       </button>
 
-      {showTip && (
-        <div
-          className="absolute top-full right-0 mt-2 z-50 pointer-events-none
-            animate-[fadeInDown_0.3s_ease-out]"
-        >
+      {tip && (
+        <div className="absolute top-full right-0 mt-2 z-50 pointer-events-none
+          animate-[fadeInDown_0.25s_ease-out]">
           <div className="relative bg-noir/95 border border-gold/25 rounded-xl px-3.5 py-2.5
             shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-sm whitespace-nowrap">
-            {/* seta */}
             <span className="absolute -top-1.5 right-3 w-3 h-3 bg-noir/95 border-t border-l
               border-gold/25 rotate-45" />
-            <p className="text-gold/90 text-[11px] tracking-wide font-sans">
-              {theme === 'dark' ? '☀️ Ativar modo claro' : '🌙 Ativar modo escuro'}
-            </p>
+            <p className="text-gold/90 text-[11px] tracking-wide font-sans">{label}</p>
           </div>
         </div>
       )}

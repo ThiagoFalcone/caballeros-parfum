@@ -114,7 +114,7 @@ export default function PerfumeCard({ perfume }: Props) {
             group-hover:text-gold/90 ${light ? 'text-noir' : 'text-white'}`}>
             {perfume.nome}
           </h3>
-          <p className={`text-[10px] tracking-wide leading-relaxed ${light ? 'text-noir/45' : 'text-ash/50'}`}>
+          <p className={`text-[10px] tracking-wide leading-relaxed truncate ${light ? 'text-noir/45' : 'text-ash/50'}`}>
             {perfume.notasTopo.join(' · ')}
           </p>
         </div>
@@ -152,14 +152,14 @@ export default function PerfumeCard({ perfume }: Props) {
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              Ok
+              <span className="hidden sm:inline">Ok</span>
             </>
           ) : (
             <>
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M12 5v14M5 12h14" strokeLinecap="round" />
               </svg>
-              Carrinho
+              <span className="hidden sm:inline">Carrinho</span>
             </>
           )}
         </button>
