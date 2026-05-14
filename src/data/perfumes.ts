@@ -399,14 +399,6 @@ export const perfumes: Perfume[] = [
 
   // ── AL HARAMAIN ───────────────────────────────────────────────────────────
   {
-    id: '46', slug: 'al-haramain-amber-oud-gold-edition', nome: 'Amber Oud Gold Edition', marca: 'Al Haramain',
-    familia: 'Oriental', preco: 229.90,
-    descricao: 'O ouro líquido da Al Haramain. Uma composição magnífica que funde âmbar dourado, oud cristalino e especiarias quentes — presença imponente, sillage de luxo e longevidade extraordinária.',
-    notasTopo: ['Açafrão', 'Cardamomo', 'Bergamota'], notasCorpo: ['Oud', 'Rosa', 'Âmbar'], notasFundo: ['Sândalo', 'Almíscar', 'Baunilha'],
-    imagemUrl: F(51816),
-    destaque: true, ativo: false,
-  },
-  {
     id: '47', slug: 'al-haramain-laventure', nome: "L'Aventure", marca: 'Al Haramain',
     familia: 'Amadeirado', preco: 259.90,
     descricao: "A aventura começa aqui. L'Aventure é o clássico masculino da Al Haramain — especiarias frescas, couro sofisticado e madeiras profundas criam uma fragrância de confiança e presença marcante.",
