@@ -1,166 +1,213 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { gsap } from 'gsap'
 import { perfumes } from '@/data/perfumes'
 import PerfumeCard from '@/components/PerfumeCard'
-import ScrollScene from '@/components/ScrollScene'
 import { useTheme } from '@/components/ThemeProvider'
 
 const NICHE_BRANDS = [
-  'Xerjoff',
-  'Nishane',
-  'Parfums de Marly',
-  'Maison Francis Kurkdjian',
-  'Creed',
-  'Initio',
-  'Kilian',
-  'Amouage',
+  'Xerjoff', 'Nishane', 'Parfums de Marly', 'Maison Francis Kurkdjian',
+  'Creed', 'Initio', 'Kilian', 'Amouage',
 ]
 
-const BRAND_META: Record<string, { css: string; tagline: string; origin: string }> = {
-  'Xerjoff':                  { css: 'brand-xerjoff',          tagline: 'Luxo Italiano',         origin: 'Itália'       },
-  'Nishane':                  { css: 'brand-nishane',          tagline: 'Avant-garde Turco',      origin: 'Turquia'      },
-  'Parfums de Marly':         { css: 'brand-parfums-de-marly', tagline: 'Herança Equestre',       origin: 'França'       },
-  'Maison Francis Kurkdjian': { css: 'brand-mfk',              tagline: 'Alta Perfumaria',        origin: 'França'       },
-  'Creed':                    { css: 'brand-creed',            tagline: 'Desde 1760',             origin: 'Londres'      },
-  'Initio':                   { css: 'brand-initio',           tagline: 'Hedonismo Científico',   origin: 'França'       },
-  'Kilian':                   { css: 'brand-kilian',           tagline: 'Provocação Refinada',    origin: 'Paris'        },
-  'Amouage':                  { css: 'brand-amouage',          tagline: 'Jóia do Oriente',        origin: 'Omã'          },
+const BRAND_META: Record<string, { css: string; tagline: string; origin: string; num: string }> = {
+  'Xerjoff':                  { css: 'brand-xerjoff',          tagline: 'Luxo Italiano',         origin: 'Itália',   num: '01' },
+  'Nishane':                  { css: 'brand-nishane',          tagline: 'Avant-garde Turco',      origin: 'Turquia',  num: '02' },
+  'Parfums de Marly':         { css: 'brand-parfums-de-marly', tagline: 'Herança Equestre',       origin: 'França',   num: '03' },
+  'Maison Francis Kurkdjian': { css: 'brand-mfk',              tagline: 'Alta Perfumaria',        origin: 'França',   num: '04' },
+  'Creed':                    { css: 'brand-creed',            tagline: 'Desde 1760',             origin: 'Londres',  num: '05' },
+  'Initio':                   { css: 'brand-initio',           tagline: 'Hedonismo Científico',   origin: 'França',   num: '06' },
+  'Kilian':                   { css: 'brand-kilian',           tagline: 'Provocação Refinada',    origin: 'Paris',    num: '07' },
+  'Amouage':                  { css: 'brand-amouage',          tagline: 'Jóia do Oriente',        origin: 'Omã',      num: '08' },
 }
 
 const nichoPerfumes = perfumes.filter(p => NICHE_BRANDS.includes(p.marca) && p.ativo)
+const MARQUEE_BRANDS = [...NICHE_BRANDS, ...NICHE_BRANDS]
 
 export default function NichoPage() {
   const [brandAtiva, setBrandAtiva] = useState<string | null>(null)
+  const [paused, setPaused] = useState(false)
   const { theme } = useTheme()
   const light = theme === 'light'
+
+  const titleRef   = useRef<HTMLDivElement>(null)
+  const eyebrowRef = useRef<HTMLParagraphElement>(null)
+  const subtitleRef = useRef<HTMLParagraphElement>(null)
+  const lineRef    = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ delay: 0.1 })
+
+      tl.fromTo(eyebrowRef.current,
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }
+      )
+      .fromTo(titleRef.current?.querySelectorAll('.word') ?? [],
+        { y: 100, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.1, stagger: 0.14, ease: 'power4.out' },
+        '-=0.4'
+      )
+      .fromTo(lineRef.current,
+        { scaleX: 0, opacity: 0 },
+        { scaleX: 1, opacity: 1, duration: 0.9, ease: 'power3.inOut' },
+        '-=0.5'
+      )
+      .fromTo(subtitleRef.current,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' },
+        '-=0.5'
+      )
+    })
+    return () => ctx.revert()
+  }, [])
 
   const displayed = brandAtiva
     ? nichoPerfumes.filter(p => p.marca === brandAtiva)
     : nichoPerfumes
 
   return (
-    <div className={`min-h-screen ${light ? 'bg-[#F5F0E6]' : 'bg-[#080808]'}`}>
+    <div className={`min-h-screen ${light ? 'bg-[#F5F0E6]' : 'bg-[#070707]'}`}>
 
-      {/* ── Hero ───────────────────────────────────────────────────────── */}
-      <div className="relative overflow-hidden pt-28 pb-20">
-        {/* Background atmosphere */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(201,168,76,0.05),transparent)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_40%_at_20%_80%,rgba(201,168,76,0.03),transparent)]" />
+      {/* ── HERO ──────────────────────────────────────────────────────── */}
+      <div className="relative min-h-[75vh] flex flex-col justify-end pb-20 overflow-hidden">
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
-          <ScrollScene>
-            <p className="text-gold text-[10px] tracking-[0.45em] uppercase mb-5">
-              Seleção Exclusiva
-            </p>
-          </ScrollScene>
-          <ScrollScene animation="fadeUp" delay={0.1}>
-            <h1 className={`font-serif text-5xl md:text-7xl leading-[0.95] mb-6 ${light ? 'text-noir' : 'text-white'}`}>
-              Parfumerie
-              <br />
-              <span className="text-gradient-gold italic">de Nicho</span>
-            </h1>
-          </ScrollScene>
-          <ScrollScene animation="fadeUp" delay={0.2}>
-            <p className={`text-base md:text-lg leading-relaxed max-w-xl ${light ? 'text-noir/60' : 'text-ash/70'}`}>
-              Criações de ateliês independentes que recusam compromissos.
-              Ingredientes raros, tiragens limitadas e narrativas olfativas
-              que desafiam convenções.
-            </p>
-          </ScrollScene>
+        {/* Atmospheric background */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_75%_20%,rgba(201,168,76,0.05),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_70%_at_5%_90%,rgba(201,168,76,0.03),transparent)]" />
+
+        {/* Decorative vertical rules */}
+        <div className="absolute top-0 left-[12%] bottom-0 w-px bg-gradient-to-b from-transparent via-gold/[0.08] to-transparent" />
+        <div className="absolute top-0 right-[18%] bottom-0 w-px bg-gradient-to-b from-transparent via-gold/[0.05] to-transparent" />
+
+        {/* Ghost counter */}
+        <div className="absolute top-28 right-6 md:right-14 text-right select-none pointer-events-none">
+          <span className="font-serif text-[7rem] md:text-[11rem] leading-none text-gold/[0.05] block">08</span>
+          <span className="text-gold/20 text-[9px] tracking-[0.45em] uppercase block -mt-4">Maisons</span>
         </div>
 
-        {/* Ornamental divider */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-16">
-          <div className="flex items-center gap-4">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
-            <span className="text-gold/30 text-xs tracking-[0.4em] uppercase">Maisons</span>
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 pt-36 relative z-10">
+
+          <p
+            ref={eyebrowRef}
+            className="text-gold/55 text-[10px] tracking-[0.55em] uppercase mb-10 opacity-0"
+          >
+            Seleção Exclusiva
+          </p>
+
+          {/* Overflow clips the word reveal */}
+          <div className="overflow-hidden">
+            <div ref={titleRef}>
+              <span className="word inline-block font-serif text-[3.2rem] sm:text-[5rem] md:text-[7rem] leading-[0.88]
+                text-white opacity-0">
+                Parfumerie
+              </span>
+              <br />
+              <span className="word inline-block font-serif text-[3.2rem] sm:text-[5rem] md:text-[7rem] leading-[0.88]
+                italic text-gradient-gold opacity-0">
+                de Nicho
+              </span>
+            </div>
           </div>
+
+          {/* Animated line */}
+          <div
+            ref={lineRef}
+            className="nicho-line h-px bg-gradient-to-r from-gold/40 via-gold/20 to-transparent mt-10 mb-8 origin-left opacity-0"
+          />
+
+          <p
+            ref={subtitleRef}
+            className={`text-sm md:text-base leading-relaxed max-w-xs md:max-w-sm opacity-0
+              ${light ? 'text-noir/55' : 'text-ash/60'}`}
+          >
+            Ateliês independentes que recusam compromissos.
+            Ingredientes raros e narrativas olfativas únicas.
+          </p>
         </div>
       </div>
 
-      {/* ── Brand selector ─────────────────────────────────────────────── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-16">
-          {NICHE_BRANDS.map((brand, i) => {
+      {/* ── MARQUEE BRAND CAROUSEL ────────────────────────────────────── */}
+      <div className={`relative border-y overflow-hidden ${light ? 'border-noir/8' : 'border-gold/[0.07]'}`}>
+
+        {/* Fade masks */}
+        <div className={`absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none
+          bg-gradient-to-r ${light ? 'from-[#F5F0E6]' : 'from-[#070707]'} to-transparent`} />
+        <div className={`absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none
+          bg-gradient-to-l ${light ? 'from-[#F5F0E6]' : 'from-[#070707]'} to-transparent`} />
+
+        <div
+          className={`marquee-track flex gap-3 py-4 px-2 ${paused ? 'marquee-paused' : ''}`}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
+          {MARQUEE_BRANDS.map((brand, i) => {
             const meta = BRAND_META[brand]
             const isActive = brandAtiva === brand
-            const count = nichoPerfumes.filter(p => p.marca === brand).length
             return (
-              <ScrollScene key={brand} animation="fadeUp" delay={i * 0.06}>
-                <button
-                  type="button"
-                  data-surface="dark"
-                  onClick={() => setBrandAtiva(isActive ? null : brand)}
-                  className={`${meta.css} relative overflow-hidden rounded-xl aspect-[4/3] w-full border
-                    transition-all duration-400 group text-left
-                    ${isActive
-                      ? 'border-gold shadow-[0_0_28px_rgba(201,168,76,0.18),inset_0_0_0_1px_rgba(201,168,76,0.12)]'
-                      : 'border-gold/10 hover:border-gold/35 hover:shadow-[0_8px_32px_rgba(0,0,0,0.4)]'
-                    }`}
-                >
-                  {/* Inner glow on hover */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500
-                    bg-[radial-gradient(ellipse_70%_70%_at_50%_100%,rgba(201,168,76,0.06),transparent)]" />
+              <button
+                key={`${brand}-${i}`}
+                type="button"
+                data-surface="dark"
+                onClick={() => setBrandAtiva(isActive ? null : brand)}
+                className={`${meta.css} relative flex-shrink-0 rounded-xl px-5 py-4
+                  w-[180px] md:w-[220px] text-left border
+                  transition-all duration-300 overflow-hidden group
+                  ${isActive
+                    ? 'border-gold shadow-[0_0_24px_rgba(201,168,76,0.18)]'
+                    : 'border-gold/[0.08] hover:border-gold/40'
+                  }`}
+              >
+                {/* Hover shimmer */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500
+                  bg-[radial-gradient(ellipse_80%_80%_at_50%_110%,rgba(201,168,76,0.07),transparent)]" />
 
-                  {/* Ornament rings */}
-                  <span aria-hidden className="absolute -bottom-10 -right-10 w-44 h-44 rounded-full border border-gold/[0.06]" />
-                  <span aria-hidden className="absolute -bottom-4 -right-4 w-24 h-24 rounded-full border border-gold/[0.09]" />
+                {/* Active underline */}
+                {isActive && (
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px]
+                    bg-gradient-to-r from-transparent via-gold to-transparent" />
+                )}
 
-                  {/* Active indicator */}
-                  {isActive && <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold to-transparent" />}
-
-                  <div className="absolute inset-0 p-4 flex flex-col justify-between">
-                    <div>
-                      <p className="text-gold/45 text-[9px] tracking-[0.3em] uppercase mb-1">{meta.origin}</p>
-                      <h3 className="font-serif text-white text-base leading-snug">{brand}</h3>
-                    </div>
-                    <div className="flex items-end justify-between">
-                      <p className="text-ash/50 text-[9px] tracking-wide">{meta.tagline}</p>
-                      <span className={`text-[9px] tracking-widest font-sans px-2 py-0.5 rounded-full border
-                        ${isActive ? 'border-gold/50 text-gold' : 'border-gold/15 text-gold/40'}`}>
-                        {count}
-                      </span>
-                    </div>
-                  </div>
-                </button>
-              </ScrollScene>
+                <p className="text-gold/35 text-[8px] tracking-[0.35em] uppercase mb-2 font-mono">{meta.num}</p>
+                <p className="font-serif text-white text-sm leading-tight">{brand}</p>
+                <p className="text-ash/40 text-[9px] tracking-wide mt-1.5">{meta.origin} · {meta.tagline}</p>
+              </button>
             )
           })}
         </div>
+      </div>
 
-        {/* ── Filter state label ─────────────────────────────────────── */}
-        <div className="flex items-center justify-between mb-8">
+      {/* ── PRODUCT GRID ──────────────────────────────────────────────── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14">
+
+        <div className="flex items-end justify-between mb-10">
           <div>
-            {brandAtiva ? (
-              <div className="flex items-center gap-3">
-                <h2 className={`font-serif text-2xl ${light ? 'text-noir' : 'text-white'}`}>{brandAtiva}</h2>
-                <button
-                  type="button"
-                  onClick={() => setBrandAtiva(null)}
-                  className="text-gold/50 hover:text-gold text-[10px] tracking-[0.2em] uppercase transition-colors"
-                >
-                  × Limpar
-                </button>
-              </div>
-            ) : (
-              <h2 className={`font-serif text-2xl ${light ? 'text-noir' : 'text-white'}`}>
-                Toda a Seleção
-              </h2>
-            )}
-            <p className={`text-[10px] tracking-widest uppercase mt-1 ${light ? 'text-noir/40' : 'text-ash/40'}`}>
+            <h2 className={`font-serif text-3xl ${light ? 'text-noir' : 'text-white'}`}>
+              {brandAtiva ?? 'Toda a Seleção'}
+            </h2>
+            <p className={`text-[10px] tracking-[0.3em] uppercase mt-1.5 ${light ? 'text-noir/35' : 'text-ash/35'}`}>
               {displayed.length} fragrância{displayed.length !== 1 ? 's' : ''}
             </p>
           </div>
 
-          {/* Subtle horizontal rule */}
-          <div className="hidden sm:block h-px flex-1 ml-8 bg-gradient-to-r from-gold/15 to-transparent" />
+          {brandAtiva && (
+            <button
+              type="button"
+              onClick={() => setBrandAtiva(null)}
+              className="flex items-center gap-2 text-gold/50 hover:text-gold
+                text-[10px] tracking-[0.25em] uppercase transition-colors duration-200"
+            >
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M1 1l8 8M9 1L1 9" strokeLinecap="round" />
+              </svg>
+              Limpar
+            </button>
+          )}
         </div>
 
-        {/* ── Product grid ───────────────────────────────────────────── */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {displayed.map((p) => (
+          {displayed.map(p => (
             <div key={p.id} className="animate-card-in h-full">
               <PerfumeCard perfume={p} />
             </div>
@@ -169,15 +216,17 @@ export default function NichoPage() {
 
         {displayed.length === 0 && (
           <div className="py-24 text-center">
-            <p className={`font-serif text-2xl mb-2 ${light ? 'text-noir/30' : 'text-white/20'}`}>Nenhum resultado</p>
+            <p className={`font-serif text-2xl ${light ? 'text-noir/25' : 'text-white/15'}`}>
+              Nenhum resultado
+            </p>
           </div>
         )}
       </div>
 
-      {/* ── Editorial footer note ──────────────────────────────────────── */}
-      <div className={`border-t mt-8 py-12 ${light ? 'border-noir/8' : 'border-white/[0.04]'}`}>
+      {/* ── FOOTER NOTE ───────────────────────────────────────────────── */}
+      <div className={`border-t py-10 ${light ? 'border-noir/8' : 'border-white/[0.04]'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-          <p className={`text-[11px] tracking-[0.3em] uppercase ${light ? 'text-noir/30' : 'text-ash/30'}`}>
+          <p className={`text-[11px] tracking-[0.35em] uppercase ${light ? 'text-noir/25' : 'text-ash/25'}`}>
             Todas as fragrâncias são 100% originais · Importação direta
           </p>
         </div>

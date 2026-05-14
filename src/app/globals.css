@@ -41,6 +41,14 @@
     to   { opacity: 1; transform: translateX(0); }
   }
 
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .marquee-track  { animation: marquee-scroll 35s linear infinite; width: max-content; }
+  .marquee-paused { animation-play-state: paused; }
+  .nicho-line     { width: min(480px, 80vw); }
+
   /* Brand card gradients — Arabic brands */
   .brand-lattafa          { background: linear-gradient(135deg, #1a1200 0%, #2a1e00 50%, #0a0a0a 100%); }
   .brand-al-haramain      { background: linear-gradient(135deg, #0f0800 0%, #1e1400 50%, #0a0a0a 100%); }
