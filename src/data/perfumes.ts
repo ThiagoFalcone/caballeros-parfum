@@ -277,7 +277,7 @@ export const perfumes: Perfume[] = [
     familia: 'Cítrico', preco: 209.90,
     descricao: 'Suave como cetim, fresco como a manhã. Junoon Satin é um cítrico-floral refinado com um toque oriental suave — elegante, clean e de presença discreta mas marcante.',
     notasTopo: ['Bergamota', 'Toranja', 'Menta'], notasCorpo: ['Jasmim', 'Frésia', 'Cedro'], notasFundo: ['Almíscar Branco', 'Sândalo', 'Almíscar'],
-    imagemUrl: F(42900),
+    imagemUrl: F(42899),
     ativo: true,
   },
 
