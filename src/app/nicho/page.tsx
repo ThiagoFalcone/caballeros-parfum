@@ -42,7 +42,7 @@ export default function NichoPage() {
   const dragRef      = useRef({ active: false, startX: 0, startScroll: 0 })
 
   useEffect(() => {
-    const el = scrollRef.current
+    const el = scrollRef.current as HTMLDivElement
     if (!el) return
 
     const SPEED = 0.6 // px per frame
