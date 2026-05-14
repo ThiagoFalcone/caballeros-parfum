@@ -66,7 +66,8 @@ export default function HomePage() {
 
   const [activeBrand, setActiveBrand] = useState(0)
   const [tickKey, setTickKey]         = useState(0)
-  const brandTimer = useRef<ReturnType<typeof setInterval> | null>(null)
+  const brandTimer  = useRef<ReturnType<typeof setInterval> | null>(null)
+  const touchStartX = useRef(0)
 
   const startBrandTimer = (index?: number) => {
     if (brandTimer.current) clearInterval(brandTimer.current)
@@ -77,6 +78,13 @@ export default function HomePage() {
       setTickKey(k => k + 1)
     }, 4500)
   }
+
+  const prevBrand = () => startBrandTimer(
+    (activeBrand - 1 + ARABIC_BRANDS.length) % ARABIC_BRANDS.length
+  )
+  const nextBrand = () => startBrandTimer(
+    (activeBrand + 1) % ARABIC_BRANDS.length
+  )
 
   useEffect(() => {
     startBrandTimer()
@@ -304,8 +312,15 @@ export default function HomePage() {
       </div>
 
       {/* ── MARCAS — spotlight rotativo ──────────────────────────────────── */}
-      <section className="relative overflow-hidden border-t border-white/[0.04]"
-        style={{ height: 'clamp(440px, 65vh, 680px)' }}>
+      <section
+        className="relative overflow-hidden border-t border-white/[0.04]"
+        style={{ height: 'clamp(440px, 65vh, 680px)' }}
+        onTouchStart={e => { touchStartX.current = e.touches[0].clientX }}
+        onTouchEnd={e => {
+          const dx = touchStartX.current - e.changedTouches[0].clientX
+          if (Math.abs(dx) > 50) { if (dx > 0) nextBrand(); else prevBrand() }
+        }}
+      >
 
         {/* Slides */}
         {ARABIC_BRANDS.map((brand, i) => (
@@ -353,9 +368,11 @@ export default function HomePage() {
           </div>
         ))}
 
-        {/* Controls — dots + counter */}
+        {/* Controls — setas + dots + counter */}
         <div className="absolute bottom-5 left-0 right-0 z-20 px-6 md:px-14
           flex items-center justify-between">
+
+          {/* Dots */}
           <div className="flex gap-2">
             {ARABIC_BRANDS.map((b, i) => (
               <button
@@ -370,9 +387,35 @@ export default function HomePage() {
               />
             ))}
           </div>
-          <span className="text-white/20 text-[9px] tracking-[0.3em] font-mono">
-            {String(activeBrand + 1).padStart(2, '0')} / {String(ARABIC_BRANDS.length).padStart(2, '0')}
-          </span>
+
+          {/* Setas + counter */}
+          <div className="flex items-center gap-3">
+            <span className="text-white/20 text-[9px] tracking-[0.3em] font-mono hidden sm:block">
+              {String(activeBrand + 1).padStart(2, '0')} / {String(ARABIC_BRANDS.length).padStart(2, '0')}
+            </span>
+            <button
+              type="button"
+              aria-label="Marca anterior"
+              onClick={prevBrand}
+              className="w-8 h-8 rounded-full border border-white/10 hover:border-gold/40
+                flex items-center justify-center text-white/40 hover:text-gold transition-all duration-200"
+            >
+              <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            <button
+              type="button"
+              aria-label="Próxima marca"
+              onClick={nextBrand}
+              className="w-8 h-8 rounded-full border border-white/10 hover:border-gold/40
+                flex items-center justify-center text-white/40 hover:text-gold transition-all duration-200"
+            >
+              <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* Progress bar */}
