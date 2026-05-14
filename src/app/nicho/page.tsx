@@ -29,10 +29,98 @@ export default function NichoPage() {
   const { theme } = useTheme()
   const light = theme === 'light'
 
-  const titleRef   = useRef<HTMLDivElement>(null)
-  const eyebrowRef = useRef<HTMLParagraphElement>(null)
+  const titleRef    = useRef<HTMLDivElement>(null)
+  const eyebrowRef  = useRef<HTMLParagraphElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
-  const lineRef    = useRef<HTMLDivElement>(null)
+  const lineRef     = useRef<HTMLDivElement>(null)
+
+  // Auto-scroll carousel with drag support
+  const scrollRef    = useRef<HTMLDivElement>(null)
+  const rafRef       = useRef<number>(0)
+  const pausedRef    = useRef(false)
+  const resumeTimer  = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const dragRef      = useRef({ active: false, startX: 0, startScroll: 0 })
+
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+
+    const SPEED = 0.6 // px per frame
+
+    function tick() {
+      if (!pausedRef.current && el) {
+        el.scrollLeft += SPEED
+        // Loop: when reaching half-way (duplicated list), reset to start
+        if (el.scrollLeft >= el.scrollWidth / 2) {
+          el.scrollLeft = 0
+        }
+      }
+      rafRef.current = requestAnimationFrame(tick)
+    }
+    rafRef.current = requestAnimationFrame(tick)
+
+    function pause() {
+      pausedRef.current = true
+      if (resumeTimer.current) clearTimeout(resumeTimer.current)
+    }
+    function resume() {
+      resumeTimer.current = setTimeout(() => { pausedRef.current = false }, 1500)
+    }
+
+    // Touch drag
+    function onTouchStart(e: TouchEvent) {
+      pause()
+      dragRef.current = { active: true, startX: e.touches[0].clientX, startScroll: el.scrollLeft }
+    }
+    function onTouchMove(e: TouchEvent) {
+      if (!dragRef.current.active) return
+      const dx = dragRef.current.startX - e.touches[0].clientX
+      el.scrollLeft = dragRef.current.startScroll + dx
+    }
+    function onTouchEnd() {
+      dragRef.current.active = false
+      resume()
+    }
+
+    // Mouse drag
+    function onMouseDown(e: MouseEvent) {
+      pause()
+      dragRef.current = { active: true, startX: e.clientX, startScroll: el.scrollLeft }
+      el.style.cursor = 'grabbing'
+    }
+    function onMouseMove(e: MouseEvent) {
+      if (!dragRef.current.active) return
+      const dx = dragRef.current.startX - e.clientX
+      el.scrollLeft = dragRef.current.startScroll + dx
+    }
+    function onMouseUp() {
+      dragRef.current.active = false
+      el.style.cursor = ''
+      resume()
+    }
+
+    el.addEventListener('touchstart', onTouchStart, { passive: true })
+    el.addEventListener('touchmove', onTouchMove, { passive: true })
+    el.addEventListener('touchend', onTouchEnd)
+    el.addEventListener('mousedown', onMouseDown)
+    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mouseup', onMouseUp)
+    el.addEventListener('mouseenter', pause)
+    el.addEventListener('mouseleave', resume)
+
+    return () => {
+      cancelAnimationFrame(rafRef.current)
+      if (resumeTimer.current) clearTimeout(resumeTimer.current)
+      el.removeEventListener('touchstart', onTouchStart)
+      el.removeEventListener('touchmove', onTouchMove)
+      el.removeEventListener('touchend', onTouchEnd)
+      el.removeEventListener('mousedown', onMouseDown)
+      window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('mouseup', onMouseUp)
+      el.removeEventListener('mouseenter', pause)
+      el.removeEventListener('mouseleave', resume)
+    }
+  }, [])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -130,19 +218,21 @@ export default function NichoPage() {
       <div className={`relative border-y ${light ? 'border-noir/8' : 'border-gold/[0.07]'}`}>
 
         {/* Fade masks */}
-        <div className={`absolute left-0 top-0 bottom-0 w-10 z-10 pointer-events-none
+        <div className={`absolute left-0 top-0 bottom-0 w-16 z-10 pointer-events-none
           bg-gradient-to-r ${light ? 'from-[#F5F0E6]' : 'from-[#070707]'} to-transparent`} />
-        <div className={`absolute right-0 top-0 bottom-0 w-10 z-10 pointer-events-none
+        <div className={`absolute right-0 top-0 bottom-0 w-16 z-10 pointer-events-none
           bg-gradient-to-l ${light ? 'from-[#F5F0E6]' : 'from-[#070707]'} to-transparent`} />
 
-        <div className="overflow-x-auto scrollbar-hide">
-          <div className="flex gap-3 py-4 px-4 w-max">
-            {NICHE_BRANDS.map((brand) => {
+        {/* overflow-x-auto + scrollbar-hide: permite scroll manual; auto-scroll via rAF */}
+        <div ref={scrollRef} className="overflow-x-auto scrollbar-hide cursor-grab select-none">
+          <div className="flex gap-3 py-4 px-4" style={{ width: 'max-content' }}>
+            {/* Lista duplicada para criar loop infinito */}
+            {[...NICHE_BRANDS, ...NICHE_BRANDS].map((brand, i) => {
               const meta = BRAND_META[brand]
               const isActive = brandAtiva === brand
               return (
                 <button
-                  key={brand}
+                  key={`${brand}-${i}`}
                   type="button"
                   data-surface="dark"
                   onClick={() => setBrandAtiva(isActive ? null : brand)}
