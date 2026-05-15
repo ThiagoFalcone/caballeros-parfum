@@ -58,6 +58,10 @@
     0%, 100% { transform: translateY(0px); }
     50%       { transform: translateY(-14px); }
   }
+  @keyframes orbit-spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
   .animate-bottle-float  { animation: bottle-float 5s ease-in-out infinite; }
   .animate-trust-scroll  { animation: trust-scroll 28s linear infinite; display: flex; width: max-content; }
 
