@@ -204,7 +204,7 @@ export const perfumes: Perfume[] = [
   },
   {
     id: '24', slug: 'lattafa-ana-abiyedh-rouge', nome: 'Ana Abiyedh Rouge', marca: 'Lattafa',
-    familia: 'Floral', preco: 219.90,
+    familia: 'Frutal', preco: 219.90,
     descricao: 'Feminino, viciante e cheio de personalidade. Um gourmand floral que combina frutas vermelhas e rosas com almíscar irresistível.',
     notasTopo: ['Morango', 'Pêssego', 'Bergamota'], notasCorpo: ['Rosa', 'Heliotropo', 'Íris'], notasFundo: ['Almíscar', 'Baunilha', 'Sândalo'],
     imagemUrl: F(63062),
@@ -328,7 +328,7 @@ export const perfumes: Perfume[] = [
   },
   {
     id: '38', slug: 'lattafa-yara-moi', nome: 'Yara Moi', marca: 'Lattafa',
-    familia: 'Floral', preco: 219.90,
+    familia: 'Frutal', preco: 219.90,
     descricao: 'A continuação do fenômeno Yara. Mais madura e sofisticada, Yara Moi aprofunda o floral frutado com notas de peônia e jasmim sobre um fundo almiscarado sedoso.',
     notasTopo: ['Frutas Vermelhas', 'Bergamota', 'Tangerina'], notasCorpo: ['Jasmim', 'Rosa', 'Peônia'], notasFundo: ['Almíscar', 'Baunilha', 'Cedro'],
     imagemUrl: F(80722),
@@ -444,7 +444,7 @@ export const perfumes: Perfume[] = [
   },
   {
     id: '52', slug: 'ajmal-evoke-silver-her', nome: 'Evoke Silver Edition For Her', marca: 'Ajmal',
-    familia: 'Floral', preco: 239.90,
+    familia: 'Frutal', preco: 239.90,
     descricao: 'Prata viva. Evoke Silver For Her é o floral moderno da Ajmal — frutas cítricas vibrantes, magnólia luminosa e almíscar acetinado criam uma fragrância para mulheres que definem seu próprio caminho.',
     notasTopo: ['Bergamota', 'Limão', 'Pêra'], notasCorpo: ['Magnólia', 'Rosa', 'Almíscar'], notasFundo: ['Âmbar Branco', 'Cedro', 'Almíscar'],
     imagemUrl: F(50791),
