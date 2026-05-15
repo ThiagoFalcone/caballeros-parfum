@@ -8,6 +8,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { perfumesDestaque } from '@/data/perfumes'
 import PerfumeCard from '@/components/PerfumeCard'
 import ScrollScene from '@/components/ScrollScene'
+import Bottle3D from '@/components/Bottle3D'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -276,40 +277,52 @@ export default function HomePage() {
         </ScrollScene>
       </section>
 
-      {/* ── EDITORIAL STRIP ──────────────────────────────────────────────── */}
-      <div ref={editorialRef} data-surface="dark" className="relative overflow-hidden bg-[#050505] py-24 md:py-40 border-y border-gold/[0.06]">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_70%_at_85%_50%,rgba(201,168,76,0.04),transparent)]" />
+      {/* ── EDITORIAL STRIP — texto + frasco 3D ─────────────────────────── */}
+      <div ref={editorialRef} data-surface="dark"
+        className="relative overflow-hidden bg-[#050505] border-y border-gold/[0.06]">
+
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_80%_at_72%_50%,rgba(201,168,76,0.05),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_30%_40%_at_15%_80%,rgba(201,168,76,0.02),transparent)]" />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
+
         <div className="max-w-7xl mx-auto px-6 md:px-14">
-          <p className="ed-word inline-block text-gold/35 text-[9px] tracking-[0.55em] uppercase mb-10 opacity-0">
-            Nossa essência
-          </p>
-          <h2 className="font-serif leading-[0.87] mb-10">
-            {['Do', 'deserto'].map((w, i) => (
-              <span key={i}
-                className="ed-word inline-block mr-[0.22em] opacity-0 text-white"
-                style={{ fontSize: 'clamp(2.8rem, 8vw, 7.5rem)' }}>
-                {w}
-              </span>
-            ))}
-            <br />
-            {['à', 'sua'].map((w, i) => (
-              <span key={i}
-                className="ed-word inline-block mr-[0.22em] opacity-0 text-white"
-                style={{ fontSize: 'clamp(2.8rem, 8vw, 7.5rem)' }}>
-                {w}
-              </span>
-            ))}
-            <span
-              className="ed-word inline-block opacity-0 text-gradient-gold italic"
-              style={{ fontSize: 'clamp(2.8rem, 8vw, 7.5rem)' }}>
-              pele.
-            </span>
-          </h2>
-          <p className="ed-word inline-block text-ash/40 text-sm leading-relaxed max-w-xs opacity-0">
-            Cada frasco selecionado com rigor — das casas árabes mais respeitadas,
-            direto para você.
-          </p>
+          <div className="flex flex-col md:flex-row items-center min-h-[560px] md:min-h-[680px]">
+
+            {/* Left: texto editorial */}
+            <div className="flex-1 py-20 md:py-0 md:pr-12">
+              <p className="ed-word inline-block text-gold/35 text-[9px] tracking-[0.55em] uppercase mb-10 opacity-0">
+                Nossa essência
+              </p>
+              <h2 className="font-serif leading-[0.87] mb-10">
+                {['Do', 'deserto'].map((w, i) => (
+                  <span key={i}
+                    className="ed-word inline-block mr-[0.22em] opacity-0 text-white editorial-word">
+                    {w}
+                  </span>
+                ))}
+                <br />
+                {['à', 'sua'].map((w, i) => (
+                  <span key={i}
+                    className="ed-word inline-block mr-[0.22em] opacity-0 text-white editorial-word">
+                    {w}
+                  </span>
+                ))}
+                <span className="ed-word inline-block opacity-0 text-gradient-gold italic editorial-word">
+                  pele.
+                </span>
+              </h2>
+              <p className="ed-word inline-block text-ash/40 text-sm leading-relaxed max-w-xs opacity-0">
+                Cada frasco selecionado com rigor — das casas árabes mais respeitadas,
+                direto para você.
+              </p>
+            </div>
+
+            {/* Right: frasco 3D interativo */}
+            <div className="flex-1 flex items-center justify-center w-full">
+              <Bottle3D />
+            </div>
+
+          </div>
         </div>
       </div>
 
@@ -329,7 +342,7 @@ export default function HomePage() {
           <div
             key={brand.nome}
             data-surface="dark"
-            className={`absolute inset-0 ${brand.css} transition-opacity duration-700
+            className={`absolute inset-0 ${brand.css} transition-opacity duration-200
               ${activeBrand === i ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
           >
             {/* Vignette */}

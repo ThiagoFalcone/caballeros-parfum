@@ -54,7 +54,15 @@
     from { width: 0%; }
     to   { width: 100%; }
   }
-  .animate-trust-scroll { animation: trust-scroll 28s linear infinite; display: flex; width: max-content; }
+  @keyframes bottle-float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-14px); }
+  }
+  .animate-bottle-float  { animation: bottle-float 5s ease-in-out infinite; }
+  .animate-trust-scroll  { animation: trust-scroll 28s linear infinite; display: flex; width: max-content; }
+
+  /* Editorial strip — fluid headline size */
+  .editorial-word { font-size: clamp(2.8rem, 8vw, 7.5rem); }
 
   /* Brand card gradients — Arabic brands */
   .brand-lattafa          { background: linear-gradient(135deg, #1a1200 0%, #2a1e00 50%, #0a0a0a 100%); }
