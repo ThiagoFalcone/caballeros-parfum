@@ -216,9 +216,26 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const perfume = perfumesBySlug[params.slug]
   if (!perfume) return {}
+
+  const title       = `${perfume.nome} — ${perfume.marca}`
+  const description = `${perfume.nome} da ${perfume.marca}. ${perfume.descricao.slice(0, 140)} Família ${perfume.familia}. Compre por R$${perfume.preco.toFixed(2).replace('.', ',')} com entrega para todo o Brasil.`
+
   return {
-    title: `${perfume.nome} — ${perfume.marca} | Caballeros Parfum`,
-    description: perfume.descricao,
+    title,
+    description,
+    keywords: [perfume.nome, perfume.marca, 'perfume árabe', `perfume ${perfume.familia.toLowerCase()}`, 'comprar perfume', 'perfume importado'],
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      images: [{ url: perfume.imagemUrl, width: 375, height: 500, alt: `${perfume.nome} — ${perfume.marca}` }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [perfume.imagemUrl],
+    },
   }
 }
 

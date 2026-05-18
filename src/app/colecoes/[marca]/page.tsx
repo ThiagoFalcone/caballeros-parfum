@@ -25,10 +25,28 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: { marca: string } }): Promise<Metadata> {
   const marcaName = perfumes.find(p => brandSlug(p.marca) === params.marca)?.marca
-  if (!marcaName) return { title: 'Marca não encontrada — Caballeros Parfum' }
+  if (!marcaName) return { title: 'Marca não encontrada' }
+
+  const desc = marcaAccent[marcaName]?.desc ?? `Explore a coleção completa de perfumes ${marcaName}.`
+  const title = `Perfumes ${marcaName}`
+  const firstBottle = perfumes.find(p => p.marca === marcaName && p.ativo)
+
   return {
-    title: `${marcaName} — Caballeros Parfum`,
-    description: marcaAccent[marcaName]?.desc ?? `Explore a coleção completa de perfumes ${marcaName}.`,
+    title,
+    description: `${desc} Compre perfumes ${marcaName} originais com entrega para todo o Brasil.`,
+    keywords: [marcaName, 'perfumes árabes', `comprar ${marcaName}`, 'perfume importado', 'original'],
+    openGraph: {
+      title,
+      description: desc,
+      type: 'website',
+      images: firstBottle ? [{ url: firstBottle.imagemUrl, width: 375, height: 500, alt: `Perfumes ${marcaName}` }] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: desc,
+      images: firstBottle ? [firstBottle.imagemUrl] : undefined,
+    },
   }
 }
 

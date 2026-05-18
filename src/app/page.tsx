@@ -116,8 +116,38 @@ export default function HomePage() {
     )
   }, [])
 
+  const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://caballerosparfum.com.br'
+  const orgJsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': `${BASE}/#organization`,
+        name: 'Caballeros Parfum',
+        url: BASE,
+        description: 'Curadoria exclusiva de perfumes árabes autênticos. Importação direta, 100% originais.',
+        contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', availableLanguage: 'Portuguese' },
+      },
+      {
+        '@type': 'WebSite',
+        '@id': `${BASE}/#website`,
+        url: BASE,
+        name: 'Caballeros Parfum',
+        inLanguage: 'pt-BR',
+        publisher: { '@id': `${BASE}/#organization` },
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: { '@type': 'EntryPoint', urlTemplate: `${BASE}/explorar?busca={search_term_string}` },
+          'query-input': 'required name=search_term_string',
+        },
+      },
+    ],
+  }
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
+
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section data-surface="dark" className="relative min-h-screen flex items-center overflow-hidden">
         <div className="hidden md:block absolute inset-0 z-0 opacity-60">

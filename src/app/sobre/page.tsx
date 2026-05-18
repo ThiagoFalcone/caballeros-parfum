@@ -1,5 +1,16 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import ScrollScene from '@/components/ScrollScene'
+
+export const metadata: Metadata = {
+  title: 'Nossa História',
+  description: 'Conheça a Caballeros Parfum — curadoria exclusiva de perfumes árabes autênticos com importação direta das melhores casas do Oriente Médio. Nossa missão é levar o melhor da perfumaria árabe ao Brasil.',
+  openGraph: {
+    title: 'Nossa História — Caballeros Parfum',
+    description: 'Importação direta das melhores casas de perfumaria do Oriente Médio.',
+    type: 'website',
+  },
+}
 
 export default function SobrePage() {
   return (
