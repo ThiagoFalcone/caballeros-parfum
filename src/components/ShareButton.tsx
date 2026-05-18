@@ -17,7 +17,7 @@ export default function ShareButton({ nome, marca, preco }: Props) {
       try {
         await navigator.share({ title: nome, text, url })
       } catch {
-        // user cancelled — ignore
+        // user cancelled
       }
       return
     }
@@ -33,20 +33,28 @@ export default function ShareButton({ nome, marca, preco }: Props) {
     <button
       type="button"
       onClick={handleShare}
-      className="flex items-center justify-center gap-2 border border-white/[0.08] text-ash/60
-        font-sans text-sm px-5 py-3 rounded-lg hover:border-gold/30 hover:text-gold transition-colors duration-200"
+      className={`
+        group relative flex items-center gap-2.5
+        border font-sans text-xs tracking-[0.15em] uppercase px-5 py-2.5 rounded-full
+        transition-all duration-300
+        ${copied
+          ? 'border-emerald-500/40 text-emerald-400 bg-emerald-500/10'
+          : 'border-gold/30 text-gold/70 bg-gold/5 hover:bg-gold/10 hover:text-gold hover:border-gold/50 hover:shadow-[0_0_16px_rgba(201,168,76,0.12)]'
+        }
+      `}
     >
       {copied ? (
         <>
-          <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
             <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          Copiado
+          Link copiado
         </>
       ) : (
         <>
-          <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" strokeLinecap="round" strokeLinejoin="round"/>
+          <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+            <path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98" strokeLinecap="round"/>
           </svg>
           Compartilhar
         </>
