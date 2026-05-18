@@ -64,9 +64,10 @@ export default function PerfumeCard({ perfume }: Props) {
           {/* Imagem do frasco */}
           <Image
             src={perfume.imagemUrl}
-            alt={perfume.nome}
+            alt={`${perfume.nome} — ${perfume.marca}`}
             fill
             quality={85}
+            loading="lazy"
             className="object-contain transition-transform duration-700 ease-out
               scale-[0.80] group-hover:scale-[0.88]
               drop-shadow-[0_12px_32px_rgba(0,0,0,0.4)]"

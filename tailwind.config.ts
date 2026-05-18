@@ -15,8 +15,8 @@ const config: Config = {
         ash: '#888888',
       },
       fontFamily: {
-        serif: ['DM Serif Display', 'serif'],
-        sans: ['Inter', 'sans-serif'],
+        serif: ['var(--font-dm-serif)', 'DM Serif Display', 'serif'],
+        sans: ['var(--font-inter)', 'Inter', 'sans-serif'],
       },
       keyframes: {
         fadeInDown: {

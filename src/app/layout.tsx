@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { DM_Serif_Display, Inter } from 'next/font/google'
 import './globals.css'
 import { CartProvider } from '@/context/CartContext'
 import { ToastProvider } from '@/context/ToastContext'
@@ -8,6 +9,21 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ToastStack from '@/components/Toast'
+
+const dmSerif = DM_Serif_Display({
+  weight: ['400'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-dm-serif',
+})
+
+const inter = Inter({
+  weight: ['300', '400', '500', '600'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+})
 
 const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://caballerosparfum.com.br'
 
@@ -45,7 +61,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html lang="pt-BR" suppressHydrationWarning className={`${dmSerif.variable} ${inter.variable}`}>
       <head>
         {/* Prevent flash of dark mode on initial light-mode load */}
         <script dangerouslySetInnerHTML={{ __html: `try{if(localStorage.getItem('cp-theme')==='light')document.documentElement.classList.add('light')}catch(e){}` }} />
