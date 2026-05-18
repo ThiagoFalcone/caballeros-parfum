@@ -175,7 +175,7 @@ export default function CartDrawer({ open, onClose }: Props) {
                   {/* Pedir via WhatsApp */}
                   <button
                     type="button"
-                    onClick={handleCheckoutClick}
+                    onClick={() => handleCheckoutClick('whatsapp')}
                     className="w-full border border-gold/30 text-gold font-sans text-sm py-2.5 rounded-lg hover:bg-gold/10 transition-colors flex items-center justify-center gap-2"
                   >
                     <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
