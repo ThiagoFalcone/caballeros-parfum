@@ -28,12 +28,28 @@ export default function Bottle3D() {
     setActive(false)
   }, [])
 
+  const handleTouchMove = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    const touch = e.touches[0]
+    const rect = e.currentTarget.getBoundingClientRect()
+    const dx = (touch.clientX - rect.left  - rect.width  / 2) / (rect.width  / 2)
+    const dy = (touch.clientY - rect.top   - rect.height / 2) / (rect.height / 2)
+    setTilt({ x: -dy * 14, y: dx * 14 })
+    setActive(true)
+  }, [])
+
+  const handleTouchEnd = useCallback(() => {
+    setTilt({ x: 0, y: 0 })
+    setActive(false)
+  }, [])
+
   return (
     <div
       className="relative flex items-center justify-center select-none"
       style={{ height: '480px', width: '100%' }}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {/* Futuristic grid background */}
       <div className="absolute inset-0 pointer-events-none" style={{
