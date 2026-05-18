@@ -159,6 +159,12 @@ export default function CartDrawer({ open, onClose }: Props) {
                     <span className="text-ash">Total</span>
                     <span className="text-white font-medium">R${totalPrice.toFixed(2).replace('.', ',')}</span>
                   </div>
+                  <div className="flex items-center gap-1.5 text-ash/50 text-[10px]">
+                    <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    Frete via Correios — calculado no WhatsApp
+                  </div>
 
                   {/* Pagar com Pix */}
                   <button

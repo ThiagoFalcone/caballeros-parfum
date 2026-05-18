@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import { perfumesBySlug, perfumes } from '@/data/perfumes'
+import { perfumesBySlug, perfumes, VOLUMES } from '@/data/perfumes'
 import NotesPyramid from '@/components/NotesPyramid'
 import ScrollScene from '@/components/ScrollScene'
 import AddToCartButton from '@/components/AddToCartButton'
@@ -366,7 +366,12 @@ export default function PerfumePage({ params }: Props) {
 
           {/* Price */}
           <div className="mb-8">
-            <span className="text-gold/45 text-[8px] tracking-[0.4em] uppercase block mb-1.5">A partir de</span>
+            <div className="flex items-center gap-3 mb-1.5">
+              <span className="text-gold/45 text-[8px] tracking-[0.4em] uppercase">A partir de</span>
+              <span className="text-gold/30 text-[8px] tracking-[0.3em] uppercase border border-gold/20 px-2 py-0.5 rounded-full">
+                {VOLUMES[perfume.id] ?? '100 ml'} · EDP
+              </span>
+            </div>
             <span className="font-serif text-4xl text-gold leading-none">R${reais}</span>
             <span className="font-serif text-xl text-gold/55">,{centavos}</span>
           </div>

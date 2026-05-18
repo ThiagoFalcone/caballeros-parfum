@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { Perfume } from '@/types'
+import { VOLUMES } from '@/data/perfumes'
 import { useCart } from '@/context/CartContext'
 import { useTheme } from './ThemeProvider'
 import { useWishlist } from '@/context/WishlistContext'
@@ -127,7 +128,7 @@ export default function PerfumeCard({ perfume }: Props) {
       <div className="px-4 pb-4 pt-1 flex items-end justify-between gap-2">
         <div className="leading-none">
           <span className="font-serif text-gold/50 text-[10px] tracking-widest uppercase block mb-0.5">
-            A partir de
+            {VOLUMES[perfume.id] ?? '100 ml'} · EDP
           </span>
           <span className="font-serif text-gold text-xl leading-none">
             R${reais}
