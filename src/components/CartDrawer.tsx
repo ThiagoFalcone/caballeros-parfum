@@ -9,15 +9,32 @@ import { buildWhatsAppUrl, formatWhatsAppMessage } from '@/lib/whatsapp'
 
 interface Props { open: boolean; onClose: () => void }
 
+const PIX_KEY = process.env.NEXT_PUBLIC_PIX_KEY ?? ''
 
 export default function CartDrawer({ open, onClose }: Props) {
   const { items, updateQuantity, removeFromCart, totalPrice, clearCart } = useCart()
   const { showToast } = useToast()
 
-  const [step,    setStep]    = useState<'cart' | 'form'>('cart')
-  const [nome,    setNome]    = useState('')
-  const [email,   setEmail]   = useState('')
-  const [saving,  setSaving]  = useState(false)
+  const [step,   setStep]   = useState<'cart' | 'form' | 'pix'>('cart')
+  const [nome,   setNome]   = useState('')
+  const [email,  setEmail]  = useState('')
+  const [saving, setSaving] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  function copyPix() {
+    navigator.clipboard.writeText(PIX_KEY).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2500)
+    })
+  }
+
+  function pixWhatsAppUrl() {
+    const linhas = items.map(({ perfume, quantidade }) =>
+      `• ${perfume.nome} (${perfume.marca}) × ${quantidade} — R$${(perfume.preco * quantidade).toFixed(2).replace('.', ',')}`
+    ).join('\n')
+    const msg = `Olá! Acabei de pagar via Pix.\n\nPedido:\n${linhas}\n\nTotal: R$${totalPrice.toFixed(2).replace('.', ',')}\n\nSegue o comprovante em anexo.`
+    return `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`
+  }
 
   async function handleCheckoutClick() {
     const { data: { session } } = await supabase.auth.getSession()
@@ -86,7 +103,7 @@ export default function CartDrawer({ open, onClose }: Props) {
 
           {/* Header */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-gold/10">
-            {step === 'form' && (
+            {(step === 'form' || step === 'pix') && (
               <button type="button" aria-label="Voltar ao carrinho" onClick={() => setStep('cart')} className="text-ash hover:text-white transition-colors mr-2">
                 <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path d="M19 12H5M12 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round"/>
@@ -94,7 +111,7 @@ export default function CartDrawer({ open, onClose }: Props) {
               </button>
             )}
             <h2 className="font-serif text-lg text-white flex-1">
-              {step === 'cart' ? 'Meu Carrinho' : 'Finalizar Pedido'}
+              {step === 'cart' ? 'Meu Carrinho' : step === 'pix' ? 'Pagamento via Pix' : 'Finalizar Pedido'}
             </h2>
             <button type="button" aria-label="Fechar carrinho" onClick={handleClose} className="text-ash hover:text-white transition-colors p-1">
               <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -137,12 +154,26 @@ export default function CartDrawer({ open, onClose }: Props) {
                     <span className="text-ash">Total</span>
                     <span className="text-white font-medium">R${totalPrice.toFixed(2).replace('.', ',')}</span>
                   </div>
+
+                  {/* Pagar com Pix */}
+                  <button
+                    type="button"
+                    onClick={() => setStep('pix')}
+                    className="w-full bg-gold text-noir font-sans font-semibold py-3 rounded-lg hover:bg-yellow-400 transition-colors flex items-center justify-center gap-2"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M11.997 2a10 10 0 100 20 10 10 0 000-20zm0 1.5a8.5 8.5 0 110 17 8.5 8.5 0 010-17zm-.75 3.75v3h-3a.75.75 0 000 1.5h3v3a.75.75 0 001.5 0v-3h3a.75.75 0 000-1.5h-3v-3a.75.75 0 00-1.5 0z"/>
+                    </svg>
+                    Pagar com Pix
+                  </button>
+
+                  {/* Pedir via WhatsApp */}
                   <button
                     type="button"
                     onClick={handleCheckoutClick}
-                    className="w-full bg-gold text-noir font-sans font-semibold py-3 rounded-lg hover:bg-yellow-400 transition-colors flex items-center justify-center gap-2"
+                    className="w-full border border-gold/30 text-gold font-sans text-sm py-2.5 rounded-lg hover:bg-gold/10 transition-colors flex items-center justify-center gap-2"
                   >
-                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                    <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
                       <path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.553 4.116 1.523 5.845L.057 23.882l6.197-1.438A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.66-.499-5.193-1.371l-.371-.218-3.878.9.947-3.766-.24-.387A10 10 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
                     </svg>
@@ -203,6 +234,75 @@ export default function CartDrawer({ open, onClose }: Props) {
               </button>
             </form>
           )}
+          {/* ── STEP: PIX ── */}
+          {step === 'pix' && (
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <div className="flex-1 overflow-y-auto px-5 py-5 flex flex-col gap-5">
+
+                {/* Chave Pix */}
+                <div className="bg-noir rounded-xl border border-gold/20 p-5">
+                  <p className="text-ash/50 text-[10px] tracking-[0.2em] uppercase mb-3">Chave Pix</p>
+                  <div className="flex items-center gap-3">
+                    <span className="flex-1 font-mono text-sm text-white break-all">{PIX_KEY}</span>
+                    <button
+                      type="button"
+                      onClick={copyPix}
+                      className={`shrink-0 px-3 py-1.5 rounded-lg text-xs font-sans font-semibold transition-all duration-200
+                        ${copied ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-gold/10 text-gold border border-gold/20 hover:bg-gold/20'}`}
+                    >
+                      {copied ? 'Copiado!' : 'Copiar'}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Resumo do pedido */}
+                <div className="bg-noir/60 rounded-xl p-4 border border-white/[0.05]">
+                  <p className="text-ash/50 text-[10px] tracking-widest uppercase mb-3">Resumo do pedido</p>
+                  {items.map(({ perfume, quantidade }) => (
+                    <div key={perfume.id} className="flex justify-between text-xs text-ash/70 mb-1.5">
+                      <span className="truncate mr-2">{perfume.nome} × {quantidade}</span>
+                      <span className="shrink-0">R${(perfume.preco * quantidade).toFixed(2).replace('.', ',')}</span>
+                    </div>
+                  ))}
+                  <div className="flex justify-between text-sm text-white font-medium mt-3 pt-3 border-t border-white/[0.05]">
+                    <span>Total</span>
+                    <span>R${totalPrice.toFixed(2).replace('.', ',')}</span>
+                  </div>
+                </div>
+
+                {/* Instruções */}
+                <div className="flex flex-col gap-3">
+                  {[
+                    { n: '1', txt: 'Copie a chave Pix acima' },
+                    { n: '2', txt: 'Abra o app do seu banco e faça o pagamento' },
+                    { n: '3', txt: 'Envie o comprovante pelo WhatsApp' },
+                  ].map(({ n, txt }) => (
+                    <div key={n} className="flex items-start gap-3">
+                      <span className="w-5 h-5 rounded-full border border-gold/40 text-gold text-[10px] font-semibold flex items-center justify-center shrink-0 mt-0.5">{n}</span>
+                      <p className="text-ash/70 text-sm leading-relaxed">{txt}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Botão WhatsApp */}
+              <div className="px-5 py-4 border-t border-gold/10">
+                <a
+                  href={pixWhatsAppUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-sans font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+                >
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.553 4.116 1.523 5.845L.057 23.882l6.197-1.438A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.66-.499-5.193-1.371l-.371-.218-3.878.9.947-3.766-.24-.387A10 10 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+                  </svg>
+                  Enviar comprovante no WhatsApp
+                </a>
+              </div>
+            </div>
+          )}
+
         </div>
       </div>
     </>
