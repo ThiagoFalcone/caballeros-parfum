@@ -22,6 +22,50 @@ export default function CartDrawer({ open, onClose }: Props) {
   const [saving, setSaving] = useState(false)
   const [copied, setCopied] = useState(false)
 
+  const [cep,          setCep]          = useState('')
+  const [frete,        setFrete]        = useState<number | null>(null)
+  const [freteUf,      setFreteUf]      = useState('')
+  const [freteLoading, setFreteLoading] = useState(false)
+  const [freteErro,    setFreteErro]    = useState('')
+
+  const FRETE_UF: Record<string, number> = {
+    SP: 18.90, RJ: 22.90, MG: 22.90, ES: 22.90,
+    PR: 24.90, SC: 24.90, RS: 24.90,
+    GO: 28.90, DF: 28.90, MT: 28.90, MS: 28.90,
+    BA: 32.90, SE: 32.90, AL: 32.90, PE: 32.90,
+    PB: 32.90, RN: 32.90, CE: 32.90, PI: 34.90, MA: 34.90,
+    PA: 38.90, AM: 42.90, AC: 44.90, RR: 44.90, AP: 42.90, RO: 40.90, TO: 36.90,
+  }
+
+  async function calcularFrete(cepLimpo: string) {
+    setFreteLoading(true)
+    setFreteErro('')
+    setFrete(null)
+    setFreteUf('')
+    try {
+      const res  = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
+      const data = await res.json()
+      if (data.erro) { setFreteErro('CEP não encontrado'); return }
+      const uf   = data.uf as string
+      setFreteUf(uf)
+      setFrete(FRETE_UF[uf] ?? 38.90)
+    } catch {
+      setFreteErro('Erro ao consultar CEP')
+    } finally {
+      setFreteLoading(false)
+    }
+  }
+
+  function handleCepChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const raw = e.target.value.replace(/\D/g, '').slice(0, 8)
+    setCep(raw.length > 5 ? `${raw.slice(0, 5)}-${raw.slice(5)}` : raw)
+    if (raw.length === 8) calcularFrete(raw)
+    if (raw.length < 8)  { setFrete(null); setFreteErro(''); setFreteUf('') }
+  }
+
+  const totalComFrete = totalPrice + (frete ?? 0)
+  const freteObj = frete !== null ? { valor: frete, uf: freteUf, cep } : null
+
   function copyPix() {
     navigator.clipboard.writeText(PIX_KEY).then(() => {
       setCopied(true)
@@ -33,7 +77,10 @@ export default function CartDrawer({ open, onClose }: Props) {
     const linhas = items.map(({ perfume, quantidade }) =>
       `• ${perfume.nome} (${perfume.marca}) × ${quantidade} — R$${(perfume.preco * quantidade).toFixed(2).replace('.', ',')}`
     ).join('\n')
-    const msg = `Olá! Acabei de pagar via Pix.\n\nPedido:\n${linhas}\n\nTotal: R$${totalPrice.toFixed(2).replace('.', ',')}\n\nSegue o comprovante em anexo.`
+    const freteStr = frete !== null
+      ? `\n📦 Frete PAC (${freteUf} · CEP ${cep}): R$${frete.toFixed(2).replace('.', ',')}`
+      : ''
+    const msg = `Olá! Acabei de pagar via Pix.\n\nPedido:\n${linhas}${freteStr}\n\nTotal: R$${totalComFrete.toFixed(2).replace('.', ',')}\n\nSegue o comprovante em anexo.`
     return `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`
   }
 
@@ -68,7 +115,7 @@ export default function CartDrawer({ open, onClose }: Props) {
         nome_cliente: nome,
         email_cliente: email,
         itens,
-        total: totalPrice,
+        total: totalComFrete,
         user_id: session?.user?.id ?? null,
       }),
     })
@@ -78,7 +125,7 @@ export default function CartDrawer({ open, onClose }: Props) {
     if (origem === 'pix') {
       setStep('pix')
     } else {
-      const url = buildWhatsAppUrl(formatWhatsAppMessage(items))
+      const url = buildWhatsAppUrl(formatWhatsAppMessage(items, freteObj))
       window.open(url, '_blank')
       showToast('Pedido registrado!', 'Abrindo WhatsApp…')
       clearCart()
@@ -91,6 +138,7 @@ export default function CartDrawer({ open, onClose }: Props) {
 
   function handleClose() {
     setStep('cart')
+    setCep(''); setFrete(null); setFreteUf(''); setFreteErro('')
     onClose()
   }
 
@@ -155,15 +203,49 @@ export default function CartDrawer({ open, onClose }: Props) {
 
               {items.length > 0 && (
                 <div className="px-5 py-4 border-t border-gold/10 flex flex-col gap-3">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-ash">Total</span>
-                    <span className="text-white font-medium">R${totalPrice.toFixed(2).replace('.', ',')}</span>
-                  </div>
-                  <div className="flex items-center gap-1.5 text-ash/50 text-[10px]">
-                    <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    Frete via Correios — calculado no WhatsApp
+                  {/* Totais */}
+                  {frete !== null ? (
+                    <>
+                      <div className="flex justify-between text-xs text-ash/60">
+                        <span>Subtotal</span>
+                        <span>R${totalPrice.toFixed(2).replace('.', ',')}</span>
+                      </div>
+                      <div className="flex justify-between text-xs text-ash/60">
+                        <span>Frete PAC · {freteUf}</span>
+                        <span>R${frete.toFixed(2).replace('.', ',')}</span>
+                      </div>
+                      <div className="flex justify-between text-sm border-t border-white/[0.06] pt-2">
+                        <span className="text-white font-medium">Total</span>
+                        <span className="text-gold font-semibold">R${totalComFrete.toFixed(2).replace('.', ',')}</span>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-ash">Total</span>
+                      <span className="text-white font-medium">R${totalPrice.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                  )}
+
+                  {/* Calculadora de frete */}
+                  <div className="bg-noir/60 rounded-xl p-3 border border-white/[0.05]">
+                    <p className="text-ash/45 text-[9px] tracking-[0.25em] uppercase mb-2">Calcular frete</p>
+                    <div className="flex gap-2 items-center">
+                      <input
+                        type="text"
+                        value={cep}
+                        onChange={handleCepChange}
+                        placeholder="00000-000"
+                        maxLength={9}
+                        className="flex-1 bg-noir border border-white/[0.08] rounded-lg px-3 py-2 text-white text-sm placeholder:text-ash/25 focus:outline-none focus:border-gold/40 transition-colors font-mono"
+                      />
+                      {freteLoading && (
+                        <div className="w-5 h-5 rounded-full border-2 border-gold/30 border-t-gold animate-spin shrink-0" />
+                      )}
+                    </div>
+                    {freteErro && <p className="text-red-400/80 text-[10px] mt-1.5">{freteErro}</p>}
+                    {frete !== null && (
+                      <p className="text-ash/35 text-[9px] mt-1.5">Estimativa PAC · valor final confirmado no WhatsApp</p>
+                    )}
                   </div>
 
                   {/* Pagar com Pix */}
