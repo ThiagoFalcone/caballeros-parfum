@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { Perfume } from '@/types'
 import { VOLUMES } from '@/data/perfumes'
 import { useCart } from '@/context/CartContext'
+import { useEstoque } from '@/context/EstoqueContext'
 import { useTheme } from './ThemeProvider'
 import { useWishlist } from '@/context/WishlistContext'
 import { useToast } from '@/context/ToastContext'
@@ -16,6 +17,9 @@ export default function PerfumeCard({ perfume }: Props) {
   const { addToCart } = useCart()
   const [added, setAdded] = useState(false)
   const { theme } = useTheme()
+  const estoqueMap = useEstoque()
+  const estoque = estoqueMap[perfume.id] ?? null
+  const esgotado = estoque !== null && estoque === 0
   const light = theme === 'light'
   const { toggle, isWishlisted } = useWishlist()
   const { showToast } = useToast()
@@ -72,6 +76,15 @@ export default function PerfumeCard({ perfume }: Props) {
           {/* Vinheta inferior */}
           <div className={`absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t
             ${light ? 'from-white via-white/40 to-transparent' : 'from-noir via-noir/40 to-transparent'}`} />
+
+          {/* Badge esgotado */}
+          {esgotado && (
+            <span className="absolute inset-0 bg-noir/60 flex items-center justify-center z-10">
+              <span className="text-ash/60 text-[10px] tracking-[0.3em] uppercase border border-white/10 px-3 py-1 rounded-full">
+                Esgotado
+              </span>
+            </span>
+          )}
 
           {/* Família olfativa */}
           <span className={`absolute top-3 right-3
@@ -139,15 +152,18 @@ export default function PerfumeCard({ perfume }: Props) {
         <button
           type="button"
           onClick={handleAdd}
-          aria-label={added ? 'Adicionado ao carrinho' : 'Adicionar ao carrinho'}
+          disabled={esgotado}
+          aria-label={added ? 'Adicionado ao carrinho' : esgotado ? 'Esgotado' : 'Adicionar ao carrinho'}
           className={`
             shrink-0 flex items-center gap-1.5
             text-[10px] tracking-[0.18em] uppercase font-sans
             px-3 py-2 rounded-lg border
             transition-all duration-300
-            ${added
-              ? 'bg-gold text-noir border-gold'
-              : 'bg-transparent text-gold/70 border-gold/20 hover:bg-gold/10 hover:border-gold/40 hover:text-gold'
+            ${esgotado
+              ? 'opacity-30 cursor-not-allowed border-white/10 text-ash/40'
+              : added
+                ? 'bg-gold text-noir border-gold'
+                : 'bg-transparent text-gold/70 border-gold/20 hover:bg-gold/10 hover:border-gold/40 hover:text-gold'
             }
           `}
         >

@@ -3,6 +3,7 @@ import './globals.css'
 import { CartProvider } from '@/context/CartContext'
 import { ToastProvider } from '@/context/ToastContext'
 import { WishlistProvider } from '@/context/WishlistContext'
+import { EstoqueProvider } from '@/context/EstoqueContext'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -53,12 +54,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider>
           <CartProvider>
             <WishlistProvider>
+              <EstoqueProvider>
               <ToastProvider>
                 <Header />
                 <main>{children}</main>
                 <Footer />
                 <ToastStack />
               </ToastProvider>
+              </EstoqueProvider>
             </WishlistProvider>
           </CartProvider>
         </ThemeProvider>

@@ -11,6 +11,9 @@ import AccordBars from '@/components/AccordBars'
 import type { Accord } from '@/components/AccordBars'
 import type { Metadata } from 'next'
 import type { Perfume } from '@/types'
+import ShareButton from '@/components/ShareButton'
+import AvaliacaoSection from '@/components/AvaliacaoSection'
+import AviseMeWrapper from '@/components/AviseMeWrapper'
 
 const brandSlug = (marca: string) => marca.toLowerCase().replace(/\s+/g, '-')
 
@@ -377,7 +380,7 @@ export default function PerfumePage({ params }: Props) {
           </div>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-3 mb-10">
+          <div className="flex flex-col sm:flex-row gap-3 mb-4">
             <AddToCartButton perfume={perfume} />
             <a
               href={whatsappHref}
@@ -387,6 +390,12 @@ export default function PerfumePage({ params }: Props) {
             >
               Perguntar via WhatsApp
             </a>
+            <ShareButton nome={perfume.nome} marca={perfume.marca} preco={perfume.preco} />
+          </div>
+
+          {/* Avise-me quando disponível */}
+          <div className="mb-10">
+            <AviseMeWrapper perfumeId={perfume.id} nomePerfume={perfume.nome} />
           </div>
 
           {/* Quick performance strip */}
@@ -516,6 +525,13 @@ export default function PerfumePage({ params }: Props) {
           notasCorpo={perfume.notasCorpo}
           notasFundo={perfume.notasFundo}
         />
+      </section>
+
+      {/* ── AVALIAÇÕES ───────────────────────────────────────────────────── */}
+      <section className="max-w-2xl mx-auto px-6 py-14 border-t border-white/[0.05]">
+        <h2 className="font-serif text-3xl text-white mb-2">Avaliações</h2>
+        <p className="text-ash/40 text-[10px] tracking-[0.3em] uppercase mb-10">O que dizem os clientes</p>
+        <AvaliacaoSection perfumeId={perfume.id} />
       </section>
 
       {/* ── RELACIONADOS ─────────────────────────────────────────────────── */}
