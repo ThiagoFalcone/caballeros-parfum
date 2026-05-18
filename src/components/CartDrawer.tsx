@@ -16,6 +16,7 @@ export default function CartDrawer({ open, onClose }: Props) {
   const { showToast } = useToast()
 
   const [step,   setStep]   = useState<'cart' | 'form' | 'pix'>('cart')
+  const [origem, setOrigem] = useState<'whatsapp' | 'pix'>('whatsapp')
   const [nome,   setNome]   = useState('')
   const [email,  setEmail]  = useState('')
   const [saving, setSaving] = useState(false)
@@ -36,7 +37,8 @@ export default function CartDrawer({ open, onClose }: Props) {
     return `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`
   }
 
-  async function handleCheckoutClick() {
+  async function handleCheckoutClick(via: 'whatsapp' | 'pix' = 'whatsapp') {
+    setOrigem(via)
     const { data: { session } } = await supabase.auth.getSession()
     if (session?.user) {
       setNome(session.user.user_metadata?.nome ?? session.user.email ?? '')
@@ -73,15 +75,18 @@ export default function CartDrawer({ open, onClose }: Props) {
 
     setSaving(false)
 
-    const url = buildWhatsAppUrl(formatWhatsAppMessage(items))
-    window.open(url, '_blank')
-
-    showToast('Pedido registrado!', 'Abrindo WhatsApp…')
-    clearCart()
-    setStep('cart')
-    setNome('')
-    setEmail('')
-    onClose()
+    if (origem === 'pix') {
+      setStep('pix')
+    } else {
+      const url = buildWhatsAppUrl(formatWhatsAppMessage(items))
+      window.open(url, '_blank')
+      showToast('Pedido registrado!', 'Abrindo WhatsApp…')
+      clearCart()
+      setStep('cart')
+      setNome('')
+      setEmail('')
+      onClose()
+    }
   }
 
   function handleClose() {
@@ -158,7 +163,7 @@ export default function CartDrawer({ open, onClose }: Props) {
                   {/* Pagar com Pix */}
                   <button
                     type="button"
-                    onClick={() => setStep('pix')}
+                    onClick={() => handleCheckoutClick('pix')}
                     className="w-full bg-gold text-noir font-sans font-semibold py-3 rounded-lg hover:bg-yellow-400 transition-colors flex items-center justify-center gap-2"
                   >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -189,7 +194,9 @@ export default function CartDrawer({ open, onClose }: Props) {
             <form onSubmit={handleConfirm} className="flex-1 flex flex-col justify-between px-5 py-6 gap-4">
               <div className="flex flex-col gap-4">
                 <p className="text-ash/60 text-xs leading-relaxed">
-                  Informe seus dados para registrar o pedido. Em seguida abriremos o WhatsApp.
+                  {origem === 'pix'
+                    ? 'Informe seus dados para registrar o pedido. Em seguida mostraremos a chave Pix.'
+                    : 'Informe seus dados para registrar o pedido. Em seguida abriremos o WhatsApp.'}
                 </p>
 
                 <div className="flex flex-col gap-1.5">
@@ -230,7 +237,7 @@ export default function CartDrawer({ open, onClose }: Props) {
                 type="submit" disabled={saving}
                 className="w-full bg-gold text-noir font-sans font-semibold py-3 rounded-lg hover:bg-yellow-400 disabled:opacity-60 transition-colors flex items-center justify-center gap-2"
               >
-                {saving ? 'Salvando…' : 'Confirmar e abrir WhatsApp'}
+                {saving ? 'Salvando…' : origem === 'pix' ? 'Continuar para Pix' : 'Confirmar e abrir WhatsApp'}
               </button>
             </form>
           )}
@@ -291,6 +298,7 @@ export default function CartDrawer({ open, onClose }: Props) {
                   href={pixWhatsAppUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => { showToast('Pedido registrado!', 'Envie o comprovante no WhatsApp.'); clearCart(); setStep('cart'); setNome(''); setEmail(''); onClose() }}
                   className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-sans font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
                   <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
